@@ -1,0 +1,31 @@
+simple libc tests based on the libc-testsuit of dalias
+see http://git.etalabs.net/cgi-bin/gitweb.cgi
+
+build tests:
+	cp Makefile.conf.def Makefile.conf
+	# edit Makefile.conf
+	make
+run tests:
+	./t
+
+about the framework:
+
+the only hook in the test framework is error(...) which
+prints a formatted message and sets the test to failed
+see common/test.h
+
+in the root dir make builds an executable with all tests
+in a src/* dir make builds only local tests
+see Makefile.inc
+
+a test function looks like
+	void test_foo() {
+		if (foo != 42)
+			error("foo=%d expected 42\n", foo);
+	}
+extern functions with name ~ /^test/ are recognized to be
+test functions
+see Makefile.inc
+
+edit the generated main.h to exclude certain tests
+see common/main.c

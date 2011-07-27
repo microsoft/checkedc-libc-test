@@ -1,0 +1,5 @@
+# copy to Makefile.conf and edit
+usemusl=yes
+prefix = /usr/local/musl
+includedir = $(prefix)/include
+libdir = $(prefix)/lib
