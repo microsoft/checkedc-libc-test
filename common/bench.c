@@ -29,15 +29,7 @@ static unsigned long long nsclock() {
 	struct timespec ts;
 	int r;
 
-#ifdef _POSIX_CPUTIME
-	r = clock_gettime(CLOCK_PROCESS_CPUTIME_ID, &ts);
-#else
-#ifdef _POSIX_MONOTONIC_CLOCK
 	r = clock_gettime(CLOCK_MONOTONIC, &ts);
-#else
-	r = clock_gettime(CLOCK_REALTIME, &ts);
-#endif
-#endif
 	if (r < 0) {
 		fprintf(stderr, "bench: clock_gettime failed: %s\n", strerror(errno));
 		return 0;
