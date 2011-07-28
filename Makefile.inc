@@ -16,6 +16,8 @@ includedir = $(prefix)/include
 libdir = $(prefix)/lib
 -include $(ROOTDIR)/Makefile.conf
 
+AR=ar
+RANLIB=ranlib
 
 CFLAGS += -g -std=c99 -pipe -Wall
 LDFLAGS += -g
@@ -30,10 +32,10 @@ LDFLAGS += -nostdlib -Wl,-e,_start,-Bstatic $(libdir)/crti.o $(libdir)/crt1.o $(
 INC     += -isystem $(includedir)
 endif
 
-all: t
+all: t b
 
 clean:
-	rm -f $(OBJS) t main.o main.h
+	rm -f $(OBJS) t main.o main.h b bench.o tests.a
 
 .c.o:
 	$(CC) $(CFLAGS) $(INC) -c -o $@ $<
@@ -41,12 +43,25 @@ clean:
 $(OBJS): $(ROOTDIR)/common/test.h
 
 main.h: $(OBJS)
-	nm -f posix $+ |awk '/^test/ && $$2=="T"{print "T(" $$1 ")"}' >main.h
+	nm -f posix $+ |awk ' \
+		/^test/ && $$2=="T"{print "T(" $$1 ")"} \
+		/^bench/ && $$2=="T"{print "B(" $$1 ")"} \
+	' >main.h
+
+tests.a: $(OBJS)
+	$(AR) rc $@ $+
+	$(RANLIB) $@
 
 main.o: $(ROOTDIR)/common/main.c $(ROOTDIR)/common/test.h main.h
 	$(CC) $(CFLAGS) $(INC) -I. -c -o $@ $<
 
-t: $(OBJS) main.o
+t: main.o tests.a
 	$(CC) $+ $(LDFLAGS) -o $@
+
+bench.o: $(ROOTDIR)/common/bench.c $(ROOTDIR)/common/test.h main.h
+	$(CC) $(CFLAGS) $(INC) -I. -c -o $@ $<
+
+b: bench.o tests.a
+	$(CC) $+ $(LDFLAGS) -lrt -o $@
 
 .PHONY: all clean

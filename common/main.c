@@ -4,12 +4,12 @@
 #include <stdarg.h>
 #include <string.h>
 #include <errno.h>
-#include <signal.h>
 #include <sys/types.h>
 #include <sys/wait.h>
 #include <unistd.h>
 #include "test.h"
 
+#define B(t)
 #define T(t) void t();
 #include "main.h"
 #undef T
@@ -20,6 +20,12 @@ static const char *name;
 static int verbose;
 static int count;
 static int nfailed;
+
+static void errtimer() { error("use *_timer in benchmarks only\n"); }
+int N = 0;
+void start_timer() { errtimer(); }
+void stop_timer() { errtimer(); }
+void reset_timer() { errtimer(); }
 
 void error__(const char *n, int l, const char *s, ...) {
 	va_list ap;
