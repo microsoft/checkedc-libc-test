@@ -5,10 +5,11 @@
 static unsigned foo(unsigned n) {
 	int i;
 
-	for (i = 0; i < 10; i++) {
-		n = n*n;
-		n = n+123;
-		n = n/7;
+	for (i = 0; n > 1 && i < 100; i++) {
+		if (n % 2)
+			n = 3*n + 1;
+		else
+			n /= 2;
 	}
 	return n;
 }
@@ -17,12 +18,12 @@ void bench_foo() {
 	int i;
 
 	for (i = 0; i < N; i++)
-		foo(3);
+		foo(123);
 }
 
 void test_foo() {
-	unsigned n = foo(3);
+	unsigned n = foo(123);
 
-	if (n != 123)
-		error("foo(3):%u expected 123\n", n);
+	if (n != 1)
+		error("foo(123):%u expected 1\n", n);
 }
