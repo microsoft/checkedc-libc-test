@@ -2,7 +2,7 @@
 
 // dummy test
 
-static unsigned foo(unsigned n) {
+static int foo(int n) {
 	int i;
 
 	for (i = 0; n > 1 && i < 100; i++) {
@@ -22,8 +22,8 @@ void bench_foo() {
 }
 
 void test_foo() {
-	unsigned n = foo(123);
+	int n = foo(123);
 
 	if (n != 1)
-		error("foo(123):%u expected 1\n", n);
+		error("foo(123):%d expected 1\n", n);
 }
