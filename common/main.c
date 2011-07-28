@@ -1,5 +1,7 @@
 #define _POSIX_C_SOURCE 200809L
 #include <stdlib.h>
+#include <stdio.h>
+#include <stdarg.h>
 #include <string.h>
 #include <errno.h>
 #include <signal.h>
@@ -12,45 +14,56 @@
 #include "main.h"
 #undef T
 
-struct test test__ = {0};
+static int failed;
+static const char *name;
 
 static int verbose;
 static int count;
 static int nfailed;
 
+void error__(const char *n, int l, const char *s, ...) {
+	va_list ap;
+
+	failed = 1;
+	fprintf(stderr, "- ERROR %s at %s:%d: ", name, n, l);
+	va_start(ap, s);
+	vfprintf(stderr, s, ap);
+	va_end(ap);
+}
+
 static void run(const char *n, void (*f)()) {
 	pid_t pid;
-	int status;
+	int s;
 
 	count++;
-	test__.failed = 0;
-	test__.name = n;
+	failed = 0;
+	name = n;
 	if (verbose)
-		fprintf(stderr, "running %s:\n", test__.name);
+		fprintf(stderr, "running %s:\n", name);
 
 	pid = fork();
 	if (pid == 0) {
 		/* run test in a child process */
 		f();
-		exit(test__.failed);
+		exit(failed);
 	}
 
 	if (pid == -1)
 		error("fork failed: %s\n", strerror(errno));
 	else {
-		if (waitpid(pid, &status, 0) == -1)
+		if (waitpid(pid, &s, 0) == -1)
 			error("waitpid failed: %s\n", strerror(errno));
-		else if (!WIFEXITED(status))
-			error("abnormal exit: %s\n", WIFSIGNALED(status) ? strsignal(WTERMSIG(status)) : "(unknown)");
+		else if (!WIFEXITED(s))
+			error("abnormal exit: %s\n", WIFSIGNALED(s) ? strsignal(WTERMSIG(s)) : "(unknown)");
 		else
-			test__.failed = !!WEXITSTATUS(status);
+			failed = !!WEXITSTATUS(s);
 	}
 
-	if (test__.failed) {
+	if (failed) {
 		nfailed++;
-		fprintf(stderr, "FAILED %s\n", test__.name);
+		fprintf(stderr, "FAILED %s\n", name);
 	} else if (verbose)
-		fprintf(stderr, "PASSED %s\n", test__.name);
+		fprintf(stderr, "PASSED %s\n", name);
 }
 
 static int summary() {
