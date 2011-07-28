@@ -64,10 +64,12 @@ void reset_timer() {
 
 static int nextN() {
 	unsigned long long n = ns/N;
-	if (n == 0)
-		n = SEC;
-	else
+
+	if (n)
 		n = SEC/n;
+	else
+		n = SEC;
+	n += n/4;
 	if (n > N*100ULL)
 		n = N*100ULL;
 	else if (n <= N)
