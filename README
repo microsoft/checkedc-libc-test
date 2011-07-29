@@ -1,7 +1,6 @@
-simple libc tests based on the libc-testsuit
-and libc-bench of dalias
+simple libc tests
+based on the libc-testsuit and libc-bench of dalias
 see http://git.etalabs.net/cgi-bin/gitweb.cgi
-see http://www.etalabs.net/libc-bench.html
 
 build tests:
 	cp Makefile.conf.def Makefile.conf
