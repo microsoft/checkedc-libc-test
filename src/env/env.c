@@ -40,6 +40,9 @@ void test_env() {
 		error("setenv: %s\n", strerror(errno));
 	if (strcmp(s=getenv("TEST"),"3") != 0)
 		error("getenv(\"TEST\"): \"%s\", wanted \"3\"\n", s);
+	/* test failures */
 	if ((r=setenv("","",0)) != -1 || errno != EINVAL)
-		error("setenv(\"\",\"\"): %d, errno: %d (%s), wanted -1, %d (EINVAL)\n", r, errno, strerror(errno), EINVAL);
+		error("setenv(\"\",\"\",0): %d, errno: %d (%s), wanted -1, %d (EINVAL)\n", r, errno, strerror(errno), EINVAL);
+	if ((r=setenv(0,"",0)) != -1 || errno != EINVAL)
+		error("setenv(0,\"\",0): %d, errno: %d (%s), wanted -1, %d (EINVAL)\n", r, errno, strerror(errno), EINVAL);
 }

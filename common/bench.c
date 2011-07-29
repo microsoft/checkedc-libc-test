@@ -19,18 +19,16 @@ void error__(const char *n, int l, const char *s, ...) {
 
 int N;
 static unsigned long long start;
-static unsigned long long ns;
+static unsigned long long dt;
 //static unsigned long long bytes;
 
 #define SEC  1000000000ULL
 #define MAXN 1000000000
 
-static unsigned long long nsclock() {
+static unsigned long long tic() {
 	struct timespec ts;
-	int r;
 
-	r = clock_gettime(CLOCK_MONOTONIC, &ts);
-	if (r < 0) {
+	if (clock_gettime(CLOCK_MONOTONIC, &ts) < 0) {
 		fprintf(stderr, "bench: clock_gettime failed: %s\n", strerror(errno));
 		return 0;
 	}
@@ -39,23 +37,23 @@ static unsigned long long nsclock() {
 
 void start_timer() {
 	if (!start)
-		start = nsclock();
+		start = tic();
 }
 
 void stop_timer() {
 	if (start)
-		ns += nsclock() - start;
+		dt += tic() - start;
 	start = 0;
 }
 
 void reset_timer() {
 	if (start)
-		start = nsclock();
-	ns = 0;
+		start = tic();
+	dt = 0;
 }
 
 static int nextN() {
-	unsigned long long n = ns/N;
+	unsigned long long n = dt/N;
 
 	if (n)
 		n = SEC/n;
@@ -79,17 +77,17 @@ static void run(const char *name, void (*f)()) {
 		f();
 		stop_timer();
 //		fprintf(stderr, "%10d%12llu\n", N, ns);
-		if (ns > SEC || N >= MAXN)
+		if (dt >= SEC || N >= MAXN)
 			break;
 		if (N <= 0) {
 			fprintf(stderr, "bench: fatal: N <= 0\n");
 			return;
 		}
 	}
-	if (ns/N > 100)
-		fprintf(stderr, "%10d%10llu ns/op\n", N, ns/N);
+	if (dt/N > 100)
+		fprintf(stderr, "%10d%10llu ns/op\n", N, dt/N);
 	else
-		fprintf(stderr, "%10d%13.2f ns/op\n", N, (double)ns/N);
+		fprintf(stderr, "%10d%13.2f ns/op\n", N, (double)dt/N);
 }
 
 int main() {
