@@ -4,7 +4,7 @@
 #include <string.h>
 #include "test.h"
 
-void bench_stdio_putcgetc() {
+void bench_stdio_putcgetc(int N) {
 	FILE *f = tmpfile();
 	size_t i;
 	size_t cs = 0;
@@ -19,7 +19,7 @@ void bench_stdio_putcgetc() {
 		abort();
 }
 
-void bench_stdio_putcgetc_unlocked() {
+void bench_stdio_putcgetc_unlocked(int N) {
 	FILE *f = tmpfile();
 	size_t i;
 	size_t cs = 0;

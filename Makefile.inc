@@ -35,30 +35,30 @@ endif
 all: t b
 
 clean:
-	rm -f $(OBJS) t t.o main.h b b.o tests.a
+	rm -f $(OBJS) t t.o b b.o tests.a tests.h
 
 .c.o:
 	$(CC) $(CFLAGS) $(INC) -c -o $@ $<
 
 $(OBJS): $(ROOTDIR)/common/test.h $(ROOTDIR)/Makefile.conf
 
-main.h: $(OBJS)
+tests.h: $(OBJS)
 	nm -f posix $+ |awk ' \
 		/^test/ && $$2=="T"{print "T(" $$1 ")"} \
 		/^bench/ && $$2=="T"{print "B(" $$1 ")"} \
-	' >main.h
+	' >tests.h
 
 tests.a: $(OBJS)
 	$(AR) rc $@ $+
 	$(RANLIB) $@
 
-t.o: $(ROOTDIR)/common/t.c $(ROOTDIR)/common/test.h main.h
+t.o: $(ROOTDIR)/common/t.c $(ROOTDIR)/common/test.h tests.h
 	$(CC) $(CFLAGS) $(INC) -I. -c -o $@ $<
 
 t: t.o tests.a
 	$(CC) $+ $(LDFLAGS) -o $@
 
-b.o: $(ROOTDIR)/common/b.c $(ROOTDIR)/common/test.h main.h
+b.o: $(ROOTDIR)/common/b.c $(ROOTDIR)/common/test.h tests.h
 	$(CC) $(CFLAGS) $(INC) -I. -c -o $@ $<
 
 b: b.o tests.a

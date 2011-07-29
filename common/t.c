@@ -9,9 +9,9 @@
 #include <unistd.h>
 #include "test.h"
 
-#define B(t)
-#define T(t) void t();
-#include "main.h"
+#define B(f)
+#define T(f) void f();
+#include "tests.h"
 #undef T
 
 static int failed;
@@ -22,7 +22,6 @@ static int count;
 static int nfailed;
 
 static void errtimer() { error("use *_timer in benchmarks only\n"); }
-int N = 0;
 void start_timer() { errtimer(); }
 void stop_timer() { errtimer(); }
 void reset_timer() { errtimer(); }
@@ -79,6 +78,6 @@ static int summary() {
 
 int main() {
 #define T(t) run(#t, t);
-#include "main.h"
+#include "tests.h"
 	return summary();
 }

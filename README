@@ -1,6 +1,7 @@
 simple libc tests based on the libc-testsuit
 and libc-bench of dalias
 see http://git.etalabs.net/cgi-bin/gitweb.cgi
+see http://www.etalabs.net/libc-bench.html
 
 build tests:
 	cp Makefile.conf.def Makefile.conf
@@ -11,17 +12,14 @@ run tests:
 run benchmarks:
 	./b
 
-about the framework:
+framework:
 
 the only hook in the test framework is error(...) which
 prints a formatted message and sets the test to failed
 see common/test.h
 
-benchmark functions are repeatedly called with increasing
-N until runing time is long enough, then time/N is printed
-
-in the root dir make builds an executable with all tests
-in a src/* dir make builds only local tests
+in the root directory make builds an executable with all tests
+in a src/* directory make builds only local tests
 see Makefile.inc
 
 a test function looks like
@@ -33,6 +31,14 @@ extern functions with name ~ /^test/ are recognized to be
 test functions
 see Makefile.inc
 
-edit the generated main.h to exclude certain tests
+a benchmark function looks like
+	void bench_foo(int N) {
+		for (i = 0; i < N; i++)
+			foo();
+	}
+benchmark functions are repeatedly called with an increasing
+N until the runing time is long enough, then time/N is printed
+
+edit the generated tests.h to exclude certain tests
 see common/t.c for tests
 see common/b.c for benchmarks

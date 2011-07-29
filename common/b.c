@@ -9,9 +9,9 @@
 #include <unistd.h>
 #include "test.h"
 
-#define T(t)
-#define B(t) void t();
-#include "main.h"
+#define T(f)
+#define B(f) void f(int);
+#include "tests.h"
 #undef B
 
 static int verbose = 1;
@@ -20,7 +20,7 @@ void error__(const char *n, int l, const char *s, ...) {
 	fprintf(stderr, "use error in tests only\n");
 }
 
-int N;
+static int N;
 static unsigned long long start;
 static unsigned long long dt;
 //static unsigned long long bytes;
@@ -57,6 +57,7 @@ void reset_timer() {
 
 static int nextN() {
 	unsigned long long n = dt/N;
+	unsigned long long i;
 
 	if (n)
 		n = SEC/2/n;
@@ -69,7 +70,14 @@ static int nextN() {
 		n = N+1;
 	if (n > MAXN)
 		n = MAXN;
-	return n;
+
+	/* round up to a nice number */
+	for (i = 1; i < n; i *= 10);
+	if (i/2 >= n)
+		i /= 2;
+	if (i/2 >= n)
+		i /= 2;
+	return i;
 }
 
 void vmstats() {
@@ -103,7 +111,7 @@ void stats() {
 	fputc('\n', stderr);
 }
 
-static void run(const char *name, void (*f)()) {
+static void run(const char *name, void (*f)(int)) {
 	int p = fork();
 	if (p) {
 		int s;
@@ -113,9 +121,10 @@ static void run(const char *name, void (*f)()) {
 	}
 	fprintf(stderr, "%-32s", name);
 	for (N=1; ; N=nextN()) {
+		// TODO: fork at each iteration and pass N,dt..?
 		reset_timer();
 		start_timer();
-		f();
+		f(N);
 		stop_timer();
 //		fprintf(stderr, "%10d%12llu next: %d\n", N, dt, nextN());
 		if (dt >= SEC/2 || N >= MAXN) {
@@ -131,6 +140,6 @@ static void run(const char *name, void (*f)()) {
 
 int main() {
 #define B(t) run(#t, t);
-#include "main.h"
+#include "tests.h"
 	return 0;
 }

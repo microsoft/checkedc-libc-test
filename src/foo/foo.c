@@ -14,7 +14,7 @@ static int foo(int n) {
 	return n;
 }
 
-void bench_foo() {
+void bench_foo(int N) {
 	int i;
 
 	for (i = 0; i < N; i++)
