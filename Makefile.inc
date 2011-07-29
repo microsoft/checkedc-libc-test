@@ -35,12 +35,12 @@ endif
 all: t b
 
 clean:
-	rm -f $(OBJS) t main.o main.h b bench.o tests.a
+	rm -f $(OBJS) t t.o main.h b b.o tests.a
 
 .c.o:
 	$(CC) $(CFLAGS) $(INC) -c -o $@ $<
 
-$(OBJS): $(ROOTDIR)/common/test.h
+$(OBJS): $(ROOTDIR)/common/test.h $(ROOTDIR)/Makefile.conf
 
 main.h: $(OBJS)
 	nm -f posix $+ |awk ' \
@@ -52,16 +52,16 @@ tests.a: $(OBJS)
 	$(AR) rc $@ $+
 	$(RANLIB) $@
 
-main.o: $(ROOTDIR)/common/main.c $(ROOTDIR)/common/test.h main.h
+t.o: $(ROOTDIR)/common/t.c $(ROOTDIR)/common/test.h main.h
 	$(CC) $(CFLAGS) $(INC) -I. -c -o $@ $<
 
-t: main.o tests.a
+t: t.o tests.a
 	$(CC) $+ $(LDFLAGS) -o $@
 
-bench.o: $(ROOTDIR)/common/bench.c $(ROOTDIR)/common/test.h main.h
+b.o: $(ROOTDIR)/common/b.c $(ROOTDIR)/common/test.h main.h
 	$(CC) $(CFLAGS) $(INC) -I. -c -o $@ $<
 
-b: bench.o tests.a
+b: b.o tests.a
 	$(CC) $+ $(LDFLAGS) -lrt -o $@
 
 .PHONY: all clean
