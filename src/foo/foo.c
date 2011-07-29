@@ -14,6 +14,13 @@ static int foo(int n) {
 	return n;
 }
 
+void test_foo() {
+	int n = foo(123);
+
+	if (n != 1)
+		error("foo(123):%d expected 1\n", n);
+}
+
 void bench_foo(int N) {
 	int i;
 
@@ -21,9 +28,19 @@ void bench_foo(int N) {
 		foo(123);
 }
 
-void test_foo() {
-	int n = foo(123);
+short s = 123;
+int n = 123;
 
-	if (n != 1)
-		error("foo(123):%d expected 1\n", n);
+void bench_div_short(int N) {
+	int i;
+
+	for (i = 1; i <= N; i++)
+		s = s/i;
+}
+
+void bench_div_int(int N) {
+	int i;
+
+	for (i = 1; i <= N; i++)
+		n = n/i;
 }
