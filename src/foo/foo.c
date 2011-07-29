@@ -28,19 +28,20 @@ void bench_foo(int N) {
 		foo(123);
 }
 
-short s = 123;
-int n = 123;
-
+unsigned short ds = 12345;
+unsigned short rs = 0;
 void bench_div_short(int N) {
 	int i;
 
-	for (i = 1; i <= N; i++)
-		s = s/i;
+	for (i = 0; i < N; i++)
+		rs += (unsigned short)i/ds;
 }
 
+unsigned int di = 12345;
+unsigned int ri = 0;
 void bench_div_int(int N) {
-	int i;
+	unsigned int i;
 
-	for (i = 1; i <= N; i++)
-		n = n/i;
+	for (i = 0; i < N; i++)
+		ri += i/di;
 }
