@@ -20,7 +20,7 @@ AR=ar
 RANLIB=ranlib
 
 CFLAGS += -g -std=c99 -pipe -Wall
-LDFLAGS += -g -lpthread
+LDFLAGS += -g -lpthread -lrt -lm
 INC += -I$(ROOTDIR)/common
 
 ifeq ($(usemusl), yes)

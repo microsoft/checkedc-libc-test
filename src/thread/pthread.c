@@ -5,15 +5,23 @@
 #include <stdio.h>
 #include <errno.h>
 #include <string.h>
+#include <signal.h>
 #include "test.h"
 
 #define TEST(r, f, x, m) ( \
-	((r) = (f)) == (x) || \
+	msg = #f, ((r) = (f)) == (x) || \
 	(error("%s failed (" m ")\n", #f, r, x), 0) )
 
 #define TEST_S(s, x, m) ( \
 	!strcmp((s),(x)) || \
 	(error("[%s] != [%s] (%s)\n", s, x, m), 0) )
+
+static volatile char *msg = "";
+
+static void alarmhandler(int sig) {
+	error("timeout in %s\n", msg);
+	_Exit(1);
+}
 
 static pthread_key_t k1, k2;
 
@@ -124,6 +132,9 @@ void test_pthread(void)
 //	int fd;
 	pthread_mutex_t mtx;
 	pthread_cond_t cond;
+
+	signal(SIGALRM, alarmhandler);
+	alarm(10);
 
 	TEST(r, pthread_barrier_init(&barrier2, 0, 2), 0, "creating barrier");
 

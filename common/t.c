@@ -30,7 +30,7 @@ void error__(const char *n, int l, const char *s, ...) {
 	va_list ap;
 
 	failed = 1;
-	fprintf(stderr, "- ERROR %s at %s:%d: ", name, n, l);
+	fprintf(stderr, " ERROR %s %s:%d: ", name, n, l);
 	va_start(ap, s);
 	vfprintf(stderr, s, ap);
 	va_end(ap);
