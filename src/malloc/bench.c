@@ -4,72 +4,92 @@
 #include <pthread.h>
 #include "test.h"
 
+enum { Len = 1000 };
+
 void bench_malloc_sparse(int N) {
-	void *p[N];
-	size_t i;
-	for (i=0; i<sizeof p/sizeof *p; i++) {
-		p[i] = malloc(4000);
-		memset(p[i], 0, 4000);
+	void *p[Len];
+	int i,j;
+
+	for (j = 0; j < N; j++) {
+		for (i=0; i<sizeof p/sizeof *p; i++) {
+			p[i] = malloc(4000);
+			memset(p[i], 0, 4000);
+		}
+		for (i=0; i<sizeof p/sizeof *p; i++)
+			if (i%150) free(p[i]);
+		for (i=0; i<sizeof p/sizeof *p; i+=150)
+			free(p[i]);
 	}
-	for (i=0; i<sizeof p/sizeof *p; i++)
-		if (i%150) free(p[i]);
 }
 
 void bench_malloc_bubble(int N) {
-	void *p[N];
-	size_t i;
-	for (i=0; i<sizeof p/sizeof *p; i++) {
-		p[i] = malloc(4000);
-		memset(p[i], 0, 4000);
+	void *p[Len];
+	int i,j;
+
+	for (j = 0; j < N; j++) {
+		for (i=0; i<sizeof p/sizeof *p; i++) {
+			p[i] = malloc(4000);
+			memset(p[i], 0, 4000);
+		}
+		for (i=0; i<sizeof p/sizeof *p; i++)
+			free(p[i]);
 	}
-	for (i=0; i<sizeof p/sizeof *p-1; i++)
-		free(p[i]);
 }
 
 void bench_malloc_tiny1(int N) {
-	void **p = malloc(N * sizeof *p);
-	size_t i;
-	for (i=0; i<N; i++) {
-		p[i] = malloc((i%4+1)*16);
+	void *p[Len];
+	int i,j;
+
+	for (j=0; j<N; j++) {
+		for (i=0; i<sizeof p/sizeof *p; i++) {
+			p[i] = malloc((i%4+1)*16);
+		}
+		for (i=0; i<sizeof p/sizeof *p; i++) {
+			free(p[i]);
+		}
 	}
-	for (i=0; i<N; i++) {
-		free(p[i]);
-	}
-	free(p);
 }
 
 void bench_malloc_tiny2(int N) {
-	void **p = malloc(N * sizeof *p);
-	size_t i;
-	for (i=0; i<N; i++) {
-		p[i] = malloc((i%4+1)*16);
+	void *p[Len];
+	int i,j;
+
+	for (j=0; j<N; j++) {
+		for (i=0; i<sizeof p/sizeof *p; i++) {
+			p[i] = malloc((i%4+1)*16);
+		}
+		for (i=1; i; i = (i+57)%(sizeof p/sizeof *p))
+			free(p[i]);
+		free(p[0]);
 	}
-	if (N>1) for (i=1; i; i = (i+1999)%N)
-		free(p[i]);
-	free(p[0]);
-	free(p);
 }
 
 void bench_malloc_big1(int N) {
-	void *p[N];
-	size_t i;
-	for (i=0; i<sizeof p/sizeof *p; i++) {
-		p[i] = malloc((i%4+1)*16384);
-	}
-	for (i=0; i<sizeof p/sizeof *p; i++) {
-		free(p[i]);
+	void *p[Len];
+	int i,j;
+
+	for (j = 0;  j < N; j++) {
+		for (i=0; i<sizeof p/sizeof *p; i++) {
+			p[i] = malloc((i%4+1)*16384);
+		}
+		for (i=0; i<sizeof p/sizeof *p; i++) {
+			free(p[i]);
+		}
 	}
 }
 
 void bench_malloc_big2(int N) {
-	void *p[N];
-	size_t i;
-	for (i=0; i<sizeof p/sizeof *p; i++) {
-		p[i] = malloc((i%4+1)*16384);
+	void *p[Len];
+	int i,j;
+
+	for (j = 0; j < N; j++) {
+		for (i=0; i<sizeof p/sizeof *p; i++) {
+			p[i] = malloc((i%4+1)*16384);
+		}
+		for (i=1; i; i = (i+57)%(sizeof p/sizeof *p))
+			free(p[i]);
+		free(p[0]);
 	}
-	if (N>1) for (i=1; i; i = (i+1999)%(sizeof p/sizeof *p))
-		free(p[i]);
-	free(p[0]);
 }
 
 
