@@ -21,7 +21,6 @@
 void test_sem(void)
 {
 	int r;
-	void *res;
 	char buf[100];
 	struct timespec ts;
 	sem_t *sem, *sem2;
