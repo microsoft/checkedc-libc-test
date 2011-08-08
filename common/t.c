@@ -1,4 +1,3 @@
-#define _POSIX_C_SOURCE 200809L
 #include <stdlib.h>
 #include <stdio.h>
 #include <stdarg.h>
@@ -17,6 +16,7 @@
 static int failed;
 static const char *name;
 
+static int slow;
 static int verbose;
 static int count;
 static int nfailed;
@@ -76,7 +76,28 @@ static int summary() {
 	return !!nfailed;
 }
 
-int main() {
+static void usage() {
+	fprintf(stderr, "usage: ./t [-vs]\n");
+	exit(1);
+}
+
+int main(int argc, char *argv[]) {
+	int c;
+
+	while((c = getopt(argc, argv, "vs")) != -1)
+		switch(c) {
+		case 'v':
+			verbose = 1;
+			break;
+		case 's':
+			slow = 1; /* TODO */
+			break;
+		default:
+			usage();
+		}
+	if (optind != argc)
+		usage();
+
 #define T(t) run(#t, t);
 #include "tests.h"
 	return summary();

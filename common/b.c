@@ -1,4 +1,3 @@
-#define _POSIX_C_SOURCE 200809L
 #include <stdlib.h>
 #include <stdio.h>
 #include <string.h>
@@ -31,7 +30,7 @@ static unsigned long long dt;
 static unsigned long long tic() {
 	struct timespec ts;
 
-	if (clock_gettime(CLOCK_MONOTONIC, &ts) < 0) {
+	if (clock_gettime(CLOCK_REALTIME, &ts) < 0) {
 		fprintf(stderr, "bench: clock_gettime failed: %s\n", strerror(errno));
 		return 0;
 	}

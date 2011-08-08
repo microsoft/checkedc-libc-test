@@ -19,7 +19,7 @@ libdir = $(prefix)/lib
 AR=ar
 RANLIB=ranlib
 
-CFLAGS += -g -std=c99 -pipe -Wall
+CFLAGS += -g -D_POSIX_C_SOURCE=200809L -std=c99 -pipe -Wall
 LDFLAGS += -g -lpthread -lrt -lm
 INC += -I$(ROOTDIR)/common
 
