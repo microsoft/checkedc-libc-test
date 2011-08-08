@@ -14,7 +14,6 @@ usemusl = yes
 prefix = /usr/local/musl
 includedir = $(prefix)/include
 libdir = $(prefix)/lib
--include $(ROOTDIR)/Makefile.conf
 
 AR=ar
 RANLIB=ranlib
@@ -22,6 +21,8 @@ RANLIB=ranlib
 CFLAGS += -g -D_POSIX_C_SOURCE=200809L -std=c99 -pipe -Wall
 LDFLAGS += -g -lpthread -lrt -lm
 INC += -I$(ROOTDIR)/common
+
+-include $(ROOTDIR)/Makefile.conf
 
 ifeq ($(usemusl), yes)
 CC=gcc

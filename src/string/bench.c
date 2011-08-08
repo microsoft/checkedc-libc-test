@@ -17,6 +17,7 @@ static int bstrstr(int N, const char *needle) {
 		haystack[l*i+l-1] ^= 1;
 	}
 	memcpy(haystack + l*i, needle, l+1);
+	reset_timer();
 	for (i=0; i<N; i++) {
 		haystack[0]^=1;
 		cs += (int)strstr(haystack, needle);
