@@ -33,16 +33,19 @@ void test_wcstol(void) {
 		TEST(ul, wcstoul(s=L"4294967296", &c, 0), 4294967295UL, "uncaught overflow %lu != %lu");
 		TEST2(i, c-s, 10, "wrong final position %d != %d");
 		TEST2(i, errno, ERANGE, "missing errno %d != %d");
-		TEST(ul, wcstoul(s=L"-1", &c, 0), 4294967295UL, "uncaught overflow %lu != %lu");
+		TEST(ul, wcstoul(s=L"-1", &c, 0), (unsigned long)-1, "bad conversion result: %lu != %lu");
 		TEST2(i, c-s, 2, "wrong final position %d != %d");
-		TEST2(i, errno, ERANGE, "missing errno %d != %d");
-		TEST(ul, wcstoul(s=L"-2", &c, 0), 4294967295UL, "uncaught overflow %lu != %lu");
+		TEST2(i, errno, 0, "no overflow, but errno is %d != %d");
+		TEST(ul, wcstoul(s=L"-2", &c, 0), (unsigned long)-2, "bad conversion result: %lu != %lu");
 		TEST2(i, c-s, 2, "wrong final position %d != %d");
-		TEST2(i, errno, ERANGE, "missing errno %d != %d");
-		TEST(ul, wcstoul(s=L"-2147483648", &c, 0), 4294967295UL, "uncaught overflow %lu != %lu");
+		TEST2(i, errno, 0, "no overflow, but errno is %d != %d");
+		TEST(ul, wcstoul(s=L"-2147483648", &c, 0), (unsigned long)-2147483648, "bad conversion result: %lu != %lu");
 		TEST2(i, c-s, 11, "wrong final position %d != %d");
-		TEST2(i, errno, ERANGE, "missing errno %d != %d");
-		TEST(ul, wcstoul(s=L"-2147483649", &c, 0), 4294967295UL, "uncaught overflow %lu != %lu");
+		TEST2(i, errno, 0, "no overflow, but errno is %d != %d");
+		TEST(ul, wcstoul(s=L"-2147483649", &c, 0), (unsigned long)-2147483649, "bad conversion result: %lu != %lu");
+		TEST2(i, c-s, 11, "wrong final position %d != %d");
+		TEST2(i, errno, 0, "no overflow, but errno is %d != %d");
+		TEST(ul, wcstoul(s=L"-4294967296", &c, 0), 4294967295UL, "uncaught overflow %lu != %lu");
 		TEST2(i, c-s, 11, "wrong final position %d != %d");
 		TEST2(i, errno, ERANGE, "missing errno %d != %d");
 	} else {

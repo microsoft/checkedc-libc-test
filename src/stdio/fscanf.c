@@ -1,3 +1,4 @@
+#include <stdlib.h>
 #include <stdio.h>
 #include <string.h>
 #include <errno.h>
@@ -16,6 +17,18 @@
 static void S(const char *s, const char *x, const char *m) {
 	if (strcmp(s, x) != 0)
 		error("got [%s], expected [%s] (%s)\n", s, x, m);
+}
+
+void test_scanf_long(void) {
+	enum {n = 1<<21};
+	char *s = malloc(n+1);
+	int i;
+	int r;
+
+	for (i = 0; i < n; i++) s[i] = '1';
+	s[n] = 0;
+	r = sscanf(s, "%d", &i);
+	free(s);
 }
 
 void test_fscanf(void) {

@@ -1,4 +1,4 @@
-ROOTDIR=.
+TROOT=.
 include Makefile.inc
 
 

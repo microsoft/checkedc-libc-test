@@ -2,11 +2,11 @@
 # when included in src/*/Makefile then it builds a binary locally
 # when included in ./Makefile then all tests are linked into one binary
 
-ROOTDIR ?= ../..
-ifeq ($(ROOTDIR), .)
-SRCS = $(sort $(wildcard src/*/*.c))
+TROOT ?= ../..
+ifeq ($(TROOT), .)
+SRCS ?= $(sort $(wildcard src/*/*.c))
 else
-SRCS = $(sort $(wildcard *.c))
+SRCS ?= $(sort $(wildcard *.c))
 endif
 OBJS = $(SRCS:.c=.o)
 
@@ -20,9 +20,9 @@ RANLIB=ranlib
 
 CFLAGS += -g -D_POSIX_C_SOURCE=200809L -std=c99 -pipe -Wall
 LDFLAGS += -g -lpthread -lrt -lm
-INC += -I$(ROOTDIR)/common
+INC += -I$(TROOT)/common
 
--include $(ROOTDIR)/Makefile.conf
+-include $(TROOT)/Makefile.conf
 
 ifeq ($(usemusl), yes)
 CC=gcc
@@ -33,15 +33,16 @@ LDFLAGS += -nostdlib -Wl,-e,_start,-Bstatic $(libdir)/crti.o $(libdir)/crt1.o $(
 INC     += -isystem $(includedir)
 endif
 
-all: t b
+test: t b
+	./t
 
 clean:
-	rm -f $(OBJS) t t.o b b.o tests.a tests.h
+	rm -f $(OBJS) t t_.o b b_.o tests.a tests.h
 
 .c.o:
 	$(CC) $(CFLAGS) $(INC) -c -o $@ $<
 
-$(OBJS): $(ROOTDIR)/common/test.h $(ROOTDIR)/Makefile.conf
+$(OBJS): $(TROOT)/common/test.h $(TROOT)/Makefile.conf
 
 tests.h: $(OBJS)
 	nm -f posix $+ |awk ' \
@@ -53,16 +54,17 @@ tests.a: $(OBJS)
 	$(AR) rc $@ $+
 	$(RANLIB) $@
 
-t.o: $(ROOTDIR)/common/t.c $(ROOTDIR)/common/test.h tests.h
+# TODO: /tmp/t.o ?
+t_.o: $(TROOT)/common/t.c $(TROOT)/common/test.h tests.h
 	$(CC) $(CFLAGS) $(INC) -I. -c -o $@ $<
 
-t: t.o tests.a
+t: t_.o tests.a
 	$(CC) $+ $(LDFLAGS) -o $@
 
-b.o: $(ROOTDIR)/common/b.c $(ROOTDIR)/common/test.h tests.h
+b_.o: $(TROOT)/common/b.c $(TROOT)/common/test.h tests.h
 	$(CC) $(CFLAGS) $(INC) -I. -c -o $@ $<
 
-b: b.o tests.a
+b: b_.o tests.a
 	$(CC) $+ $(LDFLAGS) -lrt -o $@
 
 .PHONY: all clean
