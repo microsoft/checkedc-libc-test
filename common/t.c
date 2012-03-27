@@ -72,7 +72,10 @@ static void run(const char *n, void (*f)()) {
 }
 
 static int summary() {
-	fprintf(stderr, "PASS:%d FAIL:%d\n", count-nfailed, nfailed);
+	if (nfailed)
+		fprintf(stderr, "FAIL:%d (all: %d)\n", nfailed, count);
+	else
+		fprintf(stderr, "PASS (all: %d)\n", count);
 	return !!nfailed;
 }
 

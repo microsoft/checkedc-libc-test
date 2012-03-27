@@ -1,14 +1,10 @@
-TROOT=.
-include Makefile.inc
-
-
-# build binary in each test dir
 DIRS = $(sort $(wildcard src/*))
 
-local:
-	for i in $(DIRS); do make -C $$i; done
-localrun: local
-	for i in $(DIRS); do $$i/t; done
-localclean:
-	for i in $(DIRS); do make -C $$i clean; done
-cleanall: clean localclean
+all:
+	for i in $(DIRS); do echo $$i; make -s -C $$i; done
+#t: all
+#	for i in $(DIRS); do echo $$i; $$i/t; done
+b: all
+	for i in $(DIRS); do echo $$i; $$i/b; done
+clean:
+	for i in $(DIRS); do make -s -C $$i clean; done

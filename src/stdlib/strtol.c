@@ -39,21 +39,18 @@ void test_strtol(void) {
 		TEST(ul, strtoul(s="4294967296", &c, 0), 4294967295UL, "uncaught overflow %lu != %lu");
 		TEST2(i, c-s, 10, "wrong final position %d != %d");
 		TEST2(i, errno, ERANGE, "missing errno %d != %d");
-		TEST(ul, strtoul(s="-1", &c, 0), (unsigned long)-1, "bad conversion result: %lu != %lu");
+		TEST(ul, strtoul(s="-1", &c, 0), -1UL, "rejected negative %lu != %lu");
 		TEST2(i, c-s, 2, "wrong final position %d != %d");
-		TEST2(i, errno, 0, "no overflow, but errno is %d != %d");
-		TEST(ul, strtoul(s="-2", &c, 0), (unsigned long)-2, "bad conversion result: %lu != %lu");
+		TEST2(i, errno, 0, "spurious errno %d != %d");
+		TEST(ul, strtoul(s="-2", &c, 0), -2UL, "rejected negative %lu != %lu");
 		TEST2(i, c-s, 2, "wrong final position %d != %d");
-		TEST2(i, errno, 0, "no overflow, but errno is %d != %d");
-		TEST(ul, strtoul(s="-2147483648", &c, 0), (unsigned long)-2147483648, "bad conversion result: %lu != %lu");
+		TEST2(i, errno, 0, "spurious errno %d != %d");
+		TEST(ul, strtoul(s="-2147483648", &c, 0), -2147483648UL, "rejected negative %lu != %lu");
 		TEST2(i, c-s, 11, "wrong final position %d != %d");
-		TEST2(i, errno, 0, "no overflow, but errno is %d != %d");
-		TEST(ul, strtoul(s="-2147483649", &c, 0), (unsigned long)-2147483649, "bad conversion result: %lu != %lu");
+		TEST2(i, errno, 0, "spurious errno %d != %d");
+		TEST(ul, strtoul(s="-2147483649", &c, 0), -2147483649UL, "rejected negative %lu != %lu");
 		TEST2(i, c-s, 11, "wrong final position %d != %d");
-		TEST2(i, errno, 0, "no overflow, but errno is %d != %d");
-		TEST(ul, strtoul(s="-4294967296", &c, 0), 4294967295UL, "uncaught overflow %lu != %lu");
-		TEST2(i, c-s, 11, "wrong final position %d != %d");
-		TEST2(i, errno, ERANGE, "missing errno %d != %d");
+		TEST2(i, errno, 0, "spurious errno %d != %d");
 	} else {
 		TEST(i, 0, 1, "64bit tests not implemented");
 	}

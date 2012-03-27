@@ -88,7 +88,7 @@ void vmstats() {
 
 	f = fopen("/proc/self/smaps", "rb");
 	if (f) while (fgets(buf, sizeof buf, f)) {
-		if (sscanf(buf, "%*lx-%*lx %*s %*lx %x:%x %*lu %*s", &maj, &min)==2)
+		if (sscanf(buf, "%*x-%*x %*s %*x %x:%x %*u %*s", &maj, &min)==2)
 			in_heap = (!maj && !min && !strstr(buf, "---p") && (strstr(buf, "[heap]") || !strchr(buf, '[')));
 		if (in_heap) {
 			if (sscanf(buf, "Size: %lu", &l)==1) vm_size += l;

@@ -1,37 +1,22 @@
 # gnu makefile
-# when included in src/*/Makefile then it builds a binary locally
-# when included in ./Makefile then all tests are linked into one binary
+# when included in a Makefile it builds *.c unless SRCS are overridden
 
+# default TROOT works from src/*/Makefile
 TROOT ?= ../..
-ifeq ($(TROOT), .)
-SRCS ?= $(sort $(wildcard src/*/*.c))
-else
 SRCS ?= $(sort $(wildcard *.c))
-endif
 OBJS = $(SRCS:.c=.o)
-
-usemusl = yes
-prefix = /usr/local/musl
-includedir = $(prefix)/include
-libdir = $(prefix)/lib
 
 AR=ar
 RANLIB=ranlib
 
 CFLAGS += -g -D_POSIX_C_SOURCE=200809L -std=c99 -pipe -Wall
 LDFLAGS += -g -lpthread -lrt -lm
-INC += -I$(TROOT)/common
 
--include $(TROOT)/Makefile.conf
+-include $(TROOT)/config.mak
 
-ifeq ($(usemusl), yes)
-CC=gcc
-LIBCC=$(shell gcc -print-file-name=libgcc.a |sed 's,/libgcc.a,,')
-#LIBCC=$(shell pcc -v /dev/null 2>&1 |sed -n 's,/crtbegin.o.*,,;s,.* /,/,p')
-CFLAGS  += -nostdinc -ffreestanding -fno-stack-protector
-LDFLAGS += -nostdlib -Wl,-e,_start,-Bstatic $(libdir)/crti.o $(libdir)/crt1.o $(libdir)/crtn.o -L $(libdir) -lc -L $(LIBCC) -l$(CC)
-INC     += -isystem $(includedir)
-endif
+CFLAGS += -I$(TROOT)/common
+
+all: test
 
 test: t b
 	./t
@@ -40,9 +25,9 @@ clean:
 	rm -f $(OBJS) t t_.o b b_.o tests.a tests.h
 
 .c.o:
-	$(CC) $(CFLAGS) $(INC) -c -o $@ $<
+	$(CC) $(CFLAGS) -c -o $@ $<
 
-$(OBJS): $(TROOT)/common/test.h $(TROOT)/Makefile.conf
+$(OBJS): $(TROOT)/common/test.h
 
 tests.h: $(OBJS)
 	nm -f posix $+ |awk ' \
@@ -56,15 +41,15 @@ tests.a: $(OBJS)
 
 # TODO: /tmp/t.o ?
 t_.o: $(TROOT)/common/t.c $(TROOT)/common/test.h tests.h
-	$(CC) $(CFLAGS) $(INC) -I. -c -o $@ $<
+	$(CC) $(CFLAGS) -I. -c -o $@ $<
 
 t: t_.o tests.a
 	$(CC) $+ $(LDFLAGS) -o $@
 
 b_.o: $(TROOT)/common/b.c $(TROOT)/common/test.h tests.h
-	$(CC) $(CFLAGS) $(INC) -I. -c -o $@ $<
+	$(CC) $(CFLAGS) -I. -c -o $@ $<
 
 b: b_.o tests.a
 	$(CC) $+ $(LDFLAGS) -lrt -o $@
 
-.PHONY: all clean
+.PHONY: all clean test

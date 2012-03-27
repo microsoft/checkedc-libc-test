@@ -67,7 +67,7 @@ void bench_qsort_small(int N) {
 
 void bench_qsort_large(int N) {
 	int i,j;
-	int len = 100000;
+	int len = 10000;
 	int *a = malloc(len * sizeof *a);
 
 	for (i = 0; i < N; i++) {

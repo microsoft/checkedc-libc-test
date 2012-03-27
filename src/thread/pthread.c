@@ -1,4 +1,5 @@
 #include <pthread.h>
+#include <semaphore.h>
 #include <stdlib.h>
 #include <unistd.h>
 #include <stdio.h>
@@ -45,7 +46,7 @@ static void *start2(void *arg)
 static void *start3(void *arg)
 {
 	pthread_setcanceltype(PTHREAD_CANCEL_ASYNCHRONOUS, 0);
-	pthread_barrier_wait(arg);
+	sem_post(arg);
 	for (;;);
 	return 0;
 }
@@ -71,7 +72,6 @@ static void cleanup4a2(void *arg)
 static void cleanup4a3(void *arg)
 {
 	*(int *)arg += 3;
-	pthread_exit(0);
 }
 
 static void cleanup4a4(void *arg)
@@ -118,17 +118,32 @@ static void *start7(void *arg)
 	return 0;
 }
 
+static void *start8(void *arg)
+{
+	void **args = arg;
+	pthread_mutex_t *m = args[1];
+	pthread_cond_t *c = args[0];
+	int *x = args[2];
+
+	pthread_mutex_lock(m);
+	while (*x) pthread_cond_wait(c, m);
+	pthread_mutex_unlock(m);
+
+	return 0;
+}
+
 
 void test_pthread(void)
 {
-	pthread_t td;
+	pthread_t td, td1, td2, td3;
 	int r;
 	void *res;
 	int foo[4], bar[2];
 	pthread_barrier_t barrier2;
-//	pthread_mutexattr_t mtx_a;
-//	pthread_mutex_t *sh_mtx;
-//	int fd;
+	pthread_mutexattr_t mtx_a;
+	pthread_mutex_t *sh_mtx;
+	sem_t sem1;
+	int fd;
 	pthread_mutex_t mtx;
 	pthread_cond_t cond;
 
@@ -136,6 +151,7 @@ void test_pthread(void)
 	alarm(10);
 
 	TEST(r, pthread_barrier_init(&barrier2, 0, 2), 0, "creating barrier");
+	TEST(r, sem_init(&sem1, 0, 0), 0, "creating semaphore");
 
 	/* Test basic thread creation and joining */
 	TEST(r, pthread_create(&td, 0, start1, &res), 0, "failed to create thread");
@@ -162,8 +178,8 @@ void test_pthread(void)
 	TEST(r, pthread_key_delete(k2), 0, "failed to destroy key");
 
 	/* Asynchronous cancellation */
-	TEST(r, pthread_create(&td, 0, start3, &barrier2), 0, "failed to create thread");
-	pthread_barrier_wait(&barrier2);
+	TEST(r, pthread_create(&td, 0, start3, &sem1), 0, "failed to create thread");
+	while (sem_wait(&sem1));
 	TEST(r, pthread_cancel(td), 0, "canceling");
 	TEST(r, pthread_join(td, &res), 0, "joining canceled thread");
 	TEST(res, res, PTHREAD_CANCELED, "canceled thread exit status");
@@ -181,14 +197,13 @@ void test_pthread(void)
 	TEST(r, pthread_create(&td, 0, start4a, foo), 0, "failed to create thread");
 	TEST(r, pthread_cancel(td), 0, "cancelling");
 	TEST(r, pthread_join(td, &res), 0, "joining canceled thread");
-	TEST(res, res, 0, "canceled thread exit status");
+	TEST(res, res, PTHREAD_CANCELED, "canceled thread exit status");
 	TEST(r, foo[0], 1, "cleanup handler failed to run");
 	TEST(r, foo[1], 2, "cleanup handler failed to run");
 	TEST(r, foo[2], 3, "cleanup handler failed to run");
 	TEST(r, foo[3], 4, "cleanup handler failed to run");
 
 	/* Robust mutexes */
-/*
 	TEST(r, pthread_mutexattr_init(&mtx_a), 0, "initializing mutex attr");
 	TEST(r, pthread_mutexattr_setrobust(&mtx_a, PTHREAD_MUTEX_ROBUST), 0, "setting robust attribute");
 	TEST(r, pthread_mutex_init(&mtx, &mtx_a), 0, "initializing robust mutex");
@@ -218,7 +233,7 @@ void test_pthread(void)
 	TEST(r, pthread_mutex_consistent(&mtx), 0, "%d != %d");
 	TEST(r, pthread_mutex_unlock(&mtx), 0, "%d != %d");
 	TEST(r, pthread_mutex_destroy(&mtx), 0, "%d != %d");
-*/
+
 	//TEST(r, (fd=open("/dev/zero", O_RDWR))>=0, 1, "opening zero page file");
 	//TEST(r, 
 
@@ -230,6 +245,52 @@ void test_pthread(void)
 	TEST(r, pthread_cond_wait(&cond, &mtx), 0, "%d != %d");
 	TEST(r, pthread_join(td, &res), 0, "%d != %d");
 	TEST(r, pthread_mutex_unlock(&mtx), 0, "%d != %d");
+	TEST(r, pthread_mutex_destroy(&mtx), 0, "%d != %d");
+	TEST(r, pthread_cond_destroy(&cond), 0, "%d != %d");
+
+	/* Condition variables with multiple waiters */
+	TEST(r, pthread_mutex_init(&mtx, 0), 0, "%d != %d");
+	TEST(r, pthread_cond_init(&cond, 0), 0, "%d != %d");
+	TEST(r, pthread_mutex_lock(&mtx), 0, "%d != %d");
+	foo[0] = 1;
+	TEST(r, pthread_create(&td1, 0, start8, (void *[]){ &cond, &mtx, foo }), 0, "%d != %d");
+	TEST(r, pthread_create(&td2, 0, start8, (void *[]){ &cond, &mtx, foo }), 0, "%d != %d");
+	TEST(r, pthread_create(&td3, 0, start8, (void *[]){ &cond, &mtx, foo }), 0, "%d != %d");
+	TEST(r, pthread_mutex_unlock(&mtx), 0, "%d != %d");
+	nanosleep(&(struct timespec){.tv_nsec=1000000}, 0);
+	foo[0] = 0;
+	TEST(r, pthread_mutex_lock(&mtx), 0, "%d != %d");
+	TEST(r, pthread_cond_signal(&cond), 0, "%d != %d");
+	TEST(r, pthread_mutex_unlock(&mtx), 0, "%d != %d");
+	TEST(r, pthread_mutex_lock(&mtx), 0, "%d != %d");
+	TEST(r, pthread_cond_signal(&cond), 0, "%d != %d");
+	TEST(r, pthread_mutex_unlock(&mtx), 0, "%d != %d");
+	TEST(r, pthread_mutex_lock(&mtx), 0, "%d != %d");
+	TEST(r, pthread_cond_signal(&cond), 0, "%d != %d");
+	TEST(r, pthread_mutex_unlock(&mtx), 0, "%d != %d");
+	TEST(r, pthread_join(td1, 0), 0, "%d != %d");
+	TEST(r, pthread_join(td2, 0), 0, "%d != %d");
+	TEST(r, pthread_join(td3, 0), 0, "%d != %d");
+	TEST(r, pthread_mutex_destroy(&mtx), 0, "%d != %d");
+	TEST(r, pthread_cond_destroy(&cond), 0, "%d != %d");
+
+	/* Condition variables with broadcast signals */
+	TEST(r, pthread_mutex_init(&mtx, 0), 0, "%d != %d");
+	TEST(r, pthread_cond_init(&cond, 0), 0, "%d != %d");
+	TEST(r, pthread_mutex_lock(&mtx), 0, "%d != %d");
+	foo[0] = 1;
+	TEST(r, pthread_create(&td1, 0, start8, (void *[]){ &cond, &mtx, foo }), 0, "%d != %d");
+	TEST(r, pthread_create(&td2, 0, start8, (void *[]){ &cond, &mtx, foo }), 0, "%d != %d");
+	TEST(r, pthread_create(&td3, 0, start8, (void *[]){ &cond, &mtx, foo }), 0, "%d != %d");
+	TEST(r, pthread_mutex_unlock(&mtx), 0, "%d != %d");
+	nanosleep(&(struct timespec){.tv_nsec=1000000}, 0);
+	TEST(r, pthread_mutex_lock(&mtx), 0, "%d != %d");
+	foo[0] = 0;
+	TEST(r, pthread_mutex_unlock(&mtx), 0, "%d != %d");
+	TEST(r, pthread_cond_broadcast(&cond), 0, "%d != %d");
+	TEST(r, pthread_join(td1, 0), 0, "%d != %d");
+	TEST(r, pthread_join(td2, 0), 0, "%d != %d");
+	TEST(r, pthread_join(td3, 0), 0, "%d != %d");
 	TEST(r, pthread_mutex_destroy(&mtx), 0, "%d != %d");
 	TEST(r, pthread_cond_destroy(&cond), 0, "%d != %d");
 }
