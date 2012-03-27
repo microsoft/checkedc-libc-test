@@ -21,7 +21,6 @@ void test_spawn(void) {
 	int p[2];
 	pid_t pid;
 	int status;
-	posix_spawnattr_t attr;
 	posix_spawn_file_actions_t fa;
 
 	TEST_E(!pipe(p));

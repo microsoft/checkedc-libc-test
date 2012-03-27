@@ -119,7 +119,7 @@ static const struct {
 void test_snprintf(void)
 {
 	int i, j, k;
-	char b[2000], *s;
+	char b[2000];
 
 	TEST(i, snprintf(0, 0, "%d", 123456), 6, "length returned %d != %d");
 	TEST(i, snprintf(0, 0, "%.4s", "hello"), 4, "length returned %d != %d");

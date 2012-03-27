@@ -141,9 +141,7 @@ void test_pthread(void)
 	int foo[4], bar[2];
 	pthread_barrier_t barrier2;
 	pthread_mutexattr_t mtx_a;
-	pthread_mutex_t *sh_mtx;
 	sem_t sem1;
-	int fd;
 	pthread_mutex_t mtx;
 	pthread_cond_t cond;
 

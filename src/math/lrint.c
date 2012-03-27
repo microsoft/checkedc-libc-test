@@ -226,7 +226,7 @@ FE_TOWARDZERO, -0x1.ffffffffp+31,           0, FE_INVALID,
 
 void test_lrint()
 {
-	int f, i, j;
+	int f, i;
 	long n;
 
 	for (i = 0; i < sizeof t/sizeof *t; i++) {

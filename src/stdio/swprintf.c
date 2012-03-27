@@ -96,7 +96,7 @@ static const struct {
 
 void test_swprintf(void) {
 	int i, j;
-	wchar_t b[500], *s;
+	wchar_t b[500];
 
 	setlocale(LC_CTYPE, "en_US.UTF-8") ||
 	setlocale(LC_CTYPE, "en_GB.UTF-8") ||
