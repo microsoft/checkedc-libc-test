@@ -26,6 +26,7 @@ static unsigned long long dt;
 
 #define SEC  1000000000ULL
 #define MAXN  500000000
+#define MINT (SEC/5)
 
 static unsigned long long tic() {
 	struct timespec ts;
@@ -59,9 +60,9 @@ static int nextN() {
 	unsigned long long i;
 
 	if (n)
-		n = SEC/2/n;
+		n = MINT/n;
 	else
-		n = SEC/2;
+		n = MINT;
 	n += n/2;
 	if (n > N*100ULL)
 		n = N*100ULL;
