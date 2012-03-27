@@ -29,10 +29,12 @@ void reset_timer() { errtimer(); }
 void error__(const char *n, int l, const char *s, ...) {
 	va_list ap;
 
+	if (failed == 0 && nfailed == 0)
+		dprintf(1, "FAIL\n", n);
 	failed = 1;
-	fprintf(stderr, " ERROR %s %s:%d: ", name, n, l);
+	dprintf(1, " ERROR %s %s:%d: ", name, n, l);
 	va_start(ap, s);
-	vfprintf(stderr, s, ap);
+	vdprintf(1, s, ap);
 	va_end(ap);
 }
 
@@ -44,7 +46,7 @@ static void run(const char *n, void (*f)()) {
 	failed = 0;
 	name = n;
 	if (verbose)
-		fprintf(stderr, "running %s:\n", name);
+		dprintf(1, "running %s:\n", name);
 
 	pid = fork();
 	if (pid == 0) {
@@ -66,21 +68,21 @@ static void run(const char *n, void (*f)()) {
 
 	if (failed) {
 		nfailed++;
-		fprintf(stderr, "FAILED %s\n", name);
+		dprintf(1, "FAILED %s\n", name);
 	} else if (verbose)
-		fprintf(stderr, "PASSED %s\n", name);
+		dprintf(1, "PASSED %s\n", name);
 }
 
 static int summary() {
 	if (nfailed)
-		fprintf(stderr, "FAIL:%d (all: %d)\n", nfailed, count);
+		dprintf(1, "FAIL (%d out of %d tests)\n", nfailed, count);
 	else
-		fprintf(stderr, "PASS (all: %d)\n", count);
+		dprintf(1, "ok (%d tests)\n", count);
 	return !!nfailed;
 }
 
 static void usage() {
-	fprintf(stderr, "usage: ./t [-vs]\n");
+	dprintf(1, "usage: ./t [-vs]\n");
 	exit(1);
 }
 

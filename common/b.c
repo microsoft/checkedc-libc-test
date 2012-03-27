@@ -16,7 +16,7 @@
 static int verbose = 1;
 
 void error__(const char *n, int l, const char *s, ...) {
-	fprintf(stderr, "use error in tests only\n");
+	dprintf(1, "use error in tests only\n");
 }
 
 static int N;
@@ -32,7 +32,7 @@ static unsigned long long tic() {
 	struct timespec ts;
 
 	if (clock_gettime(CLOCK_REALTIME, &ts) < 0) {
-		fprintf(stderr, "bench: clock_gettime failed: %s\n", strerror(errno));
+		dprintf(1, "bench: clock_gettime failed: %s\n", strerror(errno));
 		return 0;
 	}
 	return ts.tv_sec*SEC + ts.tv_nsec;
@@ -98,17 +98,17 @@ void vmstats() {
 		}
 	}
 	if (f) fclose(f);
-	fprintf(stderr, " %7zu virt %7zu res %7zu dirty", vm_size, vm_rss, vm_priv_dirty);
+	dprintf(1, " %7zu virt %7zu res %7zu dirty", vm_size, vm_rss, vm_priv_dirty);
 }
 
 void stats() {
-	if (dt/N > 100)
-		fprintf(stderr, "%10d N %10llu ns/op   ", N, dt/N);
+	if (dt/N >= 100)
+		dprintf(1, "%10d N %10llu ns/op   ", N, dt/N);
 	else
-		fprintf(stderr, "%10d N %13.2f ns/op", N, (double)dt/N);
+		dprintf(1, "%10d N %13.2f ns/op", N, (double)dt/N);
 	if (verbose)
 		vmstats();
-	fputc('\n', stderr);
+	dprintf(1, "\n");
 }
 
 static void run(const char *name, void (*f)(int)) {
@@ -116,23 +116,23 @@ static void run(const char *name, void (*f)(int)) {
 	if (p) {
 		int s;
 		if (p<0 || wait(&s)<0 || !WIFEXITED(s) || WEXITSTATUS(s))
-			fprintf(stderr, "benchmark %s failed\n", name);
+			dprintf(1, "benchmark %s failed\n", name);
 		return;
 	}
-	fprintf(stderr, "%-32s", name);
+	dprintf(1, "%-32s", name);
 	for (N=1; ; N=nextN()) {
 		// TODO: fork at each iteration and pass N,dt..?
 		reset_timer();
 		start_timer();
 		f(N);
 		stop_timer();
-//		fprintf(stderr, "%10d%12llu next: %d\n", N, dt, nextN());
+//		dprintf(1, "%10d%12llu next: %d\n", N, dt, nextN());
 		if (dt >= SEC/2 || N >= MAXN) {
 			stats();
 			exit(0);
 		}
 		if (N <= 0) {
-			fprintf(stderr, "bench: fatal: N <= 0\n");
+			dprintf(1, "bench: fatal: N <= 0\n");
 			exit(1);
 		}
 	}

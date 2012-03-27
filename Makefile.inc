@@ -9,7 +9,7 @@ OBJS = $(SRCS:.c=.o)
 AR=ar
 RANLIB=ranlib
 
-CFLAGS += -g -D_POSIX_C_SOURCE=200809L -std=c99 -pipe -Wall
+CFLAGS += -g -D_POSIX_C_SOURCE=200809L -std=c99 -pipe -Wall -Wno-unused-function
 LDFLAGS += -g -lpthread -lrt -lm
 
 -include $(TROOT)/config.mak

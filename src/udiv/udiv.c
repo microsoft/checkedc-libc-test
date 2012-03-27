@@ -166,7 +166,7 @@ void test_udiv()
 	}
 }
 
-void bench_div(int N)
+void bench_udiv(int N)
 {
 	int i;
 	volatile uint64_t r = 0;
@@ -176,7 +176,7 @@ void bench_div(int N)
 		r += ((uint64_t)i<<32) / d;
 }
 
-void bench_mod(int N)
+void bench_umod(int N)
 {
 	int i;
 	volatile uint64_t r = 0;
