@@ -88,3 +88,21 @@ void test_modfl()
 			error("modfl(%La) want %La %La got %La %La\n", tl[i].x, tl[i].yf, tl[i].yi, yf, yi);
 	}
 }
+
+void bench_modf_small(int N)
+{
+	int i;
+	volatile double yf, yi;
+
+	for (i = 0; i < N; i++)
+		yf = modf(1234.5678, &yi);
+}
+
+void bench_modf_large(int N)
+{
+	int i;
+	volatile double yf, yi;
+
+	for (i = 0; i < N; i++)
+		yf = modf(1.2345678e300, &yi);
+}
