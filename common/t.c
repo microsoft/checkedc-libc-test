@@ -5,6 +5,8 @@
 #include <errno.h>
 #include <sys/types.h>
 #include <sys/wait.h>
+#include <sys/time.h>
+#include <sys/resource.h>
 #include <unistd.h>
 #include "test.h"
 
@@ -30,12 +32,22 @@ void error__(const char *n, int l, const char *s, ...) {
 	va_list ap;
 
 	if (failed == 0 && nfailed == 0)
-		dprintf(1, "FAIL\n", n);
+		dprintf(1, "FAIL\n");
 	failed = 1;
 	dprintf(1, " ERROR %s %s:%d: ", name, n, l);
 	va_start(ap, s);
 	vdprintf(1, s, ap);
 	va_end(ap);
+}
+
+static void setrl(int r, long lim) {
+	struct rlimit rl;
+
+	if (getrlimit(r, &rl))
+		error("getrlimit %d: %s\n", r, strerror(errno));
+	rl.rlim_cur = lim;
+	if (setrlimit(r, &rl))
+		error("setrlimit %d: %s\n", r, strerror(errno));
 }
 
 static void run(const char *n, void (*f)()) {
@@ -51,6 +63,9 @@ static void run(const char *n, void (*f)()) {
 	pid = fork();
 	if (pid == 0) {
 		/* run test in a child process */
+		setrl(RLIMIT_CORE, 1<<24);
+		setrl(RLIMIT_STACK, 1<<16);
+		setrl(RLIMIT_CPU, 2);
 		f();
 		exit(failed);
 	}
