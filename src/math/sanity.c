@@ -56,7 +56,7 @@ static int checkl(long double a, long double b)
 		error("%s got %lld want %lld\n", #fx, yy, y); \
 }while(0)
 
-int test_math_sanity()
+void test_math_sanity()
 {
 	int i;
 	double q;
@@ -248,6 +248,4 @@ D(y1(0.7), -0x1.1a6e956728d35p+0);
 F(y1f(0.7f), -0x1.1a6e96p+0);
 D(yn(2, 0.7), -0x1.7b11b25df166ep+1);
 F(ynf(2, 0.7f), -0x1.7b11b4p+1);
-
-	return 0;
 }
