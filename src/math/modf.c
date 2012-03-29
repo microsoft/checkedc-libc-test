@@ -56,7 +56,7 @@ static struct {
 	NAN, NAN, NAN,
 };
 
-#define eq(a, b) (isnan(a) && isnan(b) || ((a) == (b) && signbit(a) == signbit(b)))
+#define eq(a, b) ((isnan(a) && isnan(b)) || ((a) == (b) && signbit(a) == signbit(b)))
 
 void test_modf()
 {
@@ -92,17 +92,60 @@ void test_modfl()
 void bench_modf_small(int N)
 {
 	int i;
-	volatile double yf, yi;
+	double yi;
+	volatile double yf;
 
 	for (i = 0; i < N; i++)
 		yf = modf(1234.5678, &yi);
 }
 
+void bench_modf_negint(int N)
+{
+	int i;
+	double yi;
+	volatile double yf;
+
+	for (i = 0; i < N; i++)
+		yf = modf(-1234.0, &yi);
+}
+
 void bench_modf_large(int N)
 {
 	int i;
-	volatile double yf, yi;
+	double yi;
+	volatile double yf;
 
 	for (i = 0; i < N; i++)
 		yf = modf(1.2345678e300, &yi);
+}
+
+
+void bench_modff_small(int N)
+{
+	int i;
+	float yi;
+	volatile float yf;
+
+	for (i = 0; i < N; i++)
+		yf = modff(1234.5678, &yi);
+}
+
+void bench_modff_negint(int N)
+{
+	int i;
+	float yi;
+	volatile float yf;
+
+	for (i = 0; i < N; i++)
+		yf = modff(-1234.0, &yi);
+}
+
+void bench_modff_large(int N)
+{
+	int i;
+	float yi;
+	volatile float yf;
+
+	for (i = 0; i < N; i++)
+		yf = modff(1.2345678e100, &yi);
 }
