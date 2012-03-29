@@ -111,8 +111,14 @@ void stats() {
 	dprintf(1, "\n");
 }
 
+static char *pattern;
+
 static void run(const char *name, void (*f)(int)) {
-	int p = fork();
+	int p;
+
+	if (pattern && !strstr(name, pattern))
+		return;
+	p = fork();
 	if (p) {
 		int s;
 		if (p<0 || wait(&s)<0 || !WIFEXITED(s) || WEXITSTATUS(s))
@@ -138,7 +144,27 @@ static void run(const char *name, void (*f)(int)) {
 	}
 }
 
-int main() {
+static void usage() {
+	fprintf(stderr, "usage: ./t [-vq] [pat]\n");
+	exit(1);
+}
+
+int main(int argc, char *argv[]) {
+	int c;
+
+	while((c = getopt(argc, argv, "vq")) != -1)
+		switch(c) {
+		case 'v':
+			verbose = 1;
+			break;
+		case 'q':
+			verbose = 0;
+			break;
+		default:
+			usage();
+		}
+	if (optind != argc)
+		pattern = argv[optind];
 #define B(t) run(#t, t);
 #include "tests.h"
 	return 0;
