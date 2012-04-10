@@ -7,7 +7,7 @@ build tests:
 	# edit config.mak
 	make
 run tests:
-	make
+	make t
 run benchmarks:
 	make b
 

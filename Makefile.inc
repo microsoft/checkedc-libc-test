@@ -12,7 +12,7 @@ RANLIB=ranlib
 CFLAGS += -g -D_POSIX_C_SOURCE=200809L -D_GNU_SOURCE -std=c99 -pipe -Wall -Wno-unused-function -Wno-missing-braces
 LDFLAGS += -g -lpthread -lrt -lm
 
--include $(TROOT)/config.mak
+include $(TROOT)/config.mak
 
 CFLAGS += -I$(TROOT)/common
 
@@ -27,7 +27,7 @@ clean:
 .c.o:
 	$(CC) $(CFLAGS) -c -o $@ $<
 
-$(OBJS): $(TROOT)/common/test.h
+$(OBJS): $(TROOT)/common/test.h $(TROOT)/config.mak
 
 tests.h: $(OBJS)
 	nm -f posix $+ |awk ' \
