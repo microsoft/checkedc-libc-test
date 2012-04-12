@@ -170,3 +170,25 @@ void test_strtof()
 			error("strtof(\"%s\") want %a got %a\n", tf[i].s, tf[i].f, x);
 	}
 }
+
+void bench_strtod(int N)
+{
+	volatile double y;
+	char *p;
+	int i;
+
+	for (i = 0; i < N; i++)
+		y = strtod("2740037.230228005325852424697698331177377e-7", &p);
+}
+
+
+void bench_strtold_big(int N)
+{
+	volatile long double y;
+	char *p;
+	int i;
+
+	for (i = 0; i < N; i++)
+		y = strtold("118973149535723176505351158982948.86679662540046955672e4900", &p);
+}
+
