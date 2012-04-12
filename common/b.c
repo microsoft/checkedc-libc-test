@@ -145,7 +145,7 @@ static void run(const char *name, void (*f)(int)) {
 }
 
 static void usage() {
-	fprintf(stderr, "usage: ./t [-vq] [pat]\n");
+	fprintf(stderr, "usage: ./b [-vq] [pat]\n");
 	exit(1);
 }
 

@@ -63,7 +63,6 @@ static void run(const char *n, void (*f)()) {
 	pid = fork();
 	if (pid == 0) {
 		/* run test in a child process */
-		setrl(RLIMIT_CORE, 1<<24);
 		setrl(RLIMIT_STACK, 1<<16);
 		setrl(RLIMIT_CPU, 2);
 		f();
