@@ -21,15 +21,21 @@ static int checkl(long double a, long double b)
 }
 
 #define D(fx, y) do{ \
-	double yy = fx; \
+	volatile double yy = fx; \
+	volatile long double yl = fx; \
 	if (!check(yy, y)) \
 		error("%s got %a = %.21e want %a = %.21e\n", #fx, yy, yy, y, y); \
+	if (yy != yl) \
+		error("float-store issue: (double)%s = %a (long double)%s = %La\n", #fx, yy, #fx, yl); \
 }while(0)
 
 #define F(fx, y) do{ \
-	float yy = fx; \
+	volatile float yy = fx; \
+	volatile long double yl = fx; \
 	if (!checkf(yy, y)) \
 		error("%s got %a = %.21e want %a = %.21e\n", #fx, yy, yy, y, y); \
+	if (yy != yl) \
+		error("float-store issue: (float)%s = %a (long double)%s = %La\n", #fx, yy, #fx, yl); \
 }while(0)
 
 #define L(fx, y) do{ \
