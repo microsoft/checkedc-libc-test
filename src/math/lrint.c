@@ -1,10 +1,11 @@
-#include "test.h"
 #include <math.h>
 #include <stdint.h>
 #include <fenv.h>
 #include <stdio.h>
 #include <float.h>
+#include <stdlib.h>
 #include "fenvutil.h"
+#include "test.h"
 
 static struct {
 	int round;
