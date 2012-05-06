@@ -79,13 +79,3 @@ void bench_nextafter_subnormal(int N)
 		z = nextafter(0x1p-1070, -0x1p-1071);
 	}
 }
-
-void bench_nextafter_zero(int N)
-{
-	int i;
-	volatile double z;
-
-	for (i = 0; i < N; i++) {
-		z = nextafter(0, -0x1p-1071);
-	}
-}
