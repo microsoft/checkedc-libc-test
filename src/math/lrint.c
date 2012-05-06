@@ -3,7 +3,7 @@
 #include <fenv.h>
 #include <stdio.h>
 #include <float.h>
-#include <stdlib.h>
+#include <string.h>
 #include "fenvutil.h"
 #include "test.h"
 
