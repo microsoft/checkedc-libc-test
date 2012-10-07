@@ -22,7 +22,8 @@ static void handler(int sig) {
 	got_sig = 1;
 }
 
-void test_popen(void) {
+int main(void)
+{
 	int i;
 	char foo[6];
 	char cmd[64];
@@ -44,4 +45,5 @@ void test_popen(void) {
 		TEST(i, got_sig, 1, "child process did not send signal");
 	}
 	signal(SIGUSR1, SIG_DFL);
+	return test_status;
 }

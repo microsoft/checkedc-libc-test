@@ -17,7 +17,7 @@
 	!strcmp((s),(x)) || \
 	(error("[%s] != [%s] (%s)\n", s, x, m), 0) )
 
-void test_sem(void)
+int main(void)
 {
 	int r;
 	char buf[100];
@@ -47,4 +47,5 @@ void test_sem(void)
 	TEST(r, sem_close(sem), 0, "failed to close sem");
 	TEST(r, sem_close(sem), 0, "failed to close sem second time");
 	TEST(r, sem_unlink(buf), 0, "failed to unlink sem");
+	return test_status;
 }

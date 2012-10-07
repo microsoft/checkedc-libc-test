@@ -1,14 +1,16 @@
-#define _XOPEN_SOURCE 700
-#include "test.h"
+#ifndef _GNU_SOURCE
+#define _GNU_SOURCE 1
+#endif
 #include <stdlib.h>
 #include <string.h>
 #include <errno.h>
 #include <unistd.h>
+#include "test.h"
 
 extern char **environ;
-int clearenv(void);
 
-void test_env() {
+int main()
+{
 	char *s;
 	int r;
 
@@ -45,4 +47,5 @@ void test_env() {
 		error("setenv(\"\",\"\",0): %d, errno: %d (%s), wanted -1, %d (EINVAL)\n", r, errno, strerror(errno), EINVAL);
 	if ((r=setenv(0,"",0)) != -1 || errno != EINVAL)
 		error("setenv(0,\"\",0): %d, errno: %d (%s), wanted -1, %d (EINVAL)\n", r, errno, strerror(errno), EINVAL);
+	return test_status;
 }

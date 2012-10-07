@@ -1,4 +1,6 @@
+#ifndef _XOPEN_SOURCE
 #define _XOPEN_SOURCE 700
+#endif
 #include <stdlib.h>
 #include <unistd.h>
 #include <stdio.h>
@@ -8,14 +10,16 @@
 #include <sys/wait.h>
 #include "test.h"
 
-#define TEST(r, f, x, m) ( \
-	((r) = (f)) == (x) || \
-	(error("%s failed (" m ")\n", #f, r, x), 0) )
+#define TEST(f, x) (void)( \
+	(r = (f)) == (x) || \
+	error("%s failed, got %d want %d\n", #f, r, x) )
 
-#define TEST_E(f) ( (errno = 0), (f) || \
-	(error("%s failed (errno = %d \"%s\")\n", #f, errno, strerror(errno)), 0) )
+#define TEST_E(f) (void)( \
+	(errno = 0), (f) || \
+	error("%s failed (errno = %d \"%s\")\n", #f, errno, strerror(errno)) )
 
-void test_spawn(void) {
+int main(void)
+{
 	int r;
 	char foo[10];
 	int p[2];
@@ -24,14 +28,15 @@ void test_spawn(void) {
 	posix_spawn_file_actions_t fa;
 
 	TEST_E(!pipe(p));
-	TEST(r, posix_spawn_file_actions_init(&fa), 0, "%d != %d");
-	TEST(r, posix_spawn_file_actions_addclose(&fa, p[0]), 0, "%d != %d");
-	TEST(r, posix_spawn_file_actions_adddup2(&fa, p[1], 1), 0, "%d != %d");
-	TEST(r, posix_spawn_file_actions_addclose(&fa, p[1]), 0, "%d != %d");
-	TEST(r, posix_spawnp(&pid, "echo", &fa, 0, (char *[]){"echo","hello",0}, 0), 0, "%d != %d");
+	TEST(posix_spawn_file_actions_init(&fa), 0);
+	TEST(posix_spawn_file_actions_addclose(&fa, p[0]), 0);
+	TEST(posix_spawn_file_actions_adddup2(&fa, p[1], 1), 0);
+	TEST(posix_spawn_file_actions_addclose(&fa, p[1]), 0);
+	TEST(posix_spawnp(&pid, "echo", &fa, 0, (char *[]){"echo","hello",0}, 0), 0);
 	close(p[1]);
-	TEST(r, waitpid(pid, &status, 0), pid, "%d != %d");
-	TEST(r, read(p[0], foo, sizeof foo), 6, "%d != %d");
+	TEST(waitpid(pid, &status, 0), pid);
+	TEST(read(p[0], foo, sizeof foo), 6);
 	close(p[0]);
-	TEST(r, posix_spawn_file_actions_destroy(&fa), 0, "%d != %d");
+	TEST(posix_spawn_file_actions_destroy(&fa), 0);
+	return test_status;
 }

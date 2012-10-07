@@ -6,7 +6,7 @@
 
 /* We use this instead of memcmp because some broken C libraries
  * add additional nonstandard fields to struct tm... */
- 
+
 int tm_cmp(struct tm tm1, struct tm tm2)
 {
 	return  tm1.tm_sec  != tm2.tm_sec  ||
@@ -50,7 +50,8 @@ char *tm_str(struct tm tm)
 	((r) = (f)) == (x) || \
 	(error("%s failed (" m ")\n", #f, r, x), 0) )
 
-void test_time(void) {
+int main(void)
+{
 	struct tm tm, *tm_p;
 	time_t t;
 
@@ -71,4 +72,5 @@ void test_time(void) {
 	TEST_TM(*tm_p, TM_Y2038, "mktime/gmtime(Y2038)");
 
 	/* FIXME: set a TZ var and check DST boundary conditions */
+	return test_status;
 }

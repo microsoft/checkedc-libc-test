@@ -132,8 +132,7 @@ static void *start8(void *arg)
 	return 0;
 }
 
-
-void test_pthread(void)
+int main(void)
 {
 	pthread_t td, td1, td2, td3;
 	int r;
@@ -291,4 +290,5 @@ void test_pthread(void)
 	TEST(r, pthread_join(td3, 0), 0, "%d != %d");
 	TEST(r, pthread_mutex_destroy(&mtx), 0, "%d != %d");
 	TEST(r, pthread_cond_destroy(&cond), 0, "%d != %d");
+	return test_status;
 }

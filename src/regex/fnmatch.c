@@ -19,22 +19,26 @@ struct xlat {
 	{0, NULL},
 };
 
-static void printflags(const struct xlat *map, int flags) {
+static char *flagstr(const struct xlat *map, int flags)
+{
+	static char buf[1000];
 	char *sep;
 
 	if (!flags) {
-		fprintf(stderr, "0");
-		return;
+		sprintf(buf, "0");
+		return buf;
 	}
 	sep = "";
 	for (; map->str; map++) {
 		if (map->val && (flags & map->val) == map->val) {
-			fprintf(stderr, "%s%s", sep, map->str);
+			sprintf(buf, "%s%s", sep, map->str);
 			sep = "|";
 			flags &= ~(map->val);
 		}
 	}
-	if (flags) fprintf(stderr, "%sunknown=%#x", sep, flags);
+	if (flags)
+		sprintf(buf, "%sunknown=%#x", sep, flags);
+	return buf;
 }
 
 /* tests harness adapted from glibc testfnm.c */
@@ -114,7 +118,8 @@ struct {
 	{ "a[.]b", "a.b", FNM_PATHNAME|FNM_PERIOD, 0 },
 };
 
-void test_fnmatch(void) {
+int main(void)
+{
 	int i;
 
 	for (i = 0; i < sizeof(tests) / sizeof(*tests); i++) {
@@ -123,11 +128,11 @@ void test_fnmatch(void) {
 		r = fnmatch(tests[i].pattern, tests[i].string, tests[i].flags);
 		x = tests[i].expected;
 		if (r != x && (r != FNM_NOMATCH || x != -FNM_NOMATCH)) {
-			error("fail - fnmatch(\"%s\", \"%s\", ",
-					tests[i].pattern, tests[i].string);
-			printflags(fnmatch_flags, tests[i].flags);
-			fprintf(stderr, ") => %d (expected %d)\n",
-					r, tests[i].expected);
+			error("fnmatch(\"%s\", \"%s\", %s) failed, got %d want %d\n",
+				tests[i].pattern, tests[i].string,
+				flagstr(fnmatch_flags, tests[i].flags),
+				r, x);
 		}
 	}
+	return test_status;
 }

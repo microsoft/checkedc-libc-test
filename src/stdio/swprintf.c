@@ -1,4 +1,6 @@
+#ifndef _XOPEN_SOURCE
 #define _XOPEN_SOURCE 700
+#endif
 #include <stdio.h>
 #include <string.h>
 #include <errno.h>
@@ -94,17 +96,19 @@ static const struct {
 	{ NULL, 0.0, NULL }
 };
 
-void test_swprintf(void) {
+int main(void)
+{
 	int i, j;
 	wchar_t b[500];
 
+	(void)(
 	setlocale(LC_CTYPE, "en_US.UTF-8") ||
 	setlocale(LC_CTYPE, "en_GB.UTF-8") ||
 	setlocale(LC_CTYPE, "en.UTF-8") ||
 	setlocale(LC_CTYPE, "POSIX.UTF-8") ||
 	setlocale(LC_CTYPE, "C.UTF-8") ||
 	setlocale(LC_CTYPE, "UTF-8") ||
-	setlocale(LC_CTYPE, "");
+	setlocale(LC_CTYPE, "") );
 
 	TEST(i, strcmp(nl_langinfo(CODESET), "UTF-8"), 0, "no UTF-8 locale; tests might fail");
 
@@ -133,4 +137,5 @@ void test_swprintf(void) {
 		TEST(i, swprintf(b, sizeof b/sizeof *b, fp_tests[j].fmt, fp_tests[j].f), wcslen(b), "%d != %d");
 		TEST_S(b, fp_tests[j].expect, "bad floating point conversion");
 	}
+	return test_status;
 }

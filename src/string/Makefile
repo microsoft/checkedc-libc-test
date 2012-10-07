@@ -1,2 +1,2 @@
-TROOT=../..
-include $(TROOT)/Makefile.inc
+include ../../Makefile.inc
+

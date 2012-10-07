@@ -13,14 +13,15 @@
 	!strcmp((s),(x)) || \
 	(error("[%s] != [%s] (%s)\n", s, x, m), 0) )
 
-void test_ungetc(void) {
+int main(void)
+{
 	int i;
 	char a[100];
 	FILE *f;
 
 	TEST(i, !(f = tmpfile()), 0, "failed to create temp file %d!=%d (%s)");
 
-	if (!f) return;
+	if (!f) return test_status;
 
 	TEST(i, fprintf(f, "hello, world\n"), 13, "%d != %d (%m)");
 	TEST(i, fseek(f, 0, SEEK_SET), 0, "%d != %d (%m)");
@@ -48,4 +49,5 @@ void test_ungetc(void) {
 	TEST(i, fgetc(f), 'h', "'%c' != '%c'");
 
 	fclose(f);
+	return test_status;
 }

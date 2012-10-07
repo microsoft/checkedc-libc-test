@@ -149,7 +149,7 @@ static struct {
 0x4b21d01617167e39ull, 0x2ull, 0x2590e80b0b8b3f1cull, 0x1ull,
 };
 
-void test_udiv()
+int main(void)
 {
 	uint64_t x, y, div, mod;
 	int i;
@@ -164,34 +164,5 @@ void test_udiv()
 		if (mod != t[i].mod)
 			error("umod %llu%%%llu want %llu got %llu\n", x, y, t[i].mod, mod);
 	}
-}
-
-void bench_udiv(int N)
-{
-	int i;
-	volatile uint64_t r = 0;
-	uint64_t d = 111222333444ull;
-
-	for (i = 0; i < N; i++)
-		r += ((uint64_t)i<<32) / d;
-}
-
-void bench_umod(int N)
-{
-	int i;
-	volatile uint64_t r = 0;
-	uint64_t d = 111222333444ull;
-
-	for (i = 0; i < N; i++)
-		r += ((uint64_t)i<<32) % d;
-}
-
-void bench_fdiv(int N)
-{
-	int i;
-	volatile double r = 0;
-	double d = 111222333444.0;
-
-	for (i = 0; i < N; i++)
-		r += i / d;
+	return test_status;
 }

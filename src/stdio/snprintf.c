@@ -1,4 +1,6 @@
+#ifndef _XOPEN_SOURCE
 #define _XOPEN_SOURCE 700
+#endif
 #include <stdio.h>
 #include <string.h>
 #include <errno.h>
@@ -123,7 +125,7 @@ static const struct {
 	{ NULL, 0.0, NULL }
 };
 
-void test_snprintf(void)
+int main(void)
 {
 	int i, j, k;
 	char b[2000];
@@ -168,4 +170,5 @@ void test_snprintf(void)
 	}
 
 	TEST(i, snprintf(0, 0, "%.4a", 1.0), 11, "%d != %d");
+	return test_status;
 }

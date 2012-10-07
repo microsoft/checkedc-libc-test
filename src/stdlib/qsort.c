@@ -30,7 +30,8 @@ static int n[] = {
 	848405, 3434, 3434344, 3535, 93994, 2230404, 4334
 };
 
-void test_qsort(void) {
+int main(void)
+{
 	int i;
 
 	qsort(s, sizeof(s)/sizeof(char *), sizeof(char *), scmp);
@@ -38,7 +39,7 @@ void test_qsort(void) {
 		if (strcmp(s[i], s[i+1]) > 0) {
 			error("string sort failed at index %d\n", i);
 			for (i=0; i<sizeof(s)/sizeof(char *); i++)
-				fprintf(stderr, "\t%d\t%s\n", i, s[i]);
+				error("\t%d\t%s\n", i, s[i]);
 			break;
 		}
 	}
@@ -48,33 +49,9 @@ void test_qsort(void) {
 		if (n[i] > n[i+1]) {
 			error("integer sort failed at index %d\n", i);
 			for (i=0; i<sizeof(n)/sizeof(int); i++)
-				fprintf(stderr, "\t%d\t%d\n", i, n[i]);
+				error("\t%d\t%d\n", i, n[i]);
 			break;
 		}
 	}
-}
-
-void bench_qsort_small(int N) {
-	int i;
-	int *a = malloc(sizeof n);
-
-	for (i = 0; i < N; i++) {
-		memcpy(a, n, sizeof n);
-		qsort(a, sizeof n/sizeof *n, sizeof *a, icmp);
-	}
-	free(a);
-}
-
-void bench_qsort_large(int N) {
-	int i,j;
-	int len = 10000;
-	int *a = malloc(len * sizeof *a);
-
-	for (i = 0; i < N; i++) {
-		srand(13);
-		for (j = 0; j < len; j++)
-			a[j] = rand();
-		qsort(a, len, sizeof *a, icmp);
-	}
-	free(a);
+	return test_status;
 }

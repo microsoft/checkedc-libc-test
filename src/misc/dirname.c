@@ -3,24 +3,26 @@
 #include <libgen.h>
 #include "test.h"
 
-static void t(char *p, char *b) {
-	char *tmp = strdup(p);
-	char *s = dirname(tmp);
-
-	if (strcmp(b,s) != 0)
-		error("dirname(\"%s\") returned \"%s\"; expected \"%s\"\n", p, s, b);
-	free(tmp);
+#define T(path, want) \
+{ \
+	char tmp[1000]; \
+	char *got = dirname(strcpy(tmp, path)); \
+	if (strcmp(want, got) != 0) \
+		error("dirname(\"%s\") got \"%s\" want \"%s\"\n", path, got, want); \
 }
 
-void test_dirname() {
+int main()
+{
 	if (strcmp(dirname(0), ".") != 0)
 		error("dirname(0) returned \"%s\"; expected \".\"\n", dirname(0));
-	t("", ".");
-	t("/usr/lib", "/usr");
-	t("/usr/", "/");
-	t("usr", ".");
-	t("/", "/");
-	t("///", "/");
-	t(".", ".");
-	t("..", ".");
+	T("", ".");
+	T("/usr/lib", "/usr");
+	T("/usr/", "/");
+	T("usr", ".");
+	T("usr/", ".");
+	T("/", "/");
+	T("///", "/");
+	T(".", ".");
+	T("..", ".");
+	return test_status;
 }

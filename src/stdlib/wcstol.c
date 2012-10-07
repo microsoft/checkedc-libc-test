@@ -13,7 +13,8 @@
 	((r) = (f)) == (x) || \
 	(error("%s failed (" m ")\n", msg, r, x), 0) )
 
-void test_wcstol(void) {
+int main(void)
+{
 	int i;
 	long l;
 	unsigned long ul;
@@ -62,4 +63,5 @@ void test_wcstol(void) {
 	TEST(l, wcstol(s=L"123", &c, 37), 0, "%ld != %ld");
 	TEST2(i, c-s, 0, "wrong final position %d != %d");
 	TEST2(i, errno, EINVAL, "%d != %d");
+	return test_status;
 }

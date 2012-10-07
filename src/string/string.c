@@ -17,7 +17,8 @@
 	!strcmp((s),(x)) || \
 	(error("[%s] != [%s] (%s)\n", s, x, m), 0) )
 
-void test_string(void) {
+int main(void)
+{
 	char b[32];
 	char *s;
 	int i;
@@ -111,4 +112,5 @@ void test_string(void) {
 	TEST(i, strlcat(b, "123", 3), 6, "length %d != %d");
 	TEST_S(b, "abc", "strlcat result");
 #endif
+	return test_status;
 }

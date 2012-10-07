@@ -20,7 +20,7 @@
 !memcmp((s),(x),(n)) || \
 (error("[%s] != [%s] (%s)\n", s, x, m), 0) )
 
-void test_memstream(void)
+int main(void)
 {
 	FILE *f;
 	char *s;
@@ -91,4 +91,5 @@ void test_memstream(void)
 	TEST(i, ftell(f), 8, "%d != %d");
 	TEST_S(buf, "hello104", "");
 	fclose(f);
+	return test_status;
 }

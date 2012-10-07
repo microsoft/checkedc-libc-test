@@ -1,10 +1,12 @@
+#ifndef _XOPEN_SOURCE
 #define _XOPEN_SOURCE 700
-#include "test.h"
-#include <stdlib.h>
-#include <unistd.h>
-#include <stdio.h>
+#endif
 #include <errno.h>
+#include <stdio.h>
+#include <stdlib.h>
 #include <string.h>
+#include <unistd.h>
+#include "test.h"
 
 #define TEST(c) do { \
 	errno = 0; \
@@ -12,7 +14,7 @@
 		error("%s failed (errno = %d)\n", #c, errno); \
 } while(0)
 
-void test_fdopen(void)
+int main(void)
 {
 	char tmp[] = "/tmp/testsuite-XXXXXX";
 	char foo[6];
@@ -32,4 +34,5 @@ void test_fdopen(void)
 	}
 	if (fd > 2)
 		TEST(unlink(tmp) != -1);
+	return test_status;
 }
