@@ -26,14 +26,15 @@ int main(void)
 		y = log2l(p->x);
 		e = getexcept();
 		if (!checkexcept(e, p->e, p->r)) {
-			printf("%s log2l(%La)==%La except: want %s", rstr(p->r), p->x, p->y, estr(p->e));
+			printf("%s:%d: bad fp exception: %s log2l(%La)=%La, want %s",
+				p->file, p->line, rstr(p->r), p->x, p->y, estr(p->e));
 			printf(" got %s\n", estr(e));
 			err++;
 		}
 		d = ulperrl(y, p->y, p->dy);
 		if (!checkulp(d, p->r)) {
-			printf("%s log2l(%La) want %La got %La ulperr %.3f = %a + %a\n",
-				rstr(p->r), p->x, p->y, y, d, d-p->dy, p->dy);
+			printf("%s:%d: %s log2l(%La) want %La got %La ulperr %.3f = %a + %a\n",
+				p->file, p->line, rstr(p->r), p->x, p->y, y, d, d-p->dy, p->dy);
 			err++;
 		}
 	}

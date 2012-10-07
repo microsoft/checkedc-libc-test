@@ -494,9 +494,9 @@ int mplogbl(struct t *t)
 	t->e = 0;
 	return 0;
 }
-int mpnearbyint(struct t *t) { return mpd1(t, wrap_nearbyint); }
-int mpnearbyintf(struct t *t) { return mpf1(t, wrap_nearbyint); }
-int mpnearbyintl(struct t *t) { return mpl1(t, wrap_nearbyint); }
+int mpnearbyint(struct t *t) { return mpd1(t, wrap_nearbyint) || (t->e&=~INEXACT, 0); }
+int mpnearbyintf(struct t *t) { return mpf1(t, wrap_nearbyint) || (t->e&=~INEXACT, 0); }
+int mpnearbyintl(struct t *t) { return mpl1(t, wrap_nearbyint) || (t->e&=~INEXACT, 0); }
 int mpnextafter(struct t *t) { return -1; }
 int mpnextafterf(struct t *t) { return -1; }
 int mpnextafterl(struct t *t) { return -1; }

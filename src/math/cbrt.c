@@ -20,14 +20,15 @@ int main(void)
 		y = cbrt(p->x);
 		e = getexcept();
 		if (!checkexcept(e, p->e, p->r)) {
-			printf("%s cbrt(%a)==%a except: want %s", rstr(p->r), p->x, p->y, estr(p->e));
+			printf("%s:%d: bad fp exception: %s cbrt(%a)=%a, want %s",
+				p->file, p->line, rstr(p->r), p->x, p->y, estr(p->e));
 			printf(" got %s\n", estr(e));
 			err++;
 		}
 		d = ulperr(y, p->y, p->dy);
 		if (!checkulp(d, p->r)) {
-			printf("%s cbrt(%a) want %a got %a ulperr %.3f = %a + %a\n",
-				rstr(p->r), p->x, p->y, y, d, d-p->dy, p->dy);
+			printf("%s:%d: %s cbrt(%a) want %a got %a ulperr %.3f = %a + %a\n",
+				p->file, p->line, rstr(p->r), p->x, p->y, y, d, d-p->dy, p->dy);
 			err++;
 		}
 	}
