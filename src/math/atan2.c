@@ -3,9 +3,9 @@
 #include "util.h"
 
 static struct dd_d t[] = {
-
 #include "ucb/atan2.h"
 #include "sanity/atan2.h"
+
 };
 
 int main(void)

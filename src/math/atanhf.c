@@ -3,8 +3,8 @@
 #include "util.h"
 
 static struct f_f t[] = {
-
 #include "sanity/atanhf.h"
+
 };
 
 int main(void)

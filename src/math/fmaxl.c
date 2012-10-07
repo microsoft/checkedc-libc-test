@@ -4,11 +4,11 @@
 
 static struct ll_l t[] = {
 #if LDBL_MANT_DIG == 53
-D
-#include "sanity/fmaxl.h"
-#elif LDBL_MANT_DIG == 64
+#include "sanity/fmax.h"
 
+#elif LDBL_MANT_DIG == 64
 #include "sanity/fmaxl.h"
+
 #endif
 };
 

@@ -3,9 +3,9 @@
 #include "util.h"
 
 static struct d_d t[] = {
-
 #include "ucb/sqrt.h"
 #include "sanity/sqrt.h"
+
 };
 
 int main(void)

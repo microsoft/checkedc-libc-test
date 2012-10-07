@@ -4,11 +4,11 @@
 
 static struct ll_l t[] = {
 #if LDBL_MANT_DIG == 53
-D
-#include "sanity/copysignl.h"
-#elif LDBL_MANT_DIG == 64
+#include "sanity/copysign.h"
 
+#elif LDBL_MANT_DIG == 64
 #include "sanity/copysignl.h"
+
 #endif
 };
 

@@ -3,8 +3,8 @@
 #include "util.h"
 
 static struct ff_f t[] = {
-
 #include "sanity/fmaxf.h"
+
 };
 
 int main(void)

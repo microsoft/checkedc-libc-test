@@ -4,11 +4,12 @@
 
 static struct ll_l t[] = {
 #if LDBL_MANT_DIG == 53
-D
-#include "sanity/atan2l.h"
-#elif LDBL_MANT_DIG == 64
+#include "ucb/atan2.h"
+#include "sanity/atan2.h"
 
+#elif LDBL_MANT_DIG == 64
 #include "sanity/atan2l.h"
+
 #endif
 };
 

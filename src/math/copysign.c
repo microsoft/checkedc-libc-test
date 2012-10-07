@@ -3,8 +3,8 @@
 #include "util.h"
 
 static struct dd_d t[] = {
-
 #include "sanity/copysign.h"
+
 };
 
 int main(void)

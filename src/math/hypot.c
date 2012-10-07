@@ -3,9 +3,9 @@
 #include "util.h"
 
 static struct dd_d t[] = {
-
 #include "ucb/hypot.h"
 #include "sanity/hypot.h"
+
 };
 
 int main(void)

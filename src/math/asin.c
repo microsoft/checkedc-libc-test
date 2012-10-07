@@ -3,10 +3,10 @@
 #include "util.h"
 
 static struct d_d t[] = {
-
 #include "crlibm/asin.h"
 #include "ucb/asin.h"
 #include "sanity/asin.h"
+
 };
 
 int main(void)

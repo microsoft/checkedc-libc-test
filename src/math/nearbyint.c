@@ -3,8 +3,8 @@
 #include "util.h"
 
 static struct d_d t[] = {
-
 #include "sanity/nearbyint.h"
+
 };
 
 int main(void)

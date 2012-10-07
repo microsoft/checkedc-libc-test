@@ -3,10 +3,10 @@
 #include "util.h"
 
 static struct d_d t[] = {
-
 #include "crlibm/cos.h"
 #include "ucb/cos.h"
 #include "sanity/cos.h"
+
 };
 
 int main(void)

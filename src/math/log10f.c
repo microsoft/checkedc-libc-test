@@ -3,9 +3,9 @@
 #include "util.h"
 
 static struct f_f t[] = {
-
 #include "ucb/log10f.h"
 #include "sanity/log10f.h"
+
 };
 
 int main(void)

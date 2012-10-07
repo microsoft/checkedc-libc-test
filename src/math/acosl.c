@@ -4,11 +4,13 @@
 
 static struct l_l t[] = {
 #if LDBL_MANT_DIG == 53
-D
-#include "sanity/acosl.h"
-#elif LDBL_MANT_DIG == 64
+#include "crlibm/acos.h"
+#include "ucb/acos.h"
+#include "sanity/acos.h"
 
+#elif LDBL_MANT_DIG == 64
 #include "sanity/acosl.h"
+
 #endif
 };
 

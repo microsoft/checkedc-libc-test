@@ -3,8 +3,8 @@
 #include "util.h"
 
 static struct d_d t[] = {
-
 #include "sanity/j1.h"
+
 };
 
 int main(void)

@@ -3,8 +3,8 @@
 #include "util.h"
 
 static struct ff_f t[] = {
-
 #include "sanity/copysignf.h"
+
 };
 
 int main(void)

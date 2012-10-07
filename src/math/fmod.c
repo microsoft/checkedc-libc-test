@@ -3,9 +3,9 @@
 #include "util.h"
 
 static struct dd_d t[] = {
-
 #include "ucb/fmod.h"
 #include "sanity/fmod.h"
+
 };
 
 int main(void)

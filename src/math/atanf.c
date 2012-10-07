@@ -3,9 +3,9 @@
 #include "util.h"
 
 static struct f_f t[] = {
-
 #include "ucb/atanf.h"
 #include "sanity/atanf.h"
+
 };
 
 int main(void)

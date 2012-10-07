@@ -4,7 +4,7 @@
 
 static struct ll_l t[] = {
 #if LDBL_MANT_DIG == 53
-D
+
 #elif LDBL_MANT_DIG == 64
 
 #endif

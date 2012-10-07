@@ -3,9 +3,9 @@
 #include "util.h"
 
 static struct d_d t[] = {
-
 #include "ucb/ceil.h"
 #include "sanity/ceil.h"
+
 };
 
 int main(void)

@@ -3,8 +3,8 @@
 #include "util.h"
 
 static struct ff_f t[] = {
-
 #include "sanity/remainderf.h"
+
 };
 
 int main(void)

@@ -3,9 +3,9 @@
 #include "util.h"
 
 static struct f_f t[] = {
-
 #include "ucb/floorf.h"
 #include "sanity/floorf.h"
+
 };
 
 int main(void)

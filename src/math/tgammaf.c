@@ -3,8 +3,8 @@
 #include "util.h"
 
 static struct f_f t[] = {
-
 #include "sanity/tgammaf.h"
+
 };
 
 int main(void)

@@ -3,9 +3,9 @@
 #include "util.h"
 
 static struct d_d t[] = {
-
 #include "ucb/fabs.h"
 #include "sanity/fabs.h"
+
 };
 
 int main(void)

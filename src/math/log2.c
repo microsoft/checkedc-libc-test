@@ -3,9 +3,9 @@
 #include "util.h"
 
 static struct d_d t[] = {
-
 #include "crlibm/log2.h"
 #include "sanity/log2.h"
+
 };
 
 int main(void)
