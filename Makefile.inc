@@ -4,7 +4,7 @@ LDFLAGS+=-g
 SRC=$(sort $(wildcard *.c))
 OBJ=$(SRC:.c=.o)
 DSOOBJ=$(filter %_dso.o,$(OBJ))
-BINOBJ=$(filter-out %_dso.o,$(OBJ))
+BINOBJ=$(filter-out $(NONBIN),$(filter-out %_dso.o,$(OBJ)))
 DSO=$(DSOOBJ:.o=.so)
 BIN=$(BINOBJ:.o=)
 
@@ -12,6 +12,7 @@ ROOT=../..
 include $(ROOT)/config.mak
 
 all: $(BIN) $(DSO)
+	echo $(BIN)
 run: all
 	@N=0; for i in $(BIN);do ./$$i || N=$$((N+1)); done; [ "$$N" = 0 ] && echo PASS || echo FAILS: $$N
 clean:
