@@ -4,8 +4,7 @@ LDFLAGS+=-g
 SRC=$(sort $(wildcard *.c))
 OBJ=$(SRC:.c=.o)
 DSOOBJ=$(filter %_dso.o,$(OBJ))
-# TODO: fix this hack
-BINOBJ=$(filter-out $(NONBIN),$(filter-out %_dso.o,$(OBJ)))
+BINOBJ=$(filter-out %_dso.o,$(OBJ))
 DSO=$(DSOOBJ:.o=.so)
 BIN=$(BINOBJ:.o=)
 
