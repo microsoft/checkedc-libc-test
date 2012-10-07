@@ -469,7 +469,7 @@ int mplogb(struct t *t)
 	MPFR_DECL_INIT(mx, 53);
 
 	mpfr_set_d(mx, t->x, MPFR_RNDN);
-	t->y = mpfr_get_exp(mx) + 1;
+	t->y = mpfr_get_exp(mx) - 1;
 	t->dy = 0;
 	t->e = 0;
 	return 0;
@@ -479,7 +479,7 @@ int mplogbf(struct t *t)
 	MPFR_DECL_INIT(mx, 24);
 
 	mpfr_set_flt(mx, t->x, MPFR_RNDN);
-	t->y = mpfr_get_exp(mx) + 1;
+	t->y = mpfr_get_exp(mx) - 1;
 	t->dy = 0;
 	t->e = 0;
 	return 0;
@@ -489,7 +489,7 @@ int mplogbl(struct t *t)
 	MPFR_DECL_INIT(mx, 64);
 
 	mpfr_set_ld(mx, t->x, MPFR_RNDN);
-	t->y = mpfr_get_exp(mx) + 1;
+	t->y = mpfr_get_exp(mx) - 1;
 	t->dy = 0;
 	t->e = 0;
 	return 0;
