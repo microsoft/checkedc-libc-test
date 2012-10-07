@@ -1,38 +1,22 @@
 simple libc tests
-based on the libc-testsuit and libc-bench of dalias
-see http://git.etalabs.net/cgi-bin/gitweb.cgi
+based on the libc-testsuit of dalias
+see http://git.musl-libc.org/cgit
 
 build tests:
 	cp dist/config.mak .
 	# edit config.mak
 	make
 run tests:
-	make t
-run benchmarks:
-	make b
+	make run
 
 framework:
 
-the only hook in the test framework is error(...) which
-prints a formatted message and sets the test to failed
-see common/test.h
+the convention is that each test is in a separate file
+at a path like src/directory/file.c with its own main
 
-a test function looks like
-	void test_foo() {
-		if (foo != 42)
-			error("foo=%d expected 42\n", foo);
-	}
-extern functions with name ~ /^test/ are recognized to be
-test functions
+the test should return 0 on success and non-0 on failure
 
-a benchmark function looks like
-	void bench_foo(int N) {
-		for (i = 0; i < N; i++)
-			foo();
-	}
-benchmark functions are repeatedly called with an increasing
-N until the running time is long enough, then time/N is printed
+to simplify things there is a Makefile.inc that can
+be included from src/directory/Makefile when the
+above convention is used in src/directory
 
-see Makefile.inc for build system details
-see common/t.c for test details
-see common/b.c for benchmark details
