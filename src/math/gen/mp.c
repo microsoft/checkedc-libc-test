@@ -327,8 +327,8 @@ static int mpl2(struct t *p, int (*fmp)(mpfr_t, const mpfr_t, const mpfr_t, mpfr
 
 	mpsetupl();
 	mpfr_clear_flags();
-	mpfr_set_d(mx, p->x, MPFR_RNDN);
-	mpfr_set_d(mx2, p->x2, MPFR_RNDN);
+	mpfr_set_ld(mx, p->x, MPFR_RNDN);
+	mpfr_set_ld(mx2, p->x2, MPFR_RNDN);
 	tn = fmp(my, mx, mx2, r);
 	genl(p, my, tn, r);
 	if ((p->e & INEXACT) && nextafterl(p->y, 0) == 0) {
