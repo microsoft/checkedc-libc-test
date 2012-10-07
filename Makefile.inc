@@ -8,6 +8,9 @@ BINOBJ=$(filter-out %_dso.o,$(OBJ))
 DSO=$(DSOOBJ:.o=.so)
 BIN=$(BINOBJ:.o=)
 
+ROOT=../..
+include $(ROOT)/config.mak
+
 all: $(BIN) $(DSO)
 run: all
 	@N=0; for i in $(BIN);do ./$$i || N=$$((N+1)); done; [ "$$N" = 0 ] && echo PASS || echo FAILS: $$N
