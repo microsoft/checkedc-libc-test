@@ -1,5 +1,3 @@
-#include <stddef.h>
-
 __thread char      c1 = 1;
 __thread char      xchar = 2;
 __thread char      c2 = 3;
@@ -11,16 +9,16 @@ __thread long long xllong = 8;
 
 struct {
 	char *name;
-	size_t size;
-	size_t align;
-	size_t addr;
+	unsigned size;
+	unsigned align;
+	unsigned long addr;
 } t[4];
 
 #define entry(i,x) \
 	t[i].name = #x; \
 	t[i].size = sizeof x; \
 	t[i].align = __alignof__(x); \
-	t[i].addr = (size_t)&x;
+	t[i].addr = (unsigned long)&x;
 
 __attribute__((constructor)) static void init(void)
 {

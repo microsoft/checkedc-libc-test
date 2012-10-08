@@ -1,4 +1,3 @@
-#include <stddef.h>
 #include <dlfcn.h>
 #include "test.h"
 
@@ -8,9 +7,9 @@ int main()
 	void *h;
 	struct {
 		char *name;
-		size_t size;
-		size_t align;
-		size_t addr;
+		unsigned size;
+		unsigned align;
+		unsigned long addr;
 	} *t;
 
 	h = dlopen("./tls_align_dso.so", RTLD_LAZY);
@@ -24,8 +23,8 @@ int main()
 		if (!t[i].name)
 			error("name is not set for t[%d]\n", i);
 		if (t[i].addr & (t[i].align-1))
-			error("bad alignment: %s, size: %lu, align: %lu, addr: 0x%lx\n",
-				t[i].name, (unsigned long)t[i].size, (unsigned long)t[i].align, (unsigned long)t[i].addr);
+			error("bad alignment: %s, size: %u, align: %u, addr: 0x%lx\n",
+				t[i].name, t[i].size, t[i].align, t[i].addr);
 	}
 	return test_status;
 }
