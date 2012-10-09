@@ -82,31 +82,25 @@ struct li_l {POS int r; long double x; long long i; long double y; float dy; int
 
 char *estr(int);
 char *rstr(int);
-int rconv(int *, char *);
-int econv(int *, char *);
-
-int eulp(double);
-int eulpf(float);
-int eulpl(long double);
 
 float ulperr(double got, double want, float dwant);
 float ulperrf(float got, float want, float dwant);
 float ulperrl(long double got, long double want, float dwant);
 
-void setupfenv(int);
-int getexcept(void);
-
 static int checkexcept(int got, int want, int r)
 {
+	// TODO: we dont checkunderflow and inexact for now
 	if (r == RN)
-		return got == want || got == (want|INEXACT);
-	return 1; //(got|INEXACT|UNDERFLOW) == (want|INEXACT|UNDERFLOW);
+		return (got|INEXACT|UNDERFLOW) == (want|INEXACT|UNDERFLOW);
+//		return got == want || got == (want|INEXACT);
+	return 1;
 }
 
 static int checkulp(float d, int r)
 {
+	// TODO: we only care about >=1.5 ulp errors for now, should be 1.0
 	if (r == RN)
-		return fabsf(d) <= 1.0;
-	return 1; //fabsf(d) <= 2.0;
+		return fabsf(d) < 1.5;
+	return 1;
 }
 

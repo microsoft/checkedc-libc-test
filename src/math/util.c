@@ -127,15 +127,3 @@ char *rstr(int r)
 	}
 	return "R?";
 }
-
-void setupfenv(int r)
-{
-	fesetround(r);
-	feclearexcept(FE_ALL_EXCEPT);
-}
-
-int getexcept(void)
-{
-	return fetestexcept(INEXACT|INVALID|DIVBYZERO|UNDERFLOW|OVERFLOW);
-}
-
