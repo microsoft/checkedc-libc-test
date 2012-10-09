@@ -6,21 +6,57 @@
 #undef RZ
 #undef RD
 #undef RU
+#ifdef FE_TONEAREST
 #define RN FE_TONEAREST
+#else
+#define RN 0
+#endif
+#ifdef FE_TOWARDZERO
 #define RZ FE_TOWARDZERO
+#else
+#define RZ -1
+#endif
+#ifdef FE_DOWNWARD
 #define RD FE_DOWNWARD
+#else
+#define RD -1
+#endif
+#ifdef FE_UPWARD
 #define RU FE_UPWARD
+#else
+#define RU -1
+#endif
 
 #undef INEXACT
 #undef INVALID
 #undef DIVBYZERO
 #undef UNDERFLOW
 #undef OVERFLOW
+#ifdef FE_INEXACT
 #define INEXACT FE_INEXACT
+#else
+#define INEXACT 0
+#endif
+#ifdef FE_INVALID
 #define INVALID FE_INVALID
+#else
+#define INVALID 0
+#endif
+#ifdef FE_DIVBYZERO
 #define DIVBYZERO FE_DIVBYZERO
+#else
+#define DIVBYZERO 0
+#endif
+#ifdef FE_UNDERFLOW
 #define UNDERFLOW FE_UNDERFLOW
+#else
+#define UNDERFLOW 0
+#endif
+#ifdef FE_OVERFLOW
 #define OVERFLOW FE_OVERFLOW
+#else
+#define OVERFLOW 0
+#endif
 
 #undef inf
 #undef nan
@@ -36,6 +72,13 @@ struct l_l {POS int r; long double x; long double y; float dy; int e; };
 struct ff_f {POS int r; float x; float x2; float y; float dy; int e; };
 struct dd_d {POS int r; double x; double x2; double y; float dy; int e; };
 struct ll_l {POS int r; long double x; long double x2; long double y; float dy; int e; };
+struct d_di {POS int r; double x; double y; float dy; long long i; int e; };
+struct f_fi {POS int r; float x; float y; float dy; long long i; int e; };
+struct l_li {POS int r; long double x; long double y; float dy; long long i; int e; };
+struct di_d {POS int r; double x; long long i; double y; float dy; int e; };
+struct fi_f {POS int r; float x; long long i; float y; float dy; int e; };
+struct li_l {POS int r; long double x; long long i; long double y; float dy; int e; };
+#undef POS
 
 char *estr(int);
 char *rstr(int);
