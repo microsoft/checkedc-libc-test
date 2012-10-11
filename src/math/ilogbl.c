@@ -2,18 +2,23 @@
 #include <stdio.h>
 #include "util.h"
 
-static struct f_fi t[] = {
-HEADERS
+static struct l_i t[] = {
+#if LDBL_MANT_DIG == 53
+#include "sanity/ilogb.h"
+
+#elif LDBL_MANT_DIG == 64
+#include "sanity/ilogbl.h"
+
+#endif
 };
 
 int main(void)
 {
 	#pragma STDC FENV_ACCESS ON
 	int yi;
-	double y;
 	float d;
 	int e, i, err = 0;
-	struct f_fi *p;
+	struct l_i *p;
 
 	for (i = 0; i < sizeof t/sizeof *t; i++) {
 		p = t + i;
@@ -22,19 +27,18 @@ int main(void)
 			continue;
 		fesetround(p->r);
 		feclearexcept(FE_ALL_EXCEPT);
-		y = ___(p->x, &yi);
+		yi = ilogbl(p->x);
 		e = fetestexcept(INEXACT|INVALID|DIVBYZERO|UNDERFLOW|OVERFLOW);
 
 		if (!checkexcept(e, p->e, p->r)) {
-			printf("%s:%d: bad fp exception: %s ___(%a)=%a,%lld, want %s",
-				p->file, p->line, rstr(p->r), p->x, p->y, p->i, estr(p->e));
+			printf("%s:%d: bad fp exception: %s ilogbl(%La)=%lld, want %s",
+				p->file, p->line, rstr(p->r), p->x, p->i, estr(p->e));
 			printf(" got %s\n", estr(e));
 			err++;
 		}
-		d = ulperrf(y, p->y, p->dy);
-		if (!checkulp(d, p->r) || yi != p->i) {
-			printf("%s:%d: %s ___(%a) want %a,%lld got %a,%d ulperr %.3f = %a + %a\n",
-				p->file, p->line, rstr(p->r), p->x, p->y, p->i, y, yi, d, d-p->dy, p->dy);
+		if (yi != p->i) {
+			printf("%s:%d: %s ilogbl(%La) want %lld got %d\n",
+				p->file, p->line, rstr(p->r), p->x, p->i, yi);
 			err++;
 		}
 	}

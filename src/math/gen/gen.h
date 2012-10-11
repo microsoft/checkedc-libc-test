@@ -27,13 +27,6 @@
 #define inf INFINITY
 #define nan NAN
 
-struct f1 { int r; float x; float y; float dy; int e; };
-struct f2 { int r; float x; float x2; float y; float dy; int e; };
-struct d1 { int r; double x; double y; float dy; int e; };
-struct d2 { int r; double x; double x2; double y; float dy; int e; };
-struct l1 { int r; long double x; long double y; float dy; int e; };
-struct l2 { int r; long double x; long double x2; long double y; float dy; int e; };
-
 struct t {
 	int type;
 	int r;

@@ -33,7 +33,7 @@ int main(void)
 			err++;
 		}
 		d = ulperrf(y, p->y, p->dy);
-		if (!checkulp(d, p->r)) {
+		if (!checkulp(d, p->r) || yi != p->i) {
 			printf("%s:%d: %s lgammaf_r(%a) want %a,%lld got %a,%d ulperr %.3f = %a + %a\n",
 				p->file, p->line, rstr(p->r), p->x, p->y, p->i, y, yi, d, d-p->dy, p->dy);
 			err++;

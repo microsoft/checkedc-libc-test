@@ -673,3 +673,32 @@ int mpscalblnl(struct t *t) { return mpldexpl(t); }
 int mplgamma_r(struct t *t) { return mplgamma(t); }
 int mplgammaf_r(struct t *t) { return mplgammaf(t); }
 int mplgammal_r(struct t *t) { return mplgammal(t); }
+
+int mpilogb(struct t *t)
+{
+	MPFR_DECL_INIT(mx, 53);
+
+	mpfr_set_d(mx, t->x, MPFR_RNDN);
+	t->i = mpfr_get_exp(mx) - 1;
+	t->e = 0;
+	return 0;
+}
+int mpilogbf(struct t *t)
+{
+	MPFR_DECL_INIT(mx, 24);
+
+	mpfr_set_flt(mx, t->x, MPFR_RNDN);
+	t->i = mpfr_get_exp(mx) - 1;
+	t->e = 0;
+	return 0;
+}
+int mpilogbl(struct t *t)
+{
+	MPFR_DECL_INIT(mx, 64);
+
+	mpfr_set_ld(mx, t->x, MPFR_RNDN);
+	t->i = mpfr_get_exp(mx) - 1;
+	t->e = 0;
+	return 0;
+}
+

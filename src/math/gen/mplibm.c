@@ -388,3 +388,25 @@ int mplgammal_r(struct t *t)
 	return 0;
 }
 
+int mpilogb(struct t *t)
+{
+	setupfenv(t->r);
+	t->i = ilogb(t->x);
+	t->e = getexcept();
+	return 0;
+}
+int mpilogbf(struct t *t)
+{
+	setupfenv(t->r);
+	t->i = ilogbf(t->x);
+	t->e = getexcept();
+	return 0;
+}
+int mpilogbl(struct t *t)
+{
+	setupfenv(t->r);
+	t->i = ilogbl(t->x);
+	t->e = getexcept();
+	return 0;
+}
+
