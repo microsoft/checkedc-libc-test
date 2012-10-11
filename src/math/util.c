@@ -121,9 +121,15 @@ char *rstr(int r)
 {
 	switch (r) {
 	case RN: return "RN";
+#ifdef FE_TOWARDZERO
 	case RZ: return "RZ";
+#endif
+#ifdef FE_UPWARD
 	case RU: return "RU";
+#endif
+#ifdef FE_DOWNWARD
 	case RD: return "RD";
+#endif
 	}
 	return "R?";
 }
