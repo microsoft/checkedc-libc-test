@@ -497,10 +497,48 @@ int mplogbl(struct t *t)
 int mpnearbyint(struct t *t) { return mpd1(t, wrap_nearbyint) || (t->e&=~INEXACT, 0); }
 int mpnearbyintf(struct t *t) { return mpf1(t, wrap_nearbyint) || (t->e&=~INEXACT, 0); }
 int mpnearbyintl(struct t *t) { return mpl1(t, wrap_nearbyint) || (t->e&=~INEXACT, 0); }
-int mpnextafter(struct t *t) { return -1; }
-int mpnextafterf(struct t *t) { return -1; }
-int mpnextafterl(struct t *t) { return -1; }
-int mpnexttowardl(struct t *t) { return -1; }
+// TODO: hard to implement with mpfr
+int mpnextafter(struct t *t)
+{
+	feclearexcept(FE_ALL_EXCEPT);
+	t->y = nextafter(t->x, t->x2);
+	t->e = getexcept();
+	t->dy = 0;
+	return 0;
+}
+int mpnextafterf(struct t *t)
+{
+	feclearexcept(FE_ALL_EXCEPT);
+	t->y = nextafterf(t->x, t->x2);
+	t->e = getexcept();
+	t->dy = 0;
+	return 0;
+}
+int mpnextafterl(struct t *t)
+{
+	feclearexcept(FE_ALL_EXCEPT);
+	t->y = nextafterl(t->x, t->x2);
+	t->e = getexcept();
+	t->dy = 0;
+	return 0;
+}
+int mpnexttoward(struct t *t)
+{
+	feclearexcept(FE_ALL_EXCEPT);
+	t->y = nexttoward(t->x, t->x2);
+	t->e = getexcept();
+	t->dy = 0;
+	return 0;
+}
+int mpnexttowardf(struct t *t)
+{
+	feclearexcept(FE_ALL_EXCEPT);
+	t->y = nexttowardf(t->x, t->x2);
+	t->e = getexcept();
+	t->dy = 0;
+	return 0;
+}
+int mpnexttowardl(struct t *t) { return mpnextafterl(t); }
 int mppow(struct t *t) { return mpd2(t, mpfr_pow); }
 int mppowf(struct t *t) { return mpf2(t, mpfr_pow); }
 int mppowl(struct t *t) { return mpl2(t, mpfr_pow); }
@@ -538,8 +576,23 @@ int mpj0(struct t *t) { return mpd1(t, mpfr_j0); }
 int mpj1(struct t *t) { return mpd1(t, mpfr_j1); }
 int mpy0(struct t *t) { return mpd1(t, mpfr_y0); }
 int mpy1(struct t *t) { return mpd1(t, mpfr_y1); }
-int mpscalb(struct t *t) { return -1; }
-int mpscalbf(struct t *t) { return -1; }
+// TODO: non standard functions
+int mpscalb(struct t *t)
+{
+	setupfenv(t->r);
+	t->y = scalb(t->x, t->x2);
+	t->e = getexcept();
+	t->dy = 0; // wrong
+	return 0;
+}
+int mpscalbf(struct t *t)
+{
+	setupfenv(t->r);
+	t->y = scalbf(t->x, t->x2);
+	t->e = getexcept();
+	t->dy = 0; // wrong
+	return 0;
+}
 int mpj0f(struct t *t) { return mpf1(t, mpfr_j0); }
 int mpj0l(struct t *t) { return mpl1(t, mpfr_j0); }
 int mpj1f(struct t *t) { return mpf1(t, mpfr_j1); }

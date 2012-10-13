@@ -150,6 +150,22 @@ int mpnearbyintl(struct t *t) { return mpl1(t, nearbyintl); }
 int mpnextafter(struct t *t) { return mpd2(t, nextafter); }
 int mpnextafterf(struct t *t) { return mpf2(t, nextafterf); }
 int mpnextafterl(struct t *t) { return mpl2(t, nextafterl); }
+int mpnexttoward(struct t *t)
+{
+	feclearexcept(FE_ALL_EXCEPT);
+	t->y = nexttoward(t->x, t->x2);
+	t->e = getexcept();
+	t->dy = 0;
+	return 0;
+}
+int mpnexttowardf(struct t *t)
+{
+	feclearexcept(FE_ALL_EXCEPT);
+	t->y = nexttowardf(t->x, t->x2);
+	t->e = getexcept();
+	t->dy = 0;
+	return 0;
+}
 int mpnexttowardl(struct t *t) { return mpl2(t, nexttowardl); }
 int mppow(struct t *t) { return mpd2(t, pow); }
 int mppowf(struct t *t) { return mpf2(t, powf); }

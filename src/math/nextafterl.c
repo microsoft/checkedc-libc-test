@@ -4,8 +4,10 @@
 
 static struct ll_l t[] = {
 #if LDBL_MANT_DIG == 53
+#include "sanity/nextafter.h"
 
 #elif LDBL_MANT_DIG == 64
+#include "sanity/nextafterl.h"
 
 #endif
 };

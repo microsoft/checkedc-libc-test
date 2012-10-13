@@ -3,6 +3,7 @@
 #include "util.h"
 
 static struct dd_d t[] = {
+#include "sanity/nextafter.h"
 
 };
 
