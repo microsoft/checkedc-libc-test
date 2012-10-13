@@ -1,6 +1,5 @@
 #include "gen.h"
 
-#include <stdio.h>
 static int mpf1(struct t *s, float (*f)(float))
 {
 	s->dy = 0;
@@ -25,7 +24,6 @@ static int mpd1(struct t *s, double (*f)(double))
 	setupfenv(s->r);
 	s->y = f(s->x);
 	s->e = getexcept();
-//printf("%La %d\n", s->y, s->e);
 	return 0;
 }
 
@@ -221,122 +219,44 @@ int mppow10(struct t *t) { return mpd1(t, pow10); }
 int mppow10f(struct t *t) { return mpf1(t, pow10f); }
 int mppow10l(struct t *t) { return mpl1(t, pow10l); }
 
-int mpfrexp(struct t *t)
-{
-	int i;
-
-	t->dy = 0;
-	setupfenv(t->r);
-	t->y = frexp(t->x, &i);
-	t->e = getexcept();
-	t->i = i;
-	return 0;
+#define mp_f_fi(n) \
+int mp##n(struct t *t) \
+{ \
+	t->dy = 0; \
+	setupfenv(t->r); \
+	t->y = n(t->x, t->i); \
+	t->e = getexcept(); \
+	return 0; \
 }
 
-int mpfrexpf(struct t *t)
-{
-	int i;
+mp_f_fi(ldexp)
+mp_f_fi(ldexpf)
+mp_f_fi(ldexpl)
+mp_f_fi(scalbn)
+mp_f_fi(scalbnf)
+mp_f_fi(scalbnl)
+mp_f_fi(scalbln)
+mp_f_fi(scalblnf)
+mp_f_fi(scalblnl)
 
-	t->dy = 0;
-	setupfenv(t->r);
-	t->y = frexpf(t->x, &i);
-	t->e = getexcept();
-	t->i = i;
-	return 0;
+#define mp_fi_f(n) \
+int mp##n(struct t *t) \
+{ \
+	int i; \
+	t->dy = 0; \
+	setupfenv(t->r); \
+	t->y = n(t->x, &i); \
+	t->e = getexcept(); \
+	t->i = i; \
+	return 0; \
 }
 
-int mpfrexpl(struct t *t)
-{
-	int i;
-
-	t->dy = 0;
-	setupfenv(t->r);
-	t->y = frexpl(t->x, &i);
-	t->e = getexcept();
-	t->i = i;
-	return 0;
-}
-
-int mpldexp(struct t *t)
-{
-	t->dy = 0;
-	setupfenv(t->r);
-	t->y = ldexp(t->x, t->i);
-	t->e = getexcept();
-	return 0;
-}
-
-int mpldexpf(struct t *t)
-{
-	t->dy = 0;
-	setupfenv(t->r);
-	t->y = ldexpf(t->x, t->i);
-	t->e = getexcept();
-	return 0;
-}
-
-int mpldexpl(struct t *t)
-{
-	t->dy = 0;
-	setupfenv(t->r);
-	t->y = ldexpl(t->x, t->i);
-	t->e = getexcept();
-	return 0;
-}
-
-int mpscalbn(struct t *t)
-{
-	t->dy = 0;
-	setupfenv(t->r);
-	t->y = scalbn(t->x, t->i);
-	t->e = getexcept();
-	return 0;
-}
-
-int mpscalbnf(struct t *t)
-{
-	t->dy = 0;
-	setupfenv(t->r);
-	t->y = scalbnf(t->x, t->i);
-	t->e = getexcept();
-	return 0;
-}
-
-int mpscalbnl(struct t *t)
-{
-	t->dy = 0;
-	setupfenv(t->r);
-	t->y = scalbnl(t->x, t->i);
-	t->e = getexcept();
-	return 0;
-}
-
-int mpscalbln(struct t *t)
-{
-	t->dy = 0;
-	setupfenv(t->r);
-	t->y = scalbln(t->x, t->i);
-	t->e = getexcept();
-	return 0;
-}
-
-int mpscalblnf(struct t *t)
-{
-	t->dy = 0;
-	setupfenv(t->r);
-	t->y = scalblnf(t->x, t->i);
-	t->e = getexcept();
-	return 0;
-}
-
-int mpscalblnl(struct t *t)
-{
-	t->dy = 0;
-	setupfenv(t->r);
-	t->y = scalblnl(t->x, t->i);
-	t->e = getexcept();
-	return 0;
-}
+mp_fi_f(frexp)
+mp_fi_f(frexpf)
+mp_fi_f(frexpl)
+mp_fi_f(lgamma_r)
+mp_fi_f(lgammaf_r)
+mp_fi_f(lgammal_r)
 
 int mplgamma(struct t *t)
 {
@@ -368,61 +288,28 @@ int mplgammal(struct t *t)
 	return 0;
 }
 
-int mplgamma_r(struct t *t)
-{
-	int i;
-
-	t->dy = 0;
-	setupfenv(t->r);
-	t->y = lgamma_r(t->x, &i);
-	t->e = getexcept();
-	t->i = i;
-	return 0;
+#define mp_f_i(n) \
+int mp##n(struct t *t) \
+{ \
+	setupfenv(t->r); \
+	t->i = n(t->x); \
+	t->e = getexcept(); \
+	return 0; \
 }
 
-int mplgammaf_r(struct t *t)
-{
-	int i;
-
-	t->dy = 0;
-	setupfenv(t->r);
-	t->y = lgammaf_r(t->x, &i);
-	t->e = getexcept();
-	t->i = i;
-	return 0;
-}
-
-int mplgammal_r(struct t *t)
-{
-	int i;
-
-	t->dy = 0;
-	setupfenv(t->r);
-	t->y = lgammal_r(t->x, &i);
-	t->e = getexcept();
-	t->i = i;
-	return 0;
-}
-
-int mpilogb(struct t *t)
-{
-	setupfenv(t->r);
-	t->i = ilogb(t->x);
-	t->e = getexcept();
-	return 0;
-}
-int mpilogbf(struct t *t)
-{
-	setupfenv(t->r);
-	t->i = ilogbf(t->x);
-	t->e = getexcept();
-	return 0;
-}
-int mpilogbl(struct t *t)
-{
-	setupfenv(t->r);
-	t->i = ilogbl(t->x);
-	t->e = getexcept();
-	return 0;
-}
+mp_f_i(ilogb)
+mp_f_i(ilogbf)
+mp_f_i(ilogbl)
+mp_f_i(llrint)
+mp_f_i(llrintf)
+mp_f_i(llrintl)
+mp_f_i(lrint)
+mp_f_i(lrintf)
+mp_f_i(lrintl)
+mp_f_i(llround)
+mp_f_i(llroundf)
+mp_f_i(llroundl)
+mp_f_i(lround)
+mp_f_i(lroundf)
+mp_f_i(lroundl)
 

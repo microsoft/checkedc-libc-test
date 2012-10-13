@@ -755,3 +755,26 @@ int mpilogbl(struct t *t)
 	return 0;
 }
 
+// TODO: ll* is hard to do with mpfr
+#define mp_f_i(n) \
+int mp##n(struct t *t) \
+{ \
+	setupfenv(t->r); \
+	t->i = n(t->x); \
+	t->e = getexcept(); \
+	return 0; \
+}
+
+mp_f_i(llrint)
+mp_f_i(llrintf)
+mp_f_i(llrintl)
+mp_f_i(lrint)
+mp_f_i(lrintf)
+mp_f_i(lrintl)
+mp_f_i(llround)
+mp_f_i(llroundf)
+mp_f_i(llroundl)
+mp_f_i(lround)
+mp_f_i(lroundf)
+mp_f_i(lroundl)
+
