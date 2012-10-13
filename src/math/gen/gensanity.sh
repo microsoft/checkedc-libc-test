@@ -5,6 +5,8 @@ D=../sanity
 sed 's/^T(//;s/,//;s/)//' functions.h | while read N T
 do
 	case $T in
+	'') continue ;;
+
 	d_*|f_*|l_*) ./gen $N >$D/$N.h <<EOF
 -8.06684839057968126823036836721962107
 +4.34523984933830528860918339265097582

@@ -81,6 +81,9 @@ struct li_l {POS int r; long double x; long long i; long double y; float dy; int
 struct d_i {POS int r; double x; long long i; int e; };
 struct f_i {POS int r; float x; long long i; int e; };
 struct l_i {POS int r; long double x; long long i; int e; };
+struct d_dd {POS int r; double x; double y; float dy; double y2; float dy2; int e; };
+struct f_ff {POS int r; float x; float y; float dy; float y2; float dy2; int e; };
+struct l_ll {POS int r; long double x; long double y; float dy; long double y2; float dy2; int e; };
 #undef POS
 
 char *estr(int);

@@ -778,3 +778,93 @@ mp_f_i(lround)
 mp_f_i(lroundf)
 mp_f_i(lroundl)
 
+int mpmodf(struct t *t)
+{
+	int e, r;
+
+	r = mpd1(t, wrap_trunc);
+	if (r)
+		return r;
+	t->y2 = t->y;
+	t->dy2 = t->dy;
+	e = t->e;
+	r = mpd1(t, mpfr_frac);
+	t->e |= e;
+	return r;
+}
+
+int mpmodff(struct t *t)
+{
+	int e, r;
+
+	r = mpf1(t, wrap_trunc);
+	if (r)
+		return r;
+	t->y2 = t->y;
+	t->dy2 = t->dy;
+	e = t->e;
+	r = mpf1(t, mpfr_frac);
+	t->e |= e;
+	return r;
+}
+
+int mpmodfl(struct t *t)
+{
+	int e, r;
+
+	r = mpl1(t, wrap_trunc);
+	if (r)
+		return r;
+	t->y2 = t->y;
+	t->dy2 = t->dy;
+	e = t->e;
+	r = mpl1(t, mpfr_frac);
+	t->e |= e;
+	return r;
+}
+
+int mpsincos(struct t *t)
+{
+	int e, r;
+
+	r = mpd1(t, mpfr_cos);
+	if (r)
+		return r;
+	t->y2 = t->y;
+	t->dy2 = t->dy;
+	e = t->e;
+	r = mpd1(t, mpfr_sin);
+	t->e |= e;
+	return r;
+}
+
+int mpsincosf(struct t *t)
+{
+	int e, r;
+
+	r = mpf1(t, mpfr_cos);
+	if (r)
+		return r;
+	t->y2 = t->y;
+	t->dy2 = t->dy;
+	e = t->e;
+	r = mpf1(t, mpfr_sin);
+	t->e |= e;
+	return r;
+}
+
+int mpsincosl(struct t *t)
+{
+	int e, r;
+
+	r = mpl1(t, mpfr_cos);
+	if (r)
+		return r;
+	t->y2 = t->y;
+	t->dy2 = t->dy;
+	e = t->e;
+	r = mpl1(t, mpfr_sin);
+	t->e |= e;
+	return r;
+}
+

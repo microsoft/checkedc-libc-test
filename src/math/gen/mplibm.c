@@ -313,3 +313,70 @@ mp_f_i(lround)
 mp_f_i(lroundf)
 mp_f_i(lroundl)
 
+int mpmodf(struct t *t)
+{
+	double y2;
+
+	t->dy = t->dy2 = 0;
+	setupfenv(t->r);
+	t->y = modf(t->x, &y2);
+	t->y2 = y2;
+	t->e = getexcept();
+	return 0;
+}
+
+int mpmodff(struct t *t)
+{
+	float y2;
+
+	t->dy = t->dy2 = 0;
+	setupfenv(t->r);
+	t->y = modff(t->x, &y2);
+	t->y2 = y2;
+	t->e = getexcept();
+	return 0;
+}
+
+int mpmodfl(struct t *t)
+{
+	t->dy = t->dy2 = 0;
+	setupfenv(t->r);
+	t->y = modfl(t->x, &t->y2);
+	t->e = getexcept();
+	return 0;
+}
+
+int mpsincos(struct t *t)
+{
+	double y, y2;
+
+	t->dy = t->dy2 = 0;
+	setupfenv(t->r);
+	sincos(t->x, &y, &y2);
+	t->y = y;
+	t->y2 = y2;
+	t->e = getexcept();
+	return 0;
+}
+
+int mpsincosf(struct t *t)
+{
+	float y, y2;
+
+	t->dy = t->dy2 = 0;
+	setupfenv(t->r);
+	sincosf(t->x, &y, &y2);
+	t->y = y;
+	t->y2 = y2;
+	t->e = getexcept();
+	return 0;
+}
+
+int mpsincosl(struct t *t)
+{
+	t->dy = t->dy2 = 0;
+	setupfenv(t->r);
+	sincosl(t->x, &t->y, &t->y2);
+	t->e = getexcept();
+	return 0;
+}

@@ -3,6 +3,8 @@
 D=..
 sed 's/^T(//;s/,//;s/)//' functions.h | while read N T
 do
+	[ "$T" ] || continue
+
 #	[ -e $D/$N.c ] || {
 		cp template/$T.c $D/$N.c || continue
 		ND=`echo $N |sed 's/l$//'`
