@@ -5,7 +5,7 @@ sed 's/^T(//;s/,//;s/)//' functions.h | while read N T
 do
 	[ "$T" ] || continue
 
-#	[ -e $D/$N.c ] || {
+	[ -e $D/$N.c ] || {
 		cp template/$T.c $D/$N.c || continue
 		ND=`echo $N |sed 's/l$//'`
 
@@ -21,5 +21,5 @@ do
 		done
 
 		sed -i "s/___/$N/g;s,DHEADERS,$DH,;s,HEADERS,$H," $D/$N.c
-#	}
+	}
 done

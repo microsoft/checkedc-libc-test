@@ -355,6 +355,15 @@ static int wrap_remquo(mpfr_t my, const mpfr_t mx, const mpfr_t mx2, mpfr_rnd_t 
 {
 	return mpfr_remquo(my, &mpremquo_q, mx, mx2, r);
 }
+static int mpbessel_n;
+static int wrap_jn(mpfr_t my, const mpfr_t mx, mpfr_rnd_t r)
+{
+	return mpfr_jn(my, mpbessel_n, mx, r);
+}
+static int wrap_yn(mpfr_t my, const mpfr_t mx, mpfr_rnd_t r)
+{
+	return mpfr_yn(my, mpbessel_n, mx, r);
+}
 static int wrap_ceil(mpfr_t my, const mpfr_t mx, mpfr_rnd_t r)
 {
 	return mpfr_ceil(my, mx);
@@ -960,4 +969,11 @@ int mpfmal(struct t *t)
 	return -1;
 #endif
 }
+
+int mpjn(struct t *t) { mpbessel_n = t->i; return mpd1(t, wrap_jn); }
+int mpjnf(struct t *t) { mpbessel_n = t->i; return mpf1(t, wrap_jn); }
+int mpjnl(struct t *t) { mpbessel_n = t->i; return mpl1(t, wrap_jn); }
+int mpyn(struct t *t) { mpbessel_n = t->i; return mpd1(t, wrap_yn); }
+int mpynf(struct t *t) { mpbessel_n = t->i; return mpf1(t, wrap_yn); }
+int mpynl(struct t *t) { mpbessel_n = t->i; return mpl1(t, wrap_yn); }
 

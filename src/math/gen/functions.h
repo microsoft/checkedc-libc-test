@@ -196,3 +196,7 @@ T(fma,         ddd_d)
 T(fmaf,        fff_f)
 T(fmal,        lll_l)
 
+T(jn,          di_d)
+T(jnf,         fi_f)
+T(yn,          di_d)
+T(ynf,         fi_f)

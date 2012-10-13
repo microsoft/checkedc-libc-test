@@ -411,3 +411,20 @@ mp_fff_f(fma)
 mp_fff_f(fmaf)
 mp_fff_f(fmal)
 
+#define mp_if_f(n) \
+int mp##n(struct t *t) \
+{ \
+	t->dy = 0; \
+	setupfenv(t->r); \
+	t->y = n(t->i, t->x); \
+	t->e = getexcept(); \
+	return 0; \
+}
+
+mp_if_f(jn)
+mp_if_f(jnf)
+//mp_if_f(jnl)
+mp_if_f(yn)
+mp_if_f(ynf)
+//mp_if_f(ynl)
+
