@@ -9,7 +9,7 @@ HEADERS
 int main(void)
 {
 	#pragma STDC FENV_ACCESS ON
-	int yi;
+	long long yi;
 	float d;
 	int e, i, err = 0;
 	struct d_i *p;
@@ -31,7 +31,7 @@ int main(void)
 			err++;
 		}
 		if (yi != p->i) {
-			printf("%s:%d: %s ___(%a) want %lld got %d\n",
+			printf("%s:%d: %s ___(%a) want %lld got %lld\n",
 				p->file, p->line, rstr(p->r), p->x, p->i, yi);
 			err++;
 		}
