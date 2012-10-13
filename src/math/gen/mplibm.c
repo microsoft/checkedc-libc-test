@@ -219,7 +219,7 @@ int mppow10(struct t *t) { return mpd1(t, pow10); }
 int mppow10f(struct t *t) { return mpf1(t, pow10f); }
 int mppow10l(struct t *t) { return mpl1(t, pow10l); }
 
-#define mp_f_fi(n) \
+#define mp_fi_f(n) \
 int mp##n(struct t *t) \
 { \
 	t->dy = 0; \
@@ -229,17 +229,17 @@ int mp##n(struct t *t) \
 	return 0; \
 }
 
-mp_f_fi(ldexp)
-mp_f_fi(ldexpf)
-mp_f_fi(ldexpl)
-mp_f_fi(scalbn)
-mp_f_fi(scalbnf)
-mp_f_fi(scalbnl)
-mp_f_fi(scalbln)
-mp_f_fi(scalblnf)
-mp_f_fi(scalblnl)
+mp_fi_f(ldexp)
+mp_fi_f(ldexpf)
+mp_fi_f(ldexpl)
+mp_fi_f(scalbn)
+mp_fi_f(scalbnf)
+mp_fi_f(scalbnl)
+mp_fi_f(scalbln)
+mp_fi_f(scalblnf)
+mp_fi_f(scalblnl)
 
-#define mp_fi_f(n) \
+#define mp_f_fi(n) \
 int mp##n(struct t *t) \
 { \
 	int i; \
@@ -251,12 +251,12 @@ int mp##n(struct t *t) \
 	return 0; \
 }
 
-mp_fi_f(frexp)
-mp_fi_f(frexpf)
-mp_fi_f(frexpl)
-mp_fi_f(lgamma_r)
-mp_fi_f(lgammaf_r)
-mp_fi_f(lgammal_r)
+mp_f_fi(frexp)
+mp_f_fi(frexpf)
+mp_f_fi(frexpl)
+mp_f_fi(lgamma_r)
+mp_f_fi(lgammaf_r)
+mp_f_fi(lgammal_r)
 
 int mplgamma(struct t *t)
 {
@@ -380,3 +380,34 @@ int mpsincosl(struct t *t)
 	t->e = getexcept();
 	return 0;
 }
+
+#define mp_ff_fi(n) \
+int mp##n(struct t *t) \
+{ \
+	int i; \
+	t->dy = 0; \
+	setupfenv(t->r); \
+	t->y = n(t->x, t->x2, &i); \
+	t->e = getexcept(); \
+	t->i = i; \
+	return 0; \
+}
+
+mp_ff_fi(remquo)
+mp_ff_fi(remquof)
+mp_ff_fi(remquol)
+
+#define mp_fff_f(n) \
+int mp##n(struct t *t) \
+{ \
+	t->dy = 0; \
+	setupfenv(t->r); \
+	t->y = n(t->x, t->x2, t->x3); \
+	t->e = getexcept(); \
+	return 0; \
+}
+
+mp_fff_f(fma)
+mp_fff_f(fmaf)
+mp_fff_f(fmal)
+

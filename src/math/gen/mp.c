@@ -350,6 +350,11 @@ static int wrap_lgamma(mpfr_t my, const mpfr_t mx, mpfr_rnd_t r)
 {
 	return mpfr_lgamma(my, &mplgamma_sign, mx, r);
 }
+static long mpremquo_q;
+static int wrap_remquo(mpfr_t my, const mpfr_t mx, const mpfr_t mx2, mpfr_rnd_t r)
+{
+	return mpfr_remquo(my, &mpremquo_q, mx, mx2, r);
+}
 static int wrap_ceil(mpfr_t my, const mpfr_t mx, mpfr_rnd_t r)
 {
 	return mpfr_ceil(my, mx);
@@ -866,5 +871,93 @@ int mpsincosl(struct t *t)
 	r = mpl1(t, mpfr_sin);
 	t->e |= e;
 	return r;
+}
+
+int mpremquo(struct t *t) { return mpd2(t, wrap_remquo) || (t->i = mpremquo_q, 0); }
+int mpremquof(struct t *t) { return mpf2(t, wrap_remquo) || (t->i = mpremquo_q, 0); }
+int mpremquol(struct t *t) { return mpl2(t, wrap_remquo) || (t->i = mpremquo_q, 0); }
+
+int mpfma(struct t *t)
+{
+	int tn;
+	int r = rmap(t->r);
+	MPFR_DECL_INIT(mx, 53);
+	MPFR_DECL_INIT(mx2, 53);
+	MPFR_DECL_INIT(mx3, 53);
+	MPFR_DECL_INIT(my, 128);
+
+	mpsetup();
+	mpfr_clear_flags();
+	mpfr_set_d(mx, t->x, MPFR_RNDN);
+	mpfr_set_d(mx2, t->x2, MPFR_RNDN);
+	mpfr_set_d(mx3, t->x3, MPFR_RNDN);
+	tn = mpfr_fma(my, mx, mx2, mx3, r);
+	gend(t, my, tn, r);
+	if ((t->e & INEXACT) && nextafter(t->y, 0) == 0) {
+		mpfr_set_emin(-(1<<20));
+		tn = mpfr_fma(my, mx, mx2, mx3, r);
+		mpfr_mul_2si(my, my, 1074, MPFR_RNDN);
+		t->dy = scalbnl(t->y, 1074) - mpfr_get_ld(my, r);
+		mpfr_set_emin(-1073);
+	}
+	return 0;
+}
+
+int mpfmaf(struct t *t)
+{
+	int tn;
+	int r = rmap(t->r);
+	MPFR_DECL_INIT(mx, 24);
+	MPFR_DECL_INIT(mx2, 24);
+	MPFR_DECL_INIT(mx3, 24);
+	MPFR_DECL_INIT(my, 128);
+
+	mpsetupf();
+	mpfr_clear_flags();
+	mpfr_set_flt(mx, t->x, MPFR_RNDN);
+	mpfr_set_flt(mx2, t->x2, MPFR_RNDN);
+	mpfr_set_flt(mx3, t->x3, MPFR_RNDN);
+	tn = mpfr_fma(my, mx, mx2, mx3, r);
+	genf(t, my, tn, r);
+	if ((t->e & INEXACT) && nextafterf(t->y, 0) == 0) {
+		mpfr_set_emin(-(1<<20));
+		tn = mpfr_fma(my, mx, mx2, mx3, r);
+		mpfr_mul_2si(my, my, 149, MPFR_RNDN);
+		t->dy = scalbnl(t->y, 149) - mpfr_get_ld(my, r);
+		mpfr_set_emin(-148);
+	}
+	return 0;
+}
+
+int mpfmal(struct t *t)
+{
+#if LDBL_MANT_DIG == 53
+	return mpfma(t);
+#elif LDBL_MANT_DIG == 64
+	int tn;
+	int r = rmap(t->r);
+	MPFR_DECL_INIT(mx, 64);
+	MPFR_DECL_INIT(mx2, 64);
+	MPFR_DECL_INIT(mx3, 64);
+	MPFR_DECL_INIT(my, 128);
+
+	mpsetupl();
+	mpfr_clear_flags();
+	mpfr_set_ld(mx, t->x, MPFR_RNDN);
+	mpfr_set_ld(mx2, t->x2, MPFR_RNDN);
+	mpfr_set_ld(mx3, t->x3, MPFR_RNDN);
+	tn = mpfr_fma(my, mx, mx2, mx3, r);
+	genl(t, my, tn, r);
+	if ((t->e & INEXACT) && nextafterl(t->y, 0) == 0) {
+		mpfr_set_emin(-(1<<20));
+		tn = mpfr_fma(my, mx, mx2, mx3, r);
+		mpfr_mul_2si(my, my, 16445, MPFR_RNDN);
+		t->dy = scalbnl(t->y, 16445) - mpfr_get_ld(my, r);
+		mpfr_set_emin(-16444);
+	}
+	return 0;
+#else
+	return -1;
+#endif
 }
 
