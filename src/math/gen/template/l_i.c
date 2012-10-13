@@ -14,7 +14,6 @@ int main(void)
 {
 	#pragma STDC FENV_ACCESS ON
 	long long yi;
-	float d;
 	int e, i, err = 0;
 	struct l_i *p;
 
