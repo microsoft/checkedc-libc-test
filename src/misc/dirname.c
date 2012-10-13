@@ -5,7 +5,7 @@
 
 #define T(path, want) \
 { \
-	char tmp[1000]; \
+	char tmp[100]; \
 	char *got = dirname(strcpy(tmp, path)); \
 	if (strcmp(want, got) != 0) \
 		error("dirname(\"%s\") got \"%s\" want \"%s\"\n", path, got, want); \

@@ -5,7 +5,7 @@
 
 #define T(path, want) \
 { \
-	char tmp[1000]; \
+	char tmp[100]; \
 	char *got = basename(strcpy(tmp, path)); \
 	if (strcmp(want, got) != 0) \
 		error("basename(\"%s\") got \"%s\" want \"%s\"\n", path, got, want); \
@@ -13,7 +13,7 @@
 
 int main()
 {
-	if (strcmp(".", basename(0)) != 0)
+	if (strcmp(basename(0), ".") != 0)
 		error("basename(0) returned \"%s\"; expected \".\"\n", basename(0));
 	T("", ".");
 	T("/usr/lib", "lib");
@@ -22,5 +22,7 @@ int main()
 	T("/", "/");
 	T("///", "/");
 	T("//usr//lib//", "lib");
+	T(".", ".");
+	T("..", "..");
 	return test_status;
 }

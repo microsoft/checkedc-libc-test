@@ -1,3 +1,3 @@
 include ../../Makefile.inc
-LDFLAGS+=-lm
+strtod_simple: LDFLAGS+=-lm
 
