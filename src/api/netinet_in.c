@@ -39,7 +39,7 @@ F(uint32_t, sin6_scope_id)
 {
 struct ipv6_mreq x;
 F(struct in6_addr, ipv6mr_multiaddr)
-f(unsigned, ipv6mr_interface)
+F(unsigned, ipv6mr_interface)
 }
 C(IPPROTO_IP)
 C(IPPROTO_IPV6)

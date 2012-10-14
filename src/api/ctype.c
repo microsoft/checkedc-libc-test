@@ -36,9 +36,4 @@ int(*p_isxdigit_l)(int,locale_t) = isxdigit_l;
 int(*p_tolower_l)(int,locale_t) = tolower_l;
 int(*p_toupper_l)(int,locale_t) = toupper_l;
 #endif
-
-#ifdef _XOPEN_SOURCE
-int(*p__tolower)(int) = _tolower;
-int(*p__toupper)(int) = _toupper;
-#endif
 }
