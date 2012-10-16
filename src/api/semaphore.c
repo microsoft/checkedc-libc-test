@@ -11,6 +11,9 @@ int(*p_sem_post)(sem_t*) = sem_post;
 int(*p_sem_trywait)(sem_t*) = sem_trywait;
 int(*p_sem_unlink)(const char*) = sem_unlink;
 int(*p_sem_wait)(sem_t*) = sem_wait;
+}
 #include <time.h>
+static void g()
+{
 int(*p_sem_timedwait)(sem_t*restrict,const struct timespec*restrict) = sem_timedwait;
 }

@@ -86,9 +86,12 @@ T(pid_t)
 int(*p_fcntl)(int,int,...) = fcntl;
 int(*p_posix_fadvise)(int,off_t,off_t,int) = posix_fadvise;
 int(*p_posix_fallocate)(int,off_t,off_t) = posix_fallocate;
+}
 #ifndef _XOPEN_SOURCE
 #include <sys/stat.h>
 #endif
+static void g()
+{
 int(*p_creat)(const char*,mode_t) = creat;
 int(*p_open)(const char*,int,...) = open;
 int(*p_openat)(int,const char*,int,...) = openat;

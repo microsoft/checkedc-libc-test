@@ -137,7 +137,10 @@ int(*p_pthread_spin_lock)(pthread_spinlock_t*) = pthread_spin_lock;
 int(*p_pthread_spin_trylock)(pthread_spinlock_t*) = pthread_spin_trylock;
 int(*p_pthread_spin_unlock)(pthread_spinlock_t*) = pthread_spin_unlock;
 void(*p_pthread_testcancel)(void) = pthread_testcancel;
+}
 #include <time.h>
+static void g()
+{
 int(*p_pthread_getcpuclockid)(pthread_t,clockid_t*) = pthread_getcpuclockid;
 int(*p_pthread_mutex_timedlock)(pthread_mutex_t*restrict,const struct timespec*restrict) = pthread_mutex_timedlock;
 int(*p_pthread_rwlock_timedrdlock)(pthread_rwlock_t*restrict,const struct timespec*restrict) = pthread_rwlock_timedrdlock;
