@@ -89,3 +89,10 @@ void(*p_setnetent)(int) = setnetent;
 void(*p_setprotoent)(int) = setprotoent;
 void(*p_setservent)(int) = setservent;
 }
+#include <sys/socket.h>
+static void g()
+{
+void(*p_freeaddrinfo)(struct addrinfo*) = freeaddrinfo;
+int(*p_getaddrinfo)(const char*restrict,const char*restrict,const struct addrinfo*restrict,struct addrinfo**restrict) = getaddrinfo;
+int(*p_getnameinfo)(const struct sockaddr*restrict,socklen_t,char*restrict,socklen_t,char*restrict,socklen_t,int) = getnameinfo;
+}
