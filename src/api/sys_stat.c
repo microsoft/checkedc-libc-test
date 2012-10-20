@@ -33,8 +33,8 @@ F(blksize_t, st_blksize)
 F(blkcnt_t, st_blocks)
 
 F(time_t, st_atime)
-T(time_t, st_mtime)
-T(time_t, st_ctime)
+F(time_t, st_mtime)
+F(time_t, st_ctime)
 }
 C(S_IRWXU)
 C(S_IRUSR)

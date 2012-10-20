@@ -1,4 +1,4 @@
-CFLAGS+=-std=c99 -pedantic -Wall -Werror -Wno-unused -D_POSIX_C_SOURCE=200809L -D_XOPEN_SOURCE=700
+CFLAGS+=-std=c99 -Wall -Werror -Wno-unused -D_POSIX_C_SOURCE=200809L -D_XOPEN_SOURCE=700
 
 all:
 	for i in *.c; do \
