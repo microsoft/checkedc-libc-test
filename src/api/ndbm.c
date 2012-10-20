@@ -20,6 +20,6 @@ C(DBM_REPLACE)
 {datum(*p)(DBM*,datum) = dbm_fetch;}
 {datum(*p)(DBM*) = dbm_firstkey;}
 {datum(*p)(DBM*) = dbm_nextkey;}
-DBM*(*p)(const char*,int,mode_t) = dbm_open;
+{DBM*(*p)(const char*,int,mode_t) = dbm_open;}
 {int(*p)(DBM*,datum,datum,int) = dbm_store;}
 }

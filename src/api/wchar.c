@@ -56,7 +56,7 @@ C(WEOF)
 {wchar_t*(*p)(wchar_t*,wchar_t,size_t) = wmemset;}
 #ifdef _POSIX_C_SOURCE
 {size_t(*p)(wchar_t*restrict,const char**restrict,size_t,size_t,mbstate_t*restrict) = mbsnrtowcs;}
-FILE*(*p)(wchar_t**,size_t*) = open_wmemstream;
+{FILE*(*p)(wchar_t**,size_t*) = open_wmemstream;}
 {wchar_t*(*p)(wchar_t*restrict,const wchar_t*restrict) = wcpcpy;}
 {wchar_t*(*p)(wchar_t*restrict,const wchar_t*restrict,size_t) = wcpncpy;}
 {int(*p)(const wchar_t*,const wchar_t*) = wcscasecmp;}

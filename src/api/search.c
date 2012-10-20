@@ -24,7 +24,7 @@ case leaf:;
 }
 {int(*p)(size_t) = hcreate;}
 {void(*p)(void) = hdestroy;}
-ENTRY*(*p)(ENTRY,ACTION) = hsearch;
+{ENTRY*(*p)(ENTRY,ACTION) = hsearch;}
 {void(*p)(void*,void*) = insque;}
 {void*(*p)(const void*,const void*,size_t*,size_t,int(*)(const void*,const void*)) = lfind;}
 {void*(*p)(const void*,void*,size_t*,size_t,int(*)(const void*,const void*)) = lsearch;}

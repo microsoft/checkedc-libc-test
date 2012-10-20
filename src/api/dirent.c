@@ -19,8 +19,8 @@ F(char,   d_name[0])
 {int(*p)(const struct dirent**,const struct dirent**) = alphasort;}
 {int(*p)(DIR*) = closedir;}
 {int(*p)(DIR*) = dirfd;}
-DIR*(*p)(int) = fdopendir;
-DIR*(*p)(const char*) = opendir;
+{DIR*(*p)(int) = fdopendir;}
+{DIR*(*p)(const char*) = opendir;}
 {struct dirent*(*p)(DIR*) = readdir;}
 {int(*p)(DIR*restrict,struct dirent*restrict,struct dirent**restrict) = readdir_r;}
 {void(*p)(DIR*) = rewinddir;}
