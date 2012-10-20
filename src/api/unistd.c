@@ -6,7 +6,7 @@ static void f()
 {
 C(_POSIX_VERSION)
 C(_POSIX2_VERSION)
-#ifdef _XOPEN_SOURCE)
+#ifdef _XOPEN_SOURCE
 C(_XOPEN_VERSION)
 #endif
 C(F_OK)
@@ -200,7 +200,7 @@ T(intptr_t)
 {char*(*p)(char*) = ctermid;}
 {int(*p)(int) = dup;}
 {int(*p)(int,int) = dup2;}
-{char **x = environ};
+{extern char **environ; char **x = environ;};
 {int(*p)(const char*,const char*,...) = execl;}
 {int(*p)(const char*,const char*,...) = execle;}
 {int(*p)(const char*,const char*,...) = execlp;}
