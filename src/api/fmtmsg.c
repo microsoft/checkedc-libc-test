@@ -22,6 +22,6 @@ C(MM_OK)
 C(MM_NOTOK)
 C(MM_NOMSG)
 C(MM_NOCON)
-int(*p_fmtmsg)(long,const char*,int,const char*,const char*,const char*) = fmtmsg;
+{int(*p)(long,const char*,int,const char*,const char*,const char*) = fmtmsg;}
 }
 #endif

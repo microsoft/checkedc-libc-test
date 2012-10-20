@@ -5,10 +5,10 @@ static void f()
 T(size_t)
 T(locale_t)
 #ifdef _XOPEN_SOURCE
-int(*p_ffs)(int) = ffs;
+{int(*p)(int) = ffs;}
 #endif
-int(*p_strcasecmp)(const char*,const char*) = strcasecmp;
-int(*p_strcasecmp_l)(const char*,const char*,locale_t) = strcasecmp_l;
-int(*p_strncasecmp)(const char*,const char*,size_t) = strncasecmp;
-int(*p_strncasecmp_l)(const char*,const char*,size_t,locale_t) = strncasecmp_l;
+{int(*p)(const char*,const char*) = strcasecmp;}
+{int(*p)(const char*,const char*,locale_t) = strcasecmp_l;}
+{int(*p)(const char*,const char*,size_t) = strncasecmp;}
+{int(*p)(const char*,const char*,size_t,locale_t) = strncasecmp_l;}
 }

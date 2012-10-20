@@ -117,15 +117,15 @@ C(TCIOFF)
 C(TCION)
 C(TCOOFF)
 C(TCOON)
-speed_t(*p_cfgetispeed)(const struct termios*) = cfgetispeed;
-speed_t(*p_cfgetospeed)(const struct termios*) = cfgetospeed;
-int(*p_cfsetispeed)(struct termios*,speed_t) = cfsetispeed;
-int(*p_cfsetospeed)(struct termios*,speed_t) = cfsetospeed;
-int(*p_tcdrain)(int) = tcdrain;
-int(*p_tcflow)(int,int) = tcflow;
-int(*p_tcflush)(int,int) = tcflush;
-int(*p_tcgetattr)(int,struct termios*) = tcgetattr;
-pid_t(*p_tcgetsid)(int) = tcgetsid;
-int(*p_tcsendbreak)(int,int) = tcsendbreak;
-int(*p_tcsetattr)(int,int,const struct termios*) = tcsetattr;
+{speed_t(*p)(const struct termios*) = cfgetispeed;}
+{speed_t(*p)(const struct termios*) = cfgetospeed;}
+{int(*p)(struct termios*,speed_t) = cfsetispeed;}
+{int(*p)(struct termios*,speed_t) = cfsetospeed;}
+{int(*p)(int) = tcdrain;}
+{int(*p)(int,int) = tcflow;}
+{int(*p)(int,int) = tcflush;}
+{int(*p)(int,struct termios*) = tcgetattr;}
+{pid_t(*p)(int) = tcgetsid;}
+{int(*p)(int,int) = tcsendbreak;}
+{int(*p)(int,int,const struct termios*) = tcsetattr;}
 }

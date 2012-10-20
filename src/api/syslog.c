@@ -35,8 +35,8 @@ C(LOG_WARNING)
 C(LOG_NOTICE)
 C(LOG_INFO)
 C(LOG_DEBUG)
-void(*p_closelog)(void) = closelog;
-void(*p_openlog)(const char*,int,int) = openlog;
-int(*p_setlogmask)(int) = setlogmask;
-void(*p_syslog)(int,const char*,...) = syslog;
+{void(*p)(void) = closelog;}
+{void(*p)(const char*,int,int) = openlog;}
+{int(*p)(int) = setlogmask;}
+{void(*p)(int,const char*,...) = syslog;}
 }

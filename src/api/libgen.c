@@ -2,8 +2,8 @@
 #include <libgen.h>
 static void f()
 {
-char*(*p_basename)(char*) = basename;
-char*(*p_dirname)(char*) = dirname;
+{char*(*p)(char*) = basename;}
+{char*(*p)(char*) = dirname;}
 }
 #endif
 

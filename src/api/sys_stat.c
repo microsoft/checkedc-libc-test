@@ -77,22 +77,22 @@ struct stat x = {0};
 }
 C(UTIME_NOW)
 C(UTIME_OMIT)
-int(*p_chmod)(const char*,mode_t) = chmod;
-int(*p_fchmod)(int,mode_t) = fchmod;
-int(*p_fchmodat)(int,const char*,mode_t,int) = fchmodat;
-int(*p_fstat)(int,struct stat*) = fstat;
-int(*p_fstatat)(int,const char*restrict,struct stat*restrict,int) = fstatat;
-int(*p_futimens)(int,const struct timespec[]) = futimens;
-int(*p_lstat)(const char*restrict,struct stat*restrict) = lstat;
-int(*p_mkdir)(const char*,mode_t) = mkdir;
-int(*p_mkdirat)(int,const char*,mode_t) = mkdirat;
-int(*p_mkfifo)(const char*,mode_t) = mkfifo;
-int(*p_mkfifoat)(int,const char*,mode_t) = mkfifoat;
+{int(*p)(const char*,mode_t) = chmod;}
+{int(*p)(int,mode_t) = fchmod;}
+{int(*p)(int,const char*,mode_t,int) = fchmodat;}
+{int(*p)(int,struct stat*) = fstat;}
+{int(*p)(int,const char*restrict,struct stat*restrict,int) = fstatat;}
+{int(*p)(int,const struct timespec[]) = futimens;}
+{int(*p)(const char*restrict,struct stat*restrict) = lstat;}
+{int(*p)(const char*,mode_t) = mkdir;}
+{int(*p)(int,const char*,mode_t) = mkdirat;}
+{int(*p)(const char*,mode_t) = mkfifo;}
+{int(*p)(int,const char*,mode_t) = mkfifoat;}
 #ifdef _XOPEN_SOURCE
-int(*p_mknod)(const char*,mode_t,dev_t) = mknod;
-int(*p_mknodat)(int,const char*,mode_t,dev_t) = mknodat;
+{int(*p)(const char*,mode_t,dev_t) = mknod;}
+{int(*p)(int,const char*,mode_t,dev_t) = mknodat;}
 #endif
-int(*p_stat)(const char*restrict,struct stat*restrict) = stat;
-mode_t(*p_umask)(mode_t) = umask;
-int(*p_utimensat)(int,const char*,const struct timespec[],int) = utimensat;
+{int(*p)(const char*restrict,struct stat*restrict) = stat;}
+{mode_t(*p)(mode_t) = umask;}
+{int(*p)(int,const char*,const struct timespec[],int) = utimensat;}
 }

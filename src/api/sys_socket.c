@@ -85,22 +85,22 @@ C(AF_UNSPEC)
 C(SHUT_RD)
 C(SHUT_RDWR)
 C(SHUT_WR)
-int(*p_accept)(int,struct sockaddr*restrict,socklen_t*restrict) = accept;
-int(*p_bind)(int,const struct sockaddr*,socklen_t) = bind;
-int(*p_connect)(int,const struct sockaddr*,socklen_t) = connect;
-int(*p_getpeername)(int,struct sockaddr*restrict,socklen_t*restrict) = getpeername;
-int(*p_getsockname)(int,struct sockaddr*restrict,socklen_t*restrict) = getsockname;
-int(*p_getsockopt)(int,int,int,void*restrict,socklen_t*restrict) = getsockopt;
-int(*p_listen)(int,int) = listen;
-ssize_t(*p_recv)(int,void*,size_t,int) = recv;
-ssize_t(*p_recvfrom)(int,void*restrict,size_t,int,struct sockaddr*restrict,socklen_t*restrict) = recvfrom;
-ssize_t(*p_recvmsg)(int,struct msghdr*,int) = recvmsg;
-ssize_t(*p_send)(int,const void*,size_t,int) = send;
-ssize_t(*p_sendmsg)(int,const struct msghdr*,int) = sendmsg;
-ssize_t(*p_sendto)(int,const void*,size_t,int,const struct sockaddr*,socklen_t) = sendto;
-int(*p_setsockopt)(int,int,int,const void*,socklen_t) = setsockopt;
-int(*p_shutdown)(int,int) = shutdown;
-int(*p_sockatmark)(int) = sockatmark;
-int(*p_socket)(int,int,int) = socket;
-int(*p_socketpair)(int,int,int,int[]) = socketpair;
+{int(*p)(int,struct sockaddr*restrict,socklen_t*restrict) = accept;}
+{int(*p)(int,const struct sockaddr*,socklen_t) = bind;}
+{int(*p)(int,const struct sockaddr*,socklen_t) = connect;}
+{int(*p)(int,struct sockaddr*restrict,socklen_t*restrict) = getpeername;}
+{int(*p)(int,struct sockaddr*restrict,socklen_t*restrict) = getsockname;}
+{int(*p)(int,int,int,void*restrict,socklen_t*restrict) = getsockopt;}
+{int(*p)(int,int) = listen;}
+{ssize_t(*p)(int,void*,size_t,int) = recv;}
+{ssize_t(*p)(int,void*restrict,size_t,int,struct sockaddr*restrict,socklen_t*restrict) = recvfrom;}
+{ssize_t(*p)(int,struct msghdr*,int) = recvmsg;}
+{ssize_t(*p)(int,const void*,size_t,int) = send;}
+{ssize_t(*p)(int,const struct msghdr*,int) = sendmsg;}
+{ssize_t(*p)(int,const void*,size_t,int,const struct sockaddr*,socklen_t) = sendto;}
+{int(*p)(int,int,int,const void*,socklen_t) = setsockopt;}
+{int(*p)(int,int) = shutdown;}
+{int(*p)(int) = sockatmark;}
+{int(*p)(int,int,int) = socket;}
+{int(*p)(int,int,int,int[]) = socketpair;}
 }

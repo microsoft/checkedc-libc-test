@@ -21,5 +21,5 @@ C(POLLWRBAND)
 C(POLLERR)
 C(POLLHUP)
 C(POLLNVAL)
-int(*p_poll)(struct pollfd[],nfds_t,int) = poll;
+{int(*p)(struct pollfd[],nfds_t,int) = poll;}
 }

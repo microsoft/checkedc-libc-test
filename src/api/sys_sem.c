@@ -28,9 +28,9 @@ F(unsigned short,sem_num)
 F(short, sem_op)
 F(short, sem_flg)
 }
-int(*p_semctl)(int,int,int,...) = semctl;
-int(*p_semget)(key_t,int,int) = semget;
-int(*p_semop)(int,struct sembuf*,size_t) = semop;
+{int(*p)(int,int,int,...) = semctl;}
+{int(*p)(key_t,int,int) = semget;}
+{int(*p)(int,struct sembuf*,size_t) = semop;}
 
 T(uid_t)
 T(gid_t)
@@ -51,5 +51,5 @@ C(IPC_PRIVATE)
 C(IPC_RMID)
 C(IPC_SET)
 C(IPC_STAT)
-key_t(*p_ftok)(const char*,int) = ftok;
+{key_t(*p)(const char*,int) = ftok;}
 }

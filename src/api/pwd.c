@@ -14,13 +14,13 @@ F(gid_t,pw_gid)
 F(char*,pw_dir)
 F(char*,pw_shell)
 }
-struct passwd*(*p_getpwnam)(const char*) = getpwnam;
-int(*p_getpwnam_r)(const char*,struct passwd*,char*,size_t,struct passwd**) = getpwnam_r;
-struct passwd*(*p_getpwuid)(uid_t) = getpwuid;
-int(*p_getpwuid_r)(uid_t,struct passwd*,char*,size_t,struct passwd**) = getpwuid_r;
+{struct passwd*(*p)(const char*) = getpwnam;}
+{int(*p)(const char*,struct passwd*,char*,size_t,struct passwd**) = getpwnam_r;}
+{struct passwd*(*p)(uid_t) = getpwuid;}
+{int(*p)(uid_t,struct passwd*,char*,size_t,struct passwd**) = getpwuid_r;}
 #ifdef _XOPEN_SOURCE
-void(*p_endpwent)(void) = endpwent;
-struct passwd*(*p_getpwent)(void) = getpwent;
-void(*p_setpwent)(void) = setpwent;
+{void(*p)(void) = endpwent;}
+{struct passwd*(*p)(void) = getpwent;}
+{void(*p)(void) = setpwent;}
 #endif
 }

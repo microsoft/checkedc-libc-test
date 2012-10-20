@@ -3,11 +3,11 @@
 static void f()
 {
 T(jmp_buf)
-void(*p_longjmp)(jmp_buf,int) = longjmp;
-int(*p_setjmp)(jmp_buf) = setjmp;
+{void(*p)(jmp_buf,int) = longjmp;}
+{int(*p)(jmp_buf) = setjmp;}
 #ifdef _POSIX_C_SOURCE
 T(sigjmp_buf)
-void(*p_siglongjmp)(sigjmp_buf,int) = siglongjmp;
-int(*p_sigsetjmp)(sigjmp_buf,int) = sigsetjmp;
+{void(*p)(sigjmp_buf,int) = siglongjmp;}
+{int(*p)(sigjmp_buf,int) = sigsetjmp;}
 #endif
 }

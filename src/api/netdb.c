@@ -69,30 +69,30 @@ C(EAI_SERVICE)
 C(EAI_SOCKTYPE)
 C(EAI_SYSTEM)
 C(EAI_OVERFLOW)
-void(*p_endhostent)(void) = endhostent;
-void(*p_endnetent)(void) = endnetent;
-void(*p_endprotoent)(void) = endprotoent;
-void(*p_endservent)(void) = endservent;
-const char*(*p_gai_strerror)(int) = gai_strerror;
-struct hostent*(*p_gethostent)(void) = gethostent;
-struct netent*(*p_getnetbyaddr)(uint32_t,int) = getnetbyaddr;
-struct netent*(*p_getnetbyname)(const char*) = getnetbyname;
-struct netent*(*p_getnetent)(void) = getnetent;
-struct protoent*(*p_getprotobyname)(const char*) = getprotobyname;
-struct protoent*(*p_getprotobynumber)(int) = getprotobynumber;
-struct protoent*(*p_getprotoent)(void) = getprotoent;
-struct servent*(*p_getservbyname)(const char*,const char*) = getservbyname;
-struct servent*(*p_getservbyport)(int,const char*) = getservbyport;
-struct servent*(*p_getservent)(void) = getservent;
-void(*p_sethostent)(int) = sethostent;
-void(*p_setnetent)(int) = setnetent;
-void(*p_setprotoent)(int) = setprotoent;
-void(*p_setservent)(int) = setservent;
+{void(*p)(void) = endhostent;}
+{void(*p)(void) = endnetent;}
+{void(*p)(void) = endprotoent;}
+{void(*p)(void) = endservent;}
+{const char*(*p)(int) = gai_strerror;}
+{struct hostent*(*p)(void) = gethostent;}
+{struct netent*(*p)(uint32_t,int) = getnetbyaddr;}
+{struct netent*(*p)(const char*) = getnetbyname;}
+{struct netent*(*p)(void) = getnetent;}
+{struct protoent*(*p)(const char*) = getprotobyname;}
+{struct protoent*(*p)(int) = getprotobynumber;}
+{struct protoent*(*p)(void) = getprotoent;}
+{struct servent*(*p)(const char*,const char*) = getservbyname;}
+{struct servent*(*p)(int,const char*) = getservbyport;}
+{struct servent*(*p)(void) = getservent;}
+{void(*p)(int) = sethostent;}
+{void(*p)(int) = setnetent;}
+{void(*p)(int) = setprotoent;}
+{void(*p)(int) = setservent;}
 }
 #include <sys/socket.h>
 static void g()
 {
-void(*p_freeaddrinfo)(struct addrinfo*) = freeaddrinfo;
-int(*p_getaddrinfo)(const char*restrict,const char*restrict,const struct addrinfo*restrict,struct addrinfo**restrict) = getaddrinfo;
-int(*p_getnameinfo)(const struct sockaddr*restrict,socklen_t,char*restrict,socklen_t,char*restrict,socklen_t,int) = getnameinfo;
+{void(*p)(struct addrinfo*) = freeaddrinfo;}
+{int(*p)(const char*restrict,const char*restrict,const struct addrinfo*restrict,struct addrinfo**restrict) = getaddrinfo;}
+{int(*p)(const struct sockaddr*restrict,socklen_t,char*restrict,socklen_t,char*restrict,socklen_t,int) = getnameinfo;}
 }

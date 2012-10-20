@@ -151,33 +151,33 @@ C(SI_QUEUE)
 C(SI_TIMER)
 C(SI_ASYNCIO)
 C(SI_MESGQ)
-int(*p_kill)(pid_t,int) = kill;
-int(*p_killpg)(pid_t,int) = killpg;
-void(*p_psiginfo)(const siginfo_t*,const char*) = psiginfo;
-void(*p_psignal)(int,const char*) = psignal;
-int(*p_pthread_kill)(pthread_t,int) = pthread_kill;
-int(*p_pthread_sigmask)(int,const sigset_t*restrict,sigset_t*restrict) = pthread_sigmask;
-int(*p_sigaction)(int,const struct sigaction*restrict,struct sigaction*restrict) = sigaction;
-int(*p_sigaddset)(sigset_t*,int) = sigaddset;
-int(*p_sigaltstack)(const stack_t*restrict,stack_t*restrict) = sigaltstack;
-int(*p_sigdelset)(sigset_t*,int) = sigdelset;
-int(*p_sigemptyset)(sigset_t*) = sigemptyset;
-int(*p_sigfillset)(sigset_t*) = sigfillset;
-int(*p_sighold)(int) = sighold;
-int(*p_sigignore)(int) = sigignore;
-int(*p_siginterrupt)(int,int) = siginterrupt;
-int(*p_sigismember)(const sigset_t*,int) = sigismember;
-int(*p_sigpause)(int) = sigpause;
-int(*p_sigpending)(sigset_t*) = sigpending;
-int(*p_sigprocmask)(int,const sigset_t*restrict,sigset_t*restrict) = sigprocmask;
-int(*p_sigqueue)(pid_t,int,const union sigval) = sigqueue;
-int(*p_sigrelse)(int) = sigrelse;
-void(*(*p_sigset)(int,void(*)(int)))(int) = sigset;
-int(*p_sigsuspend)(const sigset_t*) = sigsuspend;
-int(*p_sigtimedwait)(const sigset_t*restrict,siginfo_t*restrict,const struct timespec*restrict) = sigtimedwait;
-int(*p_sigwait)(const sigset_t*restrict,int*restrict) = sigwait;
-int(*p_sigwaitinfo)(const sigset_t*restrict,siginfo_t*restrict) = sigwaitinfo;
+{int(*p)(pid_t,int) = kill;}
+{int(*p)(pid_t,int) = killpg;}
+{void(*p)(const siginfo_t*,const char*) = psiginfo;}
+{void(*p)(int,const char*) = psignal;}
+{int(*p)(pthread_t,int) = pthread_kill;}
+{int(*p)(int,const sigset_t*restrict,sigset_t*restrict) = pthread_sigmask;}
+{int(*p)(int,const struct sigaction*restrict,struct sigaction*restrict) = sigaction;}
+{int(*p)(sigset_t*,int) = sigaddset;}
+{int(*p)(const stack_t*restrict,stack_t*restrict) = sigaltstack;}
+{int(*p)(sigset_t*,int) = sigdelset;}
+{int(*p)(sigset_t*) = sigemptyset;}
+{int(*p)(sigset_t*) = sigfillset;}
+{int(*p)(int) = sighold;}
+{int(*p)(int) = sigignore;}
+{int(*p)(int,int) = siginterrupt;}
+{int(*p)(const sigset_t*,int) = sigismember;}
+{int(*p)(int) = sigpause;}
+{int(*p)(sigset_t*) = sigpending;}
+{int(*p)(int,const sigset_t*restrict,sigset_t*restrict) = sigprocmask;}
+{int(*p)(pid_t,int,const union sigval) = sigqueue;}
+{int(*p)(int) = sigrelse;}
+{void(*(*p)(int,void(*)(int)))(int) = sigset;}
+{int(*p)(const sigset_t*) = sigsuspend;}
+{int(*p)(const sigset_t*restrict,siginfo_t*restrict,const struct timespec*restrict) = sigtimedwait;}
+{int(*p)(const sigset_t*restrict,int*restrict) = sigwait;}
+{int(*p)(const sigset_t*restrict,siginfo_t*restrict) = sigwaitinfo;}
 #endif
-int(*p_raise)(int) = raise;
-void(*(*p_signal)(int,void(*)(int)))(int) = signal;
+{int(*p)(int) = raise;}
+{void(*(*p)(int,void(*)(int)))(int) = signal;}
 }

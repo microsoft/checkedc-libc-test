@@ -11,13 +11,13 @@ F(char*, gr_name)
 F(gid_t, gr_gid)
 F(char**, gr_mem)
 }
-void(*p_endgrent)(void) = endgrent;
-struct group*(*p_getgrent)(void) = getgrent;
-struct group*(*p_getgrgid)(gid_t) = getgrgid;
-int(*p_getgrgid_r)(gid_t,struct group*,char*,size_t,struct group**) = getgrgid_r;
-struct group*(*p_getgrnam)(const char*) = getgrnam;
-int(*p_getgrnam_r)(const char*,struct group*,char*,size_t,struct group**) = getgrnam_r;
+{void(*p)(void) = endgrent;}
+{struct group*(*p)(void) = getgrent;}
+{struct group*(*p)(gid_t) = getgrgid;}
+{int(*p)(gid_t,struct group*,char*,size_t,struct group**) = getgrgid_r;}
+{struct group*(*p)(const char*) = getgrnam;}
+{int(*p)(const char*,struct group*,char*,size_t,struct group**) = getgrnam_r;}
 #ifdef _XOPEN_SOURCE
-void(*p_setgrent)(void) = setgrent;
+{void(*p)(void) = setgrent;}
 #endif
 }

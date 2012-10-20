@@ -23,5 +23,5 @@ C(IPC_PRIVATE)
 C(IPC_RMID)
 C(IPC_SET)
 C(IPC_STAT)
-key_t(*p_ftok)(const char*,int) = ftok;
+{key_t(*p)(const char*,int) = ftok;}
 }

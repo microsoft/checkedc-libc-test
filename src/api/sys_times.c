@@ -12,5 +12,5 @@ F(clock_t,tms_stime)
 F(clock_t,tms_cutime)
 F(clock_t,tms_cstime)
 }
-clock_t(*p_times)(struct tms*) = times;
+{clock_t(*p)(struct tms*) = times;}
 }

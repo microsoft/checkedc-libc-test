@@ -53,11 +53,11 @@ C(LC_MONETARY_MASK)
 C(LC_NUMERIC_MASK)
 C(LC_TIME_MASK)
 {locale_t x = LC_GLOBAL_LOCALE;}
-locale_t(*p_duplocale)(locale_t) = duplocale;
-void(*p_freelocale)(locale_t) = freelocale;
-locale_t(*p_newlocale)(int,const char*,locale_t) = newlocale;
-locale_t(*p_uselocale)(locale_t) = uselocale;
+{locale_t(*p)(locale_t) = duplocale;}
+{void(*p)(locale_t) = freelocale;}
+{locale_t(*p)(int,const char*,locale_t) = newlocale;}
+{locale_t(*p)(locale_t) = uselocale;}
 #endif
-struct lconv*(*p_localeconv)(void) = localeconv;
-char*(*p_setlocale)(int,const char*) = setlocale;
+{struct lconv*(*p)(void) = localeconv;}
+{char*(*p)(int,const char*) = setlocale;}
 }

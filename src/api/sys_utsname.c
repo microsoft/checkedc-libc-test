@@ -10,5 +10,5 @@ F(char,release[1])
 F(char,version[1])
 F(char,machine[1])
 }
-int(*p_uname)(struct utsname*) = uname;
+{int(*p)(struct utsname*) = uname;}
 }

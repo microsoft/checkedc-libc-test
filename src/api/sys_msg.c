@@ -22,8 +22,8 @@ F(time_t, msg_stime)
 F(time_t, msg_rtime)
 F(time_t,msg_ctime)
 }
-int(*p_msgctl)(int,int,struct msqid_ds*) = msgctl;
-int(*p_msgget)(key_t,int) = msgget;
-ssize_t(*p_msgrcv)(int,void*,size_t,long,int) = msgrcv;
-int(*p_msgsnd)(int,const void*,size_t,int) = msgsnd;
+{int(*p)(int,int,struct msqid_ds*) = msgctl;}
+{int(*p)(key_t,int) = msgget;}
+{ssize_t(*p)(int,void*,size_t,long,int) = msgrcv;}
+{int(*p)(int,const void*,size_t,int) = msgsnd;}
 }

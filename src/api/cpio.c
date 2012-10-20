@@ -21,6 +21,6 @@ C(C_ISCHR)
 C(C_ISCTG)
 C(C_ISLNK)
 C(C_ISSOCK)
-char *s = MAGIC;
+{char *s = "" MAGIC;}
 }
 

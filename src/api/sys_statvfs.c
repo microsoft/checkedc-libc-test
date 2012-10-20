@@ -22,6 +22,6 @@ F(unsigned long, f_namemax)
 }
 C(ST_RDONLY)
 C(ST_NOSUID)
-int(*p_fstatvfs)(int,struct statvfs*) = fstatvfs;
-int(*p_statvfs)(const char*restrict,struct statvfs*restrict) = statvfs;
+{int(*p)(int,struct statvfs*) = fstatvfs;}
+{int(*p)(const char*restrict,struct statvfs*restrict) = statvfs;}
 }

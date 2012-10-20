@@ -22,10 +22,10 @@ F(time_t,shm_atime)
 F(time_t,shm_dtime)
 F(time_t,shm_ctime)
 }
-void*(*p_shmat)(int,const void*,int) = shmat;
-int(*p_shmctl)(int,int,struct shmid_ds*) = shmctl;
-int(*p_shmdt)(const void*) = shmdt;
-int(*p_shmget)(key_t,size_t,int) = shmget;
+{void*(*p)(int,const void*,int) = shmat;}
+{int(*p)(int,int,struct shmid_ds*) = shmctl;}
+{int(*p)(const void*) = shmdt;}
+{int(*p)(key_t,size_t,int) = shmget;}
 
 T(uid_t)
 T(gid_t)
@@ -46,5 +46,5 @@ C(IPC_PRIVATE)
 C(IPC_RMID)
 C(IPC_SET)
 C(IPC_STAT)
-key_t(*p_ftok)(const char*,int) = ftok;
+{key_t(*p)(const char*,int) = ftok;}
 }

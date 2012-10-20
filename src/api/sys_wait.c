@@ -25,7 +25,7 @@ C(WSTOPPED)
 {idtype_t x = P_ALL;}
 {idtype_t x = P_PGID;}
 {idtype_t x = P_PID;}
-pid_t(*p_wait)(int*) = wait;
-int(*p_waitid)(idtype_t,id_t,siginfo_t*,int) = waitid;
-pid_t(*p_waitpid)(pid_t,int*,int) = waitpid;
+{pid_t(*p)(int*) = wait;}
+{int(*p)(idtype_t,id_t,siginfo_t*,int) = waitid;}
+{pid_t(*p)(pid_t,int*,int) = waitpid;}
 }

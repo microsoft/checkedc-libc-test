@@ -23,10 +23,10 @@ C(USER_PROCESS)
 C(INIT_PROCESS)
 C(LOGIN_PROCESS)
 C(DEAD_PROCESS)
-void(*p_endutxent)(void) = endutxent;
-struct utmpx*(*p_getutxent)(void) = getutxent;
-struct utmpx*(*p_getutxid)(const struct utmpx*) = getutxid;
-struct utmpx*(*p_getutxline)(const struct utmpx*) = getutxline;
-struct utmpx*(*p_pututxline)(const struct utmpx*) = pututxline;
-void(*p_setutxent)(void) = setutxent;
+{void(*p)(void) = endutxent;}
+{struct utmpx*(*p)(void) = getutxent;}
+{struct utmpx*(*p)(const struct utmpx*) = getutxid;}
+{struct utmpx*(*p)(const struct utmpx*) = getutxline;}
+{struct utmpx*(*p)(const struct utmpx*) = pututxline;}
+{void(*p)(void) = setutxent;}
 }

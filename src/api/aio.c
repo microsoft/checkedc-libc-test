@@ -30,12 +30,12 @@ C(LIO_READ)
 C(LIO_WAIT)
 C(LIO_WRITE)
 
-int(*p_aio_cancel)(int,struct aiocb*) = aio_cancel;
-int(*p_aio_error)(const struct aiocb*) = aio_error;
-int(*p_aio_fsync)(int,struct aiocb*) = aio_fsync;
-int(*p_aio_read)(struct aiocb*) = aio_read;
-ssize_t(*p_aio_return)(struct aiocb*) = aio_return;
-int(*p_aio_suspend)(const struct aiocb*const[],int,const struct timespec*) = aio_suspend;
-int(*p_aio_write)(struct aiocb*) = aio_write;
-int(*p_lio_listio)(int,struct aiocb*restrict const[restrict],int,struct sigevent*restrict) = lio_listio;
+{int(*p)(int,struct aiocb*) = aio_cancel;}
+{int(*p)(const struct aiocb*) = aio_error;}
+{int(*p)(int,struct aiocb*) = aio_fsync;}
+{int(*p)(struct aiocb*) = aio_read;}
+{ssize_t(*p)(struct aiocb*) = aio_return;}
+{int(*p)(const struct aiocb*const[],int,const struct timespec*) = aio_suspend;}
+{int(*p)(struct aiocb*) = aio_write;}
+{int(*p)(int,struct aiocb*restrict const[restrict],int,struct sigevent*restrict) = lio_listio;}
 }

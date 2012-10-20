@@ -22,6 +22,6 @@ C(WRDE_BADVAL)
 C(WRDE_CMDSUB)
 C(WRDE_NOSPACE)
 C(WRDE_SYNTAX)
-int(*p_wordexp)(const char*restrict,wordexp_t*restrict,int) = wordexp;
-void(*p_wordfree)(wordexp_t*) = wordfree;
+{int(*p)(const char*restrict,wordexp_t*restrict,int) = wordexp;}
+{void(*p)(wordexp_t*) = wordfree;}
 }

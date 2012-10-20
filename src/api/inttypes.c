@@ -250,14 +250,14 @@ S(SCNxFAST32)
 S(SCNxFAST64)
 S(SCNxMAX)
 S(SCNxPTR)
-intmax_t(*p_imaxabs)(intmax_t) = imaxabs;
-imaxdiv_t(*p_imaxdiv)(intmax_t,intmax_t) = imaxdiv;
-intmax_t(*p_strtoimax)(const char*restrict,char**restrict,int) = strtoimax;
-uintmax_t(*p_strtoumax)(const char*restrict,char**restrict,int) = strtoumax;
+{intmax_t(*p)(intmax_t) = imaxabs;}
+{imaxdiv_t(*p)(intmax_t,intmax_t) = imaxdiv;}
+{intmax_t(*p)(const char*restrict,char**restrict,int) = strtoimax;}
+{uintmax_t(*p)(const char*restrict,char**restrict,int) = strtoumax;}
 }
 #include <stddef.h>
 static void g()
 {
-intmax_t(*p_wcstoimax)(const wchar_t*restrict,wchar_t**restrict,int) = wcstoimax;
-uintmax_t(*p_wcstoumax)(const wchar_t*restrict,wchar_t**restrict,int) = wcstoumax;
+{intmax_t(*p)(const wchar_t*restrict,wchar_t**restrict,int) = wcstoimax;}
+{uintmax_t(*p)(const wchar_t*restrict,wchar_t**restrict,int) = wcstoumax;}
 }

@@ -7,8 +7,8 @@ C(RTLD_NOW)
 C(RTLD_GLOBAL)
 C(RTLD_LOCAL)
 
-int(*p_dlclose)(void*) = dlclose;
-char*(*p_dlerror)(void) = dlerror;
-void*(*p_dlopen)(const char*,int) = dlopen;
-void*(*p_dlsym)(void*restrict,const char*restrict) = dlsym;
+{int(*p)(void*) = dlclose;}
+{char*(*p)(void) = dlerror;}
+{void*(*p)(const char*,int) = dlopen;}
+{void*(*p)(void*restrict,const char*restrict) = dlsym;}
 }

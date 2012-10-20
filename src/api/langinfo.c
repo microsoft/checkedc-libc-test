@@ -60,6 +60,6 @@ C(THOUSEP)
 C(YESEXPR)
 C(NOEXPR)
 C(CRNCYSTR)
-char*(*p_nl_langinfo)(nl_item) = nl_langinfo;
-char*(*p_nl_langinfo_l)(nl_item,locale_t) = nl_langinfo_l;
+{char*(*p)(nl_item) = nl_langinfo;}
+{char*(*p)(nl_item,locale_t) = nl_langinfo_l;}
 }

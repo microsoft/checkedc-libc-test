@@ -31,9 +31,9 @@ C(RLIMIT_FSIZE)
 C(RLIMIT_NOFILE)
 C(RLIMIT_STACK)
 C(RLIMIT_AS)
-int(*p_getpriority)(int,id_t) = getpriority;
-int(*p_getrlimit)(int,struct rlimit*) = getrlimit;
-int(*p_getrusage)(int,struct rusage*) = getrusage;
-int(*p_setpriority)(int,id_t,int) = setpriority;
-int(*p_setrlimit)(int,const struct rlimit*) = setrlimit;
+{int(*p)(int,id_t) = getpriority;}
+{int(*p)(int,struct rlimit*) = getrlimit;}
+{int(*p)(int,struct rusage*) = getrusage;}
+{int(*p)(int,id_t,int) = setpriority;}
+{int(*p)(int,const struct rlimit*) = setrlimit;}
 }

@@ -69,8 +69,8 @@ F(struct timespec, st_ctim)
 F(blksize_t, st_blksize)
 F(blkcnt_t, st_blocks)
 }
-int(*p_ftw)(const char*,int(*)(const char*,const struct stat*,int),int) = ftw;
-int(*p_nftw)(const char*,int(*)(const char*,const struct stat*,int,struct FTW*),int,int) = nftw;
+{int(*p)(const char*,int(*)(const char*,const struct stat*,int),int) = ftw;}
+{int(*p)(const char*,int(*)(const char*,const struct stat*,int,struct FTW*),int,int) = nftw;}
 }
 #endif
 

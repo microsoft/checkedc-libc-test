@@ -34,8 +34,8 @@ C(REG_BADBR)
 C(REG_ERANGE)
 C(REG_ESPACE)
 C(REG_BADRPT)
-int(*p_regcomp)(regex_t*restrict,const char*restrict,int) = regcomp;
-size_t(*p_regerror)(int,const regex_t*restrict,char*restrict,size_t) = regerror;
-int(*p_regexec)(const regex_t*restrict,const char*restrict,size_t,regmatch_t[restrict],int) = regexec;
-void(*p_regfree)(regex_t*) = regfree;
+{int(*p)(regex_t*restrict,const char*restrict,int) = regcomp;}
+{size_t(*p)(int,const regex_t*restrict,char*restrict,size_t) = regerror;}
+{int(*p)(const regex_t*restrict,const char*restrict,size_t,regmatch_t[restrict],int) = regexec;}
+{void(*p)(regex_t*) = regfree;}
 }

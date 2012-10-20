@@ -22,6 +22,6 @@ C(GLOB_NOSORT)
 C(GLOB_ABORTED)
 C(GLOB_NOMATCH)
 C(GLOB_NOSPACE)
-int(*p_glob)(const char*restrict,int,int(*)(const char*,int),glob_t*restrict) = glob;
-void(*p_globfree)(glob_t*) = globfree;
+{int(*p)(const char*restrict,int,int(*)(const char*,int),glob_t*restrict) = glob;}
+{void(*p)(glob_t*) = globfree;}
 }
