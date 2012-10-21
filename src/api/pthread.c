@@ -24,8 +24,6 @@ C(PTHREAD_CANCEL_DISABLE)
 {void *x = PTHREAD_CANCELED;}
 C(PTHREAD_CREATE_DETACHED)
 C(PTHREAD_CREATE_JOINABLE)
-C(PTHREAD_EXPLICIT_SCHED)
-C(PTHREAD_INHERIT_SCHED)
 C(PTHREAD_MUTEX_DEFAULT)
 C(PTHREAD_MUTEX_ERRORCHECK)
 C(PTHREAD_MUTEX_NORMAL)
@@ -35,11 +33,17 @@ C(PTHREAD_MUTEX_STALLED)
 C(PTHREAD_ONCE_INIT)
 C(PTHREAD_PRIO_INHERIT)
 C(PTHREAD_PRIO_NONE)
+#ifdef X_RPP_TPP
 C(PTHREAD_PRIO_PROTECT)
+#endif
 C(PTHREAD_PROCESS_SHARED)
 C(PTHREAD_PROCESS_PRIVATE)
+#ifdef X_TPS
+C(PTHREAD_EXPLICIT_SCHED)
+C(PTHREAD_INHERIT_SCHED)
 C(PTHREAD_SCOPE_PROCESS)
 C(PTHREAD_SCOPE_SYSTEM)
+#endif
 {pthread_cond_t x = PTHREAD_COND_INITIALIZER;}
 {pthread_mutex_t x = PTHREAD_MUTEX_INITIALIZER;}
 {pthread_rwlock_t x = PTHREAD_RWLOCK_INITIALIZER;}
@@ -47,19 +51,13 @@ C(PTHREAD_SCOPE_SYSTEM)
 {int(*p)(pthread_attr_t*) = pthread_attr_destroy;}
 {int(*p)(const pthread_attr_t*,int*) = pthread_attr_getdetachstate;}
 {int(*p)(const pthread_attr_t*restrict,size_t*restrict) = pthread_attr_getguardsize;}
-{int(*p)(const pthread_attr_t*restrict,int*restrict) = pthread_attr_getinheritsched;}
 {int(*p)(const pthread_attr_t*restrict,struct sched_param*restrict) = pthread_attr_getschedparam;}
-{int(*p)(const pthread_attr_t*restrict,int*restrict) = pthread_attr_getschedpolicy;}
-{int(*p)(const pthread_attr_t*restrict,int*restrict) = pthread_attr_getscope;}
 {int(*p)(const pthread_attr_t*restrict,void**restrict,size_t*restrict) = pthread_attr_getstack;}
 {int(*p)(const pthread_attr_t*restrict,size_t*restrict) = pthread_attr_getstacksize;}
 {int(*p)(pthread_attr_t*) = pthread_attr_init;}
 {int(*p)(pthread_attr_t*,int) = pthread_attr_setdetachstate;}
 {int(*p)(pthread_attr_t*,size_t) = pthread_attr_setguardsize;}
-{int(*p)(pthread_attr_t*,int) = pthread_attr_setinheritsched;}
 {int(*p)(pthread_attr_t*restrict,const struct sched_param*restrict) = pthread_attr_setschedparam;}
-{int(*p)(pthread_attr_t*,int) = pthread_attr_setschedpolicy;}
-{int(*p)(pthread_attr_t*,int) = pthread_attr_setscope;}
 {int(*p)(pthread_attr_t*,void*,size_t) = pthread_attr_setstack;}
 {int(*p)(pthread_attr_t*,size_t) = pthread_attr_setstacksize;}
 {int(*p)(pthread_barrier_t*) = pthread_barrier_destroy;}
@@ -88,27 +86,22 @@ C(PTHREAD_SCOPE_SYSTEM)
 {int(*p)(pthread_t) = pthread_detach;}
 {int(*p)(pthread_t,pthread_t) = pthread_equal;}
 {void(*p)(void*) = pthread_exit;}
-{int(*p)(pthread_t,int*restrict,struct sched_param*restrict) = pthread_getschedparam;}
 {void*(*p)(pthread_key_t) = pthread_getspecific;}
 {int(*p)(pthread_t,void**) = pthread_join;}
 {int(*p)(pthread_key_t*,void(*)(void*)) = pthread_key_create;}
 {int(*p)(pthread_key_t) = pthread_key_delete;}
 {int(*p)(pthread_mutex_t*) = pthread_mutex_consistent;}
 {int(*p)(pthread_mutex_t*) = pthread_mutex_destroy;}
-{int(*p)(const pthread_mutex_t*restrict,int*restrict) = pthread_mutex_getprioceiling;}
 {int(*p)(pthread_mutex_t*restrict,const pthread_mutexattr_t*restrict) = pthread_mutex_init;}
 {int(*p)(pthread_mutex_t*) = pthread_mutex_lock;}
-{int(*p)(pthread_mutex_t*restrict,int,int*restrict) = pthread_mutex_setprioceiling;}
 {int(*p)(pthread_mutex_t*) = pthread_mutex_trylock;}
 {int(*p)(pthread_mutex_t*) = pthread_mutex_unlock;}
 {int(*p)(pthread_mutexattr_t*) = pthread_mutexattr_destroy;}
-{int(*p)(const pthread_mutexattr_t*restrict,int*restrict) = pthread_mutexattr_getprioceiling;}
 {int(*p)(const pthread_mutexattr_t*restrict,int*restrict) = pthread_mutexattr_getprotocol;}
 {int(*p)(const pthread_mutexattr_t*restrict,int*restrict) = pthread_mutexattr_getpshared;}
 {int(*p)(const pthread_mutexattr_t*restrict,int*restrict) = pthread_mutexattr_getrobust;}
 {int(*p)(const pthread_mutexattr_t*restrict,int*restrict) = pthread_mutexattr_gettype;}
 {int(*p)(pthread_mutexattr_t*) = pthread_mutexattr_init;}
-{int(*p)(pthread_mutexattr_t*,int) = pthread_mutexattr_setprioceiling;}
 {int(*p)(pthread_mutexattr_t*,int) = pthread_mutexattr_setprotocol;}
 {int(*p)(pthread_mutexattr_t*,int) = pthread_mutexattr_setpshared;}
 {int(*p)(pthread_mutexattr_t*,int) = pthread_mutexattr_setrobust;}
@@ -128,7 +121,6 @@ C(PTHREAD_SCOPE_SYSTEM)
 {pthread_t(*p)(void) = pthread_self;}
 {int(*p)(int,int*) = pthread_setcancelstate;}
 {int(*p)(int,int*) = pthread_setcanceltype;}
-{int(*p)(pthread_t,int,const struct sched_param*) = pthread_setschedparam;}
 {int(*p)(pthread_t,int) = pthread_setschedprio;}
 {int(*p)(pthread_key_t,const void*) = pthread_setspecific;}
 {int(*p)(pthread_spinlock_t*) = pthread_spin_destroy;}
@@ -137,6 +129,24 @@ C(PTHREAD_SCOPE_SYSTEM)
 {int(*p)(pthread_spinlock_t*) = pthread_spin_trylock;}
 {int(*p)(pthread_spinlock_t*) = pthread_spin_unlock;}
 {void(*p)(void) = pthread_testcancel;}
+
+#ifdef X_RPP_TPP
+{int(*p)(const pthread_mutex_t*restrict,int*restrict) = pthread_mutex_getprioceiling;}
+{int(*p)(pthread_mutex_t*restrict,int,int*restrict) = pthread_mutex_setprioceiling;}
+{int(*p)(const pthread_mutexattr_t*restrict,int*restrict) = pthread_mutexattr_getprioceiling;}
+{int(*p)(pthread_mutexattr_t*,int) = pthread_mutexattr_setprioceiling;}
+#endif
+
+#ifdef X_TPS
+{int(*p)(const pthread_attr_t*restrict,int*restrict) = pthread_attr_getinheritsched;}
+{int(*p)(const pthread_attr_t*restrict,int*restrict) = pthread_attr_getschedpolicy;}
+{int(*p)(const pthread_attr_t*restrict,int*restrict) = pthread_attr_getscope;}
+{int(*p)(pthread_attr_t*,int) = pthread_attr_setinheritsched;}
+{int(*p)(pthread_attr_t*,int) = pthread_attr_setschedpolicy;}
+{int(*p)(pthread_attr_t*,int) = pthread_attr_setscope;}
+{int(*p)(pthread_t,int*restrict,struct sched_param*restrict) = pthread_getschedparam;}
+{int(*p)(pthread_t,int,const struct sched_param*) = pthread_setschedparam;}
+#endif
 }
 #include <time.h>
 static void g()

@@ -11,8 +11,10 @@ T(sigset_t)
 T(struct sched_param)
 C(POSIX_SPAWN_RESETIDS)
 C(POSIX_SPAWN_SETPGROUP)
+#ifdef X_PS
 C(POSIX_SPAWN_SETSCHEDPARAM)
 C(POSIX_SPAWN_SETSCHEDULER)
+#endif
 C(POSIX_SPAWN_SETSIGDEF)
 C(POSIX_SPAWN_SETSIGMASK)
 {int(*p)(pid_t*restrict,const char*restrict,const posix_spawn_file_actions_t*,const posix_spawnattr_t*restrict,char*const[restrict],char*const[restrict]) = posix_spawn;}
@@ -37,6 +39,7 @@ static void g()
 {int(*p)(posix_spawnattr_t*restrict,const sigset_t*restrict) = posix_spawnattr_setsigdefault;}
 {int(*p)(posix_spawnattr_t*restrict,const sigset_t*restrict) = posix_spawnattr_setsigmask;}
 }
+#ifdef X_PS
 #include <sched.h>
 static void h()
 {
@@ -45,3 +48,4 @@ static void h()
 {int(*p)(posix_spawnattr_t*restrict,const struct sched_param*restrict) = posix_spawnattr_setschedparam;}
 {int(*p)(posix_spawnattr_t*,int) = posix_spawnattr_setschedpolicy;}
 }
+#endif
