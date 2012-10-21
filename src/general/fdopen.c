@@ -29,7 +29,7 @@ int main(void)
 		TEST(fseeko(f, 0, SEEK_SET)==0);
 		TEST(fgets(foo, sizeof foo, f));
 		if (strcmp(foo,"hello") != 0)
-			error("fgets read back wrong message: \"%s\" wanted: \"hello\"\n", foo);
+			error("fgets read back: \"%s\"; wanted: \"hello\"\n", foo);
 		fclose(f);
 	}
 	if (fd > 2)

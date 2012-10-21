@@ -1,5 +1,5 @@
-CFLAGS+=-g -pipe -std=c99 -D_POSIX_C_SOURCE=200809L -Wall -Wno-unused-function -Wno-missing-braces
-LDFLAGS+=-g
+CFLAGS+=-pipe -std=c99 -D_POSIX_C_SOURCE=200809L -Wall -Wno-unused-function -Wno-missing-braces
+LDFLAGS+=
 
 SRC=$(sort $(wildcard *.c))
 OBJ=$(SRC:.c=.o)
@@ -8,8 +8,7 @@ BINOBJ=$(filter-out %_dso.o,$(OBJ))
 DSO=$(DSOOBJ:.o=.so)
 BIN=$(BINOBJ:.o=)
 
-ROOT=../..
-include $(ROOT)/config.mak
+-include ../../config.mak
 
 all: $(BIN) $(DSO)
 run: all
