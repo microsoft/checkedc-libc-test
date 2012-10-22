@@ -1,4 +1,4 @@
-#ifdef _XOPEN_SOURCE
+#if 0
 #include <fmtmsg.h>
 #define C(n) switch(n){case n:;}
 static void f()

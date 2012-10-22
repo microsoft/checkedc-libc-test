@@ -1,3 +1,4 @@
+#if 0
 #include <ndbm.h>
 #define T(t) (t*)0;
 #define F(t,n) {t *y = &x.n;}
@@ -23,3 +24,4 @@ C(DBM_REPLACE)
 {DBM*(*p)(const char*,int,mode_t) = dbm_open;}
 {int(*p)(DBM*,datum,datum,int) = dbm_store;}
 }
+#endif
