@@ -1,8 +1,6 @@
 #include <dlfcn.h>
 #include "test.h"
 
-int foo;
-
 int main()
 {
 	void *h, *g;
