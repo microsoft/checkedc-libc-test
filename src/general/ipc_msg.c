@@ -61,8 +61,8 @@ static void snd()
 	EQ(qid_ds.msg_qnum, 0, "got %d, want %d");
 	EQ(qid_ds.msg_lspid, 0, "got %d, want %d");
 	EQ(qid_ds.msg_lrpid, 0, "got %d, want %d");
-	EQ((long)qid_ds.msg_stime, 0, "got %ld, want %ld");
-	EQ((long)qid_ds.msg_rtime, 0, "got %ld, want %ld");
+	EQ((long)qid_ds.msg_stime, 0, "got %ld, want %d");
+	EQ((long)qid_ds.msg_rtime, 0, "got %ld, want %d");
 	if (qid_ds.msg_ctime < t)
 		error("qid_ds.msg_ctime >= t failed: got %ld, want %ld\n", (long)qid_ds.msg_ctime, (long)t);
 	if (qid_ds.msg_qbytes <= 0)
