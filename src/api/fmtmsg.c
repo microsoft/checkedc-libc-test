@@ -1,4 +1,4 @@
-#if 0
+#if X_FMTMSG
 #include <fmtmsg.h>
 #define C(n) switch(n){case n:;}
 static void f()

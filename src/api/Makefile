@@ -1,5 +1,5 @@
 CFLAGS+=-std=c99 -pedantic-errors -Wall -Werror -Wno-unused -D_POSIX_C_SOURCE=200809L -D_XOPEN_SOURCE=700
-#CFLAGS+=-DX_PS -DX_TPS -DX_TYM -DX_RPP_TPP
+#CFLAGS+=-DX_PS -DX_TPS -DX_TYM -DX_RPP_TPP -DX_FMTMSG -DX_NDBM
 LDFLAGS+=-lcrypt -ldl -lm -lpthread -lrt
 
 SRC=$(sort $(wildcard *.c))

@@ -1,4 +1,4 @@
-#if 0
+#if X_NDBM
 #include <ndbm.h>
 #define T(t) (t*)0;
 #define F(t,n) {t *y = &x.n;}
