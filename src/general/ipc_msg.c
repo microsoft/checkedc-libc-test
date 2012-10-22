@@ -102,6 +102,9 @@ static void rcv()
 	errno = 0;
 	if (msgrcv(qid, &msg, sizeof msg.data, msgtyp, MSG_NOERROR|IPC_NOWAIT) != -1 || errno != ENOMSG)
 		error("msgrcv should have failed when ther is no msg with ENOMSG, got %s\n", strerror(errno));
+
+	/* cleanup */
+	T(msgctl(qid, IPC_RMID, 0));
 }
 
 int main(void)
