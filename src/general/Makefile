@@ -18,10 +18,12 @@ clean:
 
 $(OBJ): test.h
 $(DSOOBJ): CFLAGS += -fPIC
+%.o: %.c
+	$(CC) $(CFLAGS) -c -o $@ $< || true
 %.so: %.o
-	$(CC) $(LDFLAGS) -shared -o $@ $<
+	$(CC) $(LDFLAGS) -shared -o $@ $< || true
 %: %.o
-	$(CC) $(LDFLAGS) -o $@ $(patsubst %.so,./%.so,$+)
+	$(CC) $(LDFLAGS) -o $@ $(patsubst %.so,./%.so,$+) || true
 
 dlopen: LDFLAGS+=-ldl -rdynamic
 pthread: LDFLAGS+=-lpthread
@@ -29,3 +31,4 @@ sem: LDFLAGS+=-lpthread -lrt
 strtod_simple: LDFLAGS+=-lm
 tls_align: tls_align_dso.so
 tls_align_dlopen: LDFLAGS+=-ldl
+tls_init: LDFLAGS+=-lpthread
