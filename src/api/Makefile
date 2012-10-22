@@ -8,6 +8,8 @@ ERR=$(SRC:.c=.err)
 -include ../../config.mak
 
 all: all.err
+
+run: all.err
 	cat $<
 
 all.err: $(ERR)
