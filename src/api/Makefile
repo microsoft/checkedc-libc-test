@@ -5,7 +5,7 @@ all:
 	for i in *.c; do \
 		LC_ALL=C $(CC) $(CFLAGS) -c $$i 2>&1; \
 	done |grep -v 'Each undeclared identifier is reported only once' |grep -v 'for each function it appears in'
-	$(CC) $(LDFLAGS) -lcrypt -ldl -lm -lpthread -lrt *.o -o main
+	$(CC) $(LDFLAGS) -lcrypt -ldl -lm -lpthread -lrt *.o -o main 2>&1
 
 clean:
 	rm -f main *.o
