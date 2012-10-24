@@ -2,6 +2,7 @@
 #include <stdarg.h>
 #define error(...) test_error(__FILE__, __LINE__, __VA_ARGS__)
 
+/* TODO: not thread-safe nor fork-safe */
 static int test_status;
 
 static int test_error(const char *n, int l, const char *s, ...)
