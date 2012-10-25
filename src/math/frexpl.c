@@ -38,7 +38,7 @@ int main(void)
 			err++;
 		}
 		d = ulperrl(y, p->y, p->dy);
-		if (!checkulp(d, p->r) || yi != p->i) {
+		if (!checkcr(y, p->y, p->r) || yi != p->i) {
 			printf("%s:%d: %s frexpl(%La) want %La,%lld got %La,%d ulperr %.3f = %a + %a\n",
 				p->file, p->line, rstr(p->r), p->x, p->y, p->i, y, yi, d, d-p->dy, p->dy);
 			err++;

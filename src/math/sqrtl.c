@@ -38,7 +38,7 @@ int main(void)
 			err++;
 		}
 		d = ulperrl(y, p->y, p->dy);
-		if (!checkulp(d, p->r)) {
+		if (!checkcr(y, p->y, p->r)) {
 			printf("%s:%d: %s sqrtl(%La) want %La got %La ulperr %.3f = %a + %a\n",
 				p->file, p->line, rstr(p->r), p->x, p->y, y, d, d-p->dy, p->dy);
 			err++;

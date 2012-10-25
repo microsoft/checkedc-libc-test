@@ -116,3 +116,10 @@ static int checkulp(float d, int r)
 	return 1;
 }
 
+static int checkcr(long double y, long double ywant, int r)
+{
+	if (isnan(ywant))
+		return isnan(y);
+	return y == ywant;
+}
+
