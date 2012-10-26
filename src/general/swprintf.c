@@ -129,13 +129,23 @@ int main(void)
 	TEST(i, b[5], 'x', "buffer overrun");
 
 	for (j=0; int_tests[j].fmt; j++) {
-		TEST(i, swprintf(b, sizeof b/sizeof *b, int_tests[j].fmt, int_tests[j].i), wcslen(b), "%d != %d");
-		TEST_S(b, int_tests[j].expect, "bad integer conversion");
+		i = swprintf(b, sizeof b, int_tests[j].fmt, int_tests[j].i);
+		if (i != wcslen(int_tests[j].expect)) {
+			error("swprintf(b, sizeof b, \"%ls\", %d) returned %d wanted %d\n",
+				int_tests[j].fmt, int_tests[j].i, i, wcslen(int_tests[j].expect));
+		}
+		if (wcscmp(b, int_tests[j].expect) != 0)
+			error("bad integer conversion: got \"%ls\", want \"%ls\"\n", b, int_tests[j].expect);
 	}
 
 	for (j=0; fp_tests[j].fmt; j++) {
-		TEST(i, swprintf(b, sizeof b/sizeof *b, fp_tests[j].fmt, fp_tests[j].f), wcslen(b), "%d != %d");
-		TEST_S(b, fp_tests[j].expect, "bad floating point conversion");
+		i = swprintf(b, sizeof b, fp_tests[j].fmt, fp_tests[j].f);
+		if (i != wcslen(fp_tests[j].expect)) {
+			error("swprintf(b, sizeof b, \"%ls\", %f) returned %d wanted %d\n",
+				fp_tests[j].fmt, fp_tests[j].f, i, wcslen(fp_tests[j].expect));
+		}
+		if (wcscmp(b, fp_tests[j].expect) != 0)
+			error("bad floating-point conversion: got \"%ls\", want \"%ls\"\n", b, fp_tests[j].expect);
 	}
 	return test_status;
 }
