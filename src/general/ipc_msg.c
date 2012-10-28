@@ -66,7 +66,7 @@ static void snd()
 	if (qid_ds.msg_ctime < t)
 		error("qid_ds.msg_ctime >= t failed: got %ld, want %ld\n", (long)qid_ds.msg_ctime, (long)t);
 	if (qid_ds.msg_qbytes <= 0)
-		error("qid_ds.msg_qbytes > 0 failed: got %d, want 0\n", qid_ds.msg_ctime, t);
+		error("qid_ds.msg_qbytes > 0 failed: got %d, want 0\n", qid_ds.msg_qbytes, t);
 
 	/* test send */
 	T(msgsnd(qid, &msg, sizeof msg.data, IPC_NOWAIT));

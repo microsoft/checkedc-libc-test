@@ -27,7 +27,6 @@ int main(void)
 		"reopening should fail with O_EXCL\n");
 	TEST(errno == EEXIST,
 		"after reopen failure errno is \"%s\" (%d); want EEXIST (%d)\n", strerror(errno), errno, EEXIST);
-	errno = 0;
 
 	TEST(sem_getvalue(sem, &val) == 0, "failed to get sem value\n");
 	TEST(val == 1, "wrong initial semaphore value: %d\n", val);
@@ -35,9 +34,14 @@ int main(void)
 	TEST((sem2=sem_open(buf, 0)) == sem,
 		"could not reopen sem: got %p, want %p\n", sem2, sem);
 
+	errno = 0;
 	TEST(sem_wait(sem) == 0, "%s\n", strerror(errno));
 	TEST(sem_getvalue(sem2, &val) == 0, "%s\n", strerror(errno));
 	TEST(val == 0, "wrong semaphore value on second handle: %d\n", val);
+
+	errno = 0;
+	TEST(sem_trywait(sem) == -1 && errno == EAGAIN,
+		"trywait on locked sem: got errno \"%s\" (%d), want EAGAIN (%d)\n", strerror(errno), errno, EAGAIN);
 
 	TEST(sem_post(sem) == 0, "%s\n", strerror(errno));
 	TEST(sem_getvalue(sem2, &val) == 0, "%s\n", strerror(errno));
