@@ -36,7 +36,7 @@ int main(void)
 		}
 		d = ulperr(y, p->y, p->dy);
 		di = ulperr(yi, p->y2, p->dy2);
-		if (!checkulp(d, p->r) || !checkulp(di, p->r)) {
+		if (!checkcr(y, p->y, p->r) || !checkcr(yi, p->y2, p->r)) {
 			printf("%s:%d: %s modf(%La) want %La,%La got %La,%La, ulperr %.3f = %a + %a, %.3f = %a + %a\n",
 				p->file, p->line, rstr(p->r), p->x, p->y, p->y2, y, yi, d, d-p->dy, p->dy, di, di-p->dy2, p->dy2);
 			err++;
