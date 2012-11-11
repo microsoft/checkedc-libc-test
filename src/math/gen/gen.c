@@ -290,7 +290,7 @@ static int print(const char *fmt, struct t *t, char *buf, int n)
 			continue;
 		}
 		if (*fmt == 'i') {
-			k = snprintf(buf, n, ", %lld", t->i);
+			k = snprintf(buf, n, ", %11lld", t->i);
 			if (k < 0 || k >= n)
 				return -1;
 			n -= k;

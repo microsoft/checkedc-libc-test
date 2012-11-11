@@ -482,30 +482,69 @@ int mplogb(struct t *t)
 {
 	MPFR_DECL_INIT(mx, 53);
 
-	mpfr_set_d(mx, t->x, MPFR_RNDN);
-	t->y = mpfr_get_exp(mx) - 1;
 	t->dy = 0;
 	t->e = 0;
+	if (t->x == 0) {
+		t->y = -INFINITY;
+		t->e |= DIVBYZERO;
+		return 0;
+	}
+	if (isinf(t->x)) {
+		t->y = INFINITY;
+		return 0;
+	}
+	if (isnan(t->x)) {
+		t->y = t->x;
+		return 0;
+	}
+	mpfr_set_d(mx, t->x, MPFR_RNDN);
+	t->y = mpfr_get_exp(mx) - 1;
 	return 0;
 }
 int mplogbf(struct t *t)
 {
 	MPFR_DECL_INIT(mx, 24);
 
-	mpfr_set_flt(mx, t->x, MPFR_RNDN);
-	t->y = mpfr_get_exp(mx) - 1;
 	t->dy = 0;
 	t->e = 0;
+	if (t->x == 0) {
+		t->y = -INFINITY;
+		t->e |= DIVBYZERO;
+		return 0;
+	}
+	if (isinf(t->x)) {
+		t->y = INFINITY;
+		return 0;
+	}
+	if (isnan(t->x)) {
+		t->y = t->x;
+		return 0;
+	}
+	mpfr_set_flt(mx, t->x, MPFR_RNDN);
+	t->y = mpfr_get_exp(mx) - 1;
 	return 0;
 }
 int mplogbl(struct t *t)
 {
 	MPFR_DECL_INIT(mx, 64);
 
-	mpfr_set_ld(mx, t->x, MPFR_RNDN);
-	t->y = mpfr_get_exp(mx) - 1;
 	t->dy = 0;
 	t->e = 0;
+	if (t->x == 0) {
+		t->y = -INFINITY;
+		t->e |= DIVBYZERO;
+		return 0;
+	}
+	if (isinf(t->x)) {
+		t->y = INFINITY;
+		return 0;
+	}
+	if (isnan(t->x)) {
+		t->y = t->x;
+		return 0;
+	}
+	mpfr_set_ld(mx, t->x, MPFR_RNDN);
+	t->y = mpfr_get_exp(mx) - 1;
 	return 0;
 }
 int mpnearbyint(struct t *t) { return mpd1(t, wrap_nearbyint) || (t->e&=~INEXACT, 0); }
@@ -580,6 +619,7 @@ int mptanl(struct t *t) { return mpl1(t, mpfr_tan); }
 int mptanh(struct t *t) { return mpd1(t, mpfr_tanh); }
 int mptanhf(struct t *t) { return mpf1(t, mpfr_tanh); }
 int mptanhl(struct t *t) { return mpl1(t, mpfr_tanh); }
+// TODO: tgamma(2) raises wrong flags
 int mptgamma(struct t *t) { return mpd1(t, mpfr_gamma); }
 int mptgammaf(struct t *t) { return mpf1(t, mpfr_gamma); }
 int mptgammal(struct t *t) { return mpl1(t, mpfr_gamma); }
@@ -748,6 +788,8 @@ int mpilogb(struct t *t)
 	mpfr_set_d(mx, t->x, MPFR_RNDN);
 	t->i = mpfr_get_exp(mx) - 1;
 	t->e = 0;
+	if (isinf(t->x) || isnan(t->x) || t->x == 0)
+		t->e = INVALID;
 	return 0;
 }
 int mpilogbf(struct t *t)
@@ -757,6 +799,8 @@ int mpilogbf(struct t *t)
 	mpfr_set_flt(mx, t->x, MPFR_RNDN);
 	t->i = mpfr_get_exp(mx) - 1;
 	t->e = 0;
+	if (isinf(t->x) || isnan(t->x) || t->x == 0)
+		t->e = INVALID;
 	return 0;
 }
 int mpilogbl(struct t *t)
@@ -766,6 +810,8 @@ int mpilogbl(struct t *t)
 	mpfr_set_ld(mx, t->x, MPFR_RNDN);
 	t->i = mpfr_get_exp(mx) - 1;
 	t->e = 0;
+	if (isinf(t->x) || isnan(t->x) || t->x == 0)
+		t->e = INVALID;
 	return 0;
 }
 
@@ -801,7 +847,7 @@ int mpmodf(struct t *t)
 		return r;
 	t->y2 = t->y;
 	t->dy2 = t->dy;
-	e = t->e;
+	e = t->e & ~INEXACT;
 	r = mpd1(t, mpfr_frac);
 	t->e |= e;
 	return r;
@@ -816,7 +862,7 @@ int mpmodff(struct t *t)
 		return r;
 	t->y2 = t->y;
 	t->dy2 = t->dy;
-	e = t->e;
+	e = t->e & ~INEXACT;
 	r = mpf1(t, mpfr_frac);
 	t->e |= e;
 	return r;
@@ -831,7 +877,7 @@ int mpmodfl(struct t *t)
 		return r;
 	t->y2 = t->y;
 	t->dy2 = t->dy;
-	e = t->e;
+	e = t->e & ~INEXACT;
 	r = mpl1(t, mpfr_frac);
 	t->e |= e;
 	return r;
