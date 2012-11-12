@@ -31,7 +31,7 @@ int main(void)
 			printf(" got %s\n", estr(e));
 			err++;
 		}
-		if (yi != p->i) {
+		if (!(p->e&INVALID) && yi != p->i) {
 			printf("%s:%d: %s lroundf(%a) want %lld got %lld\n",
 				p->file, p->line, rstr(p->r), p->x, p->i, yi);
 			err++;
