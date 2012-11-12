@@ -6,9 +6,11 @@ static struct l_l t[] = {
 #if LDBL_MANT_DIG == 53
 #include "ucb/ceil.h"
 #include "sanity/ceil.h"
+#include "special/ceil.h"
 
 #elif LDBL_MANT_DIG == 64
 #include "sanity/ceill.h"
+#include "special/ceill.h"
 
 #endif
 };

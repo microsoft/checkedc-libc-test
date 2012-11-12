@@ -6,9 +6,11 @@ static struct l_l t[] = {
 #if LDBL_MANT_DIG == 53
 #include "ucb/sqrt.h"
 #include "sanity/sqrt.h"
+#include "special/sqrt.h"
 
 #elif LDBL_MANT_DIG == 64
 #include "sanity/sqrtl.h"
+#include "special/sqrtl.h"
 
 #endif
 };

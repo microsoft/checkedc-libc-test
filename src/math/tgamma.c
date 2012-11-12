@@ -4,6 +4,7 @@
 
 static struct d_d t[] = {
 #include "sanity/tgamma.h"
+#include "special/tgamma.h"
 
 };
 

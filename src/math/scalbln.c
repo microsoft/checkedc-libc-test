@@ -4,6 +4,7 @@
 
 static struct di_d t[] = {
 #include "sanity/scalbln.h"
+#include "special/scalbln.h"
 
 };
 

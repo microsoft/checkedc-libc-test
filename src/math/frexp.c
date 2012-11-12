@@ -4,6 +4,7 @@
 
 static struct d_di t[] = {
 #include "sanity/frexp.h"
+#include "special/frexp.h"
 
 };
 

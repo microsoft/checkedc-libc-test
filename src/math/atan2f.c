@@ -5,6 +5,7 @@
 static struct ff_f t[] = {
 #include "ucb/atan2f.h"
 #include "sanity/atan2f.h"
+#include "special/atan2f.h"
 
 };
 

@@ -6,6 +6,7 @@ static struct d_d t[] = {
 #include "crlibm/cos.h"
 #include "ucb/cos.h"
 #include "sanity/cos.h"
+#include "special/cos.h"
 
 };
 

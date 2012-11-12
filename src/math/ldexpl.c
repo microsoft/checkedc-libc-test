@@ -5,9 +5,11 @@
 static struct li_l t[] = {
 #if LDBL_MANT_DIG == 53
 #include "sanity/ldexp.h"
+#include "special/ldexp.h"
 
 #elif LDBL_MANT_DIG == 64
 #include "sanity/ldexpl.h"
+#include "special/ldexpl.h"
 
 #endif
 };

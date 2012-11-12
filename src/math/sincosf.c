@@ -4,6 +4,7 @@
 
 static struct f_ff t[] = {
 #include "sanity/sincosf.h"
+#include "special/sincosf.h"
 };
 
 int main(void)

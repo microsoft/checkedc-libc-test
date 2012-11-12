@@ -5,6 +5,7 @@
 static struct f_f t[] = {
 #include "ucb/sinhf.h"
 #include "sanity/sinhf.h"
+#include "special/sinhf.h"
 
 };
 

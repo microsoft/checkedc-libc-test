@@ -4,6 +4,7 @@
 
 static struct f_i t[] = {
 #include "sanity/lroundf.h"
+#include "special/lroundf.h"
 
 };
 

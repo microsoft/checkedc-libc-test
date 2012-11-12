@@ -4,6 +4,7 @@
 
 static struct f_f t[] = {
 #include "sanity/erff.h"
+#include "special/erff.h"
 
 };
 

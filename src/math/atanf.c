@@ -5,6 +5,7 @@
 static struct f_f t[] = {
 #include "ucb/atanf.h"
 #include "sanity/atanf.h"
+#include "special/atanf.h"
 
 };
 

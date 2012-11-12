@@ -5,6 +5,7 @@
 static struct dd_d t[] = {
 #include "ucb/hypot.h"
 #include "sanity/hypot.h"
+#include "special/hypot.h"
 
 };
 

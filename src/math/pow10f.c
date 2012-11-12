@@ -4,6 +4,7 @@
 
 static struct f_f t[] = {
 #include "sanity/pow10f.h"
+#include "special/exp10f.h"
 
 };
 

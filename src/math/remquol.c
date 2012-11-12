@@ -4,6 +4,7 @@
 
 static struct ll_li t[] = {
 #include "sanity/remquol.h"
+#include "special/remquol.h"
 };
 
 int main(void)

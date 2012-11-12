@@ -4,6 +4,7 @@
 
 static struct f_ff t[] = {
 #include "sanity/modff.h"
+#include "special/modff.h"
 };
 
 int main(void)

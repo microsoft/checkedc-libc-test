@@ -5,9 +5,11 @@
 static struct li_l t[] = {
 #if LDBL_MANT_DIG == 53
 #include "sanity/scalbln.h"
+#include "special/scalbln.h"
 
 #elif LDBL_MANT_DIG == 64
 #include "sanity/scalblnl.h"
+#include "special/scalblnl.h"
 
 #endif
 };

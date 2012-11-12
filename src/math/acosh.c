@@ -4,6 +4,7 @@
 
 static struct d_d t[] = {
 #include "sanity/acosh.h"
+#include "special/acosh.h"
 
 };
 

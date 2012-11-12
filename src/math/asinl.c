@@ -7,9 +7,11 @@ static struct l_l t[] = {
 #include "crlibm/asin.h"
 #include "ucb/asin.h"
 #include "sanity/asin.h"
+#include "special/asin.h"
 
 #elif LDBL_MANT_DIG == 64
 #include "sanity/asinl.h"
+#include "special/asinl.h"
 
 #endif
 };

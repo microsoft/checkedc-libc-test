@@ -5,6 +5,7 @@
 static struct d_d t[] = {
 #include "ucb/sqrt.h"
 #include "sanity/sqrt.h"
+#include "special/sqrt.h"
 
 };
 

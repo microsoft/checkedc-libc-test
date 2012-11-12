@@ -6,6 +6,7 @@ static struct d_d t[] = {
 #include "crlibm/log10.h"
 #include "ucb/log10.h"
 #include "sanity/log10.h"
+#include "special/log10.h"
 
 };
 

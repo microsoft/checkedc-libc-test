@@ -7,9 +7,11 @@ static struct l_l t[] = {
 #include "crlibm/log.h"
 #include "ucb/log.h"
 #include "sanity/log.h"
+#include "special/log.h"
 
 #elif LDBL_MANT_DIG == 64
 #include "sanity/logl.h"
+#include "special/logl.h"
 
 #endif
 };

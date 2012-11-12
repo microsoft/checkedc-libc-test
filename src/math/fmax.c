@@ -4,6 +4,7 @@
 
 static struct dd_d t[] = {
 #include "sanity/fmax.h"
+#include "special/fmax.h"
 
 };
 

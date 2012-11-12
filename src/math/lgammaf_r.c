@@ -4,6 +4,7 @@
 
 static struct f_fi t[] = {
 #include "sanity/lgammaf_r.h"
+#include "special/lgammaf_r.h"
 
 };
 

@@ -4,6 +4,7 @@
 
 static struct fi_f t[] = {
 #include "sanity/jnf.h"
+#include "special/jnf.h"
 };
 
 int main(void)

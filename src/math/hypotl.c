@@ -6,9 +6,11 @@ static struct ll_l t[] = {
 #if LDBL_MANT_DIG == 53
 #include "ucb/hypot.h"
 #include "sanity/hypot.h"
+#include "special/hypot.h"
 
 #elif LDBL_MANT_DIG == 64
 #include "sanity/hypotl.h"
+#include "special/hypotl.h"
 
 #endif
 };

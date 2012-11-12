@@ -5,9 +5,11 @@
 static struct l_i t[] = {
 #if LDBL_MANT_DIG == 53
 #include "sanity/llround.h"
+#include "special/llround.h"
 
 #elif LDBL_MANT_DIG == 64
 #include "sanity/llroundl.h"
+#include "special/llroundl.h"
 
 #endif
 };

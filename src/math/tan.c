@@ -6,6 +6,7 @@ static struct d_d t[] = {
 #include "crlibm/tan.h"
 #include "ucb/tan.h"
 #include "sanity/tan.h"
+#include "special/tan.h"
 
 };
 

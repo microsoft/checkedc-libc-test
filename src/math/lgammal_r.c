@@ -4,10 +4,12 @@
 
 static struct l_li t[] = {
 #if LDBL_MANT_DIG == 53
-#include "sanity/lgammal_r.h"
+#include "sanity/lgamma_r.h"
+#include "special/lgamma_r.h"
 
 #elif LDBL_MANT_DIG == 64
 #include "sanity/lgammal_r.h"
+#include "special/lgammal_r.h"
 
 #endif
 };

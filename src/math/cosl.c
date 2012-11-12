@@ -7,9 +7,11 @@ static struct l_l t[] = {
 #include "crlibm/cos.h"
 #include "ucb/cos.h"
 #include "sanity/cos.h"
+#include "special/cos.h"
 
 #elif LDBL_MANT_DIG == 64
 #include "sanity/cosl.h"
+#include "special/cosl.h"
 
 #endif
 };

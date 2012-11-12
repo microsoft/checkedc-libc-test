@@ -4,6 +4,7 @@
 
 static struct ff_f t[] = {
 #include "sanity/nextafterf.h"
+#include "special/nextafterf.h"
 
 };
 

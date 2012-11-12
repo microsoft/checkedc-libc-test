@@ -4,6 +4,7 @@
 
 static struct d_d t[] = {
 #include "sanity/y0.h"
+#include "special/y0.h"
 
 };
 

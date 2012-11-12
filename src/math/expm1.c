@@ -5,6 +5,7 @@
 static struct d_d t[] = {
 #include "crlibm/expm1.h"
 #include "sanity/expm1.h"
+#include "special/expm1.h"
 
 };
 

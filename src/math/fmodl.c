@@ -6,9 +6,11 @@ static struct ll_l t[] = {
 #if LDBL_MANT_DIG == 53
 #include "ucb/fmod.h"
 #include "sanity/fmod.h"
+#include "special/fmod.h"
 
 #elif LDBL_MANT_DIG == 64
 #include "sanity/fmodl.h"
+#include "special/fmodl.h"
 
 #endif
 };

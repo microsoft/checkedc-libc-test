@@ -4,6 +4,7 @@
 
 static struct d_i t[] = {
 #include "sanity/llround.h"
+#include "special/llround.h"
 
 };
 

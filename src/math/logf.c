@@ -5,6 +5,7 @@
 static struct f_f t[] = {
 #include "ucb/logf.h"
 #include "sanity/logf.h"
+#include "special/logf.h"
 
 };
 

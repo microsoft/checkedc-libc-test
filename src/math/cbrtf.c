@@ -4,6 +4,7 @@
 
 static struct f_f t[] = {
 #include "sanity/cbrtf.h"
+#include "special/cbrtf.h"
 
 };
 

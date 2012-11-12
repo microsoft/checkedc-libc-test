@@ -4,6 +4,7 @@
 
 static struct dd_d t[] = {
 #include "sanity/remainder.h"
+#include "special/remainder.h"
 
 };
 

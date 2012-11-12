@@ -4,6 +4,7 @@
 
 static struct ff_f t[] = {
 #include "sanity/scalbf.h"
+#include "special/scalbf.h"
 
 };
 

@@ -4,6 +4,7 @@
 
 static struct f_i t[] = {
 #include "sanity/ilogbf.h"
+#include "special/ilogbf.h"
 
 };
 

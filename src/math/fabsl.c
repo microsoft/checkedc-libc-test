@@ -6,9 +6,11 @@ static struct l_l t[] = {
 #if LDBL_MANT_DIG == 53
 #include "ucb/fabs.h"
 #include "sanity/fabs.h"
+#include "special/fabs.h"
 
 #elif LDBL_MANT_DIG == 64
 #include "sanity/fabsl.h"
+#include "special/fabsl.h"
 
 #endif
 };

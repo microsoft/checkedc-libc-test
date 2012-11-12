@@ -4,6 +4,7 @@
 
 static struct d_dd t[] = {
 #include "sanity/sincos.h"
+#include "special/sincos.h"
 };
 
 int main(void)

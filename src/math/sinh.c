@@ -6,6 +6,7 @@ static struct d_d t[] = {
 #include "crlibm/sinh.h"
 #include "ucb/sinh.h"
 #include "sanity/sinh.h"
+#include "special/sinh.h"
 
 };
 

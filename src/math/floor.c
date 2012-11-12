@@ -5,6 +5,7 @@
 static struct d_d t[] = {
 #include "ucb/floor.h"
 #include "sanity/floor.h"
+#include "special/floor.h"
 
 };
 

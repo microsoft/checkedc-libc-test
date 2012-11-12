@@ -7,9 +7,11 @@ static struct l_l t[] = {
 #include "crlibm/acos.h"
 #include "ucb/acos.h"
 #include "sanity/acos.h"
+#include "special/acos.h"
 
 #elif LDBL_MANT_DIG == 64
 #include "sanity/acosl.h"
+#include "special/acosl.h"
 
 #endif
 };

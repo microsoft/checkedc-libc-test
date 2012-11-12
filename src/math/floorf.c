@@ -5,6 +5,7 @@
 static struct f_f t[] = {
 #include "ucb/floorf.h"
 #include "sanity/floorf.h"
+#include "special/floorf.h"
 
 };
 

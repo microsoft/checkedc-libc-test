@@ -5,9 +5,11 @@
 static struct l_l t[] = {
 #if LDBL_MANT_DIG == 53
 #include "sanity/acosh.h"
+#include "special/acosh.h"
 
 #elif LDBL_MANT_DIG == 64
 #include "sanity/acoshl.h"
+#include "special/acoshl.h"
 
 #endif
 };

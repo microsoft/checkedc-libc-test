@@ -7,9 +7,11 @@ static struct ll_l t[] = {
 #include "crlibm/pow.h"
 #include "ucb/pow.h"
 #include "sanity/pow.h"
+#include "special/pow.h"
 
 #elif LDBL_MANT_DIG == 64
 #include "sanity/powl.h"
+#include "special/powl.h"
 
 #endif
 };

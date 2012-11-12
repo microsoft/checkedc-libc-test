@@ -7,9 +7,11 @@ static struct l_l t[] = {
 #include "crlibm/cosh.h"
 #include "ucb/cosh.h"
 #include "sanity/cosh.h"
+#include "special/cosh.h"
 
 #elif LDBL_MANT_DIG == 64
 #include "sanity/coshl.h"
+#include "special/coshl.h"
 
 #endif
 };

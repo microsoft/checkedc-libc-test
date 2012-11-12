@@ -5,6 +5,7 @@
 static struct ff_f t[] = {
 #include "ucb/fmodf.h"
 #include "sanity/fmodf.h"
+#include "special/fmodf.h"
 
 };
 

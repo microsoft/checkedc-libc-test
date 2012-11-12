@@ -4,6 +4,7 @@
 
 static struct f_f t[] = {
 #include "sanity/j0f.h"
+#include "special/j0f.h"
 
 };
 

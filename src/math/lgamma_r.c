@@ -4,6 +4,7 @@
 
 static struct d_di t[] = {
 #include "sanity/lgamma_r.h"
+#include "special/lgamma_r.h"
 
 };
 

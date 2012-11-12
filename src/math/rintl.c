@@ -5,9 +5,11 @@
 static struct l_l t[] = {
 #if LDBL_MANT_DIG == 53
 #include "sanity/rint.h"
+#include "special/rint.h"
 
 #elif LDBL_MANT_DIG == 64
 #include "sanity/rintl.h"
+#include "special/rintl.h"
 
 #endif
 };

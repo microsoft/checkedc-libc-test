@@ -4,6 +4,7 @@
 
 static struct dd_d t[] = {
 #include "sanity/scalb.h"
+#include "special/scalb.h"
 
 };
 

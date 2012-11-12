@@ -4,6 +4,7 @@
 
 static struct fff_f t[] = {
 #include "sanity/fmaf.h"
+#include "special/fmaf.h"
 };
 
 int main(void)

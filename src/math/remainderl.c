@@ -5,9 +5,11 @@
 static struct ll_l t[] = {
 #if LDBL_MANT_DIG == 53
 #include "sanity/remainder.h"
+#include "special/remainder.h"
 
 #elif LDBL_MANT_DIG == 64
 #include "sanity/remainderl.h"
+#include "special/remainderl.h"
 
 #endif
 };

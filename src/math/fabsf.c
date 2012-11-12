@@ -5,6 +5,7 @@
 static struct f_f t[] = {
 #include "ucb/fabsf.h"
 #include "sanity/fabsf.h"
+#include "special/fabsf.h"
 
 };
 

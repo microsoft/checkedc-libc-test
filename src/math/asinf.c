@@ -5,6 +5,7 @@
 static struct f_f t[] = {
 #include "ucb/asinf.h"
 #include "sanity/asinf.h"
+#include "special/asinf.h"
 
 };
 

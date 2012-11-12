@@ -5,8 +5,10 @@
 static struct lll_l t[] = {
 #if LDBL_MANT_DIG == 53
 #include "sanity/fma.h"
+#include "special/fma.h"
 #elif LDBL_MANT_DIG == 64
 #include "sanity/fmal.h"
+#include "special/fmal.h"
 #endif
 };
 

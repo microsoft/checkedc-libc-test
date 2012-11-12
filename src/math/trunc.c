@@ -4,6 +4,7 @@
 
 static struct d_d t[] = {
 #include "sanity/trunc.h"
+#include "special/trunc.h"
 
 };
 

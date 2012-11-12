@@ -4,6 +4,7 @@
 
 static struct di_d t[] = {
 #include "sanity/ldexp.h"
+#include "special/ldexp.h"
 
 };
 

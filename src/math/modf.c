@@ -4,6 +4,7 @@
 
 static struct d_dd t[] = {
 #include "sanity/modf.h"
+#include "special/modf.h"
 };
 
 int main(void)

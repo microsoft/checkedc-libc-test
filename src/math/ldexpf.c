@@ -4,6 +4,7 @@
 
 static struct fi_f t[] = {
 #include "sanity/ldexpf.h"
+#include "special/ldexpf.h"
 
 };
 

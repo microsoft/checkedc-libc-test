@@ -6,6 +6,7 @@ static struct d_d t[] = {
 #include "crlibm/asin.h"
 #include "ucb/asin.h"
 #include "sanity/asin.h"
+#include "special/asin.h"
 
 };
 

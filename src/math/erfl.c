@@ -5,9 +5,11 @@
 static struct l_l t[] = {
 #if LDBL_MANT_DIG == 53
 #include "sanity/erf.h"
+#include "special/erf.h"
 
 #elif LDBL_MANT_DIG == 64
 #include "sanity/erfl.h"
+#include "special/erfl.h"
 
 #endif
 };

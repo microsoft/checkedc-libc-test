@@ -4,6 +4,7 @@
 
 static struct ff_fi t[] = {
 #include "sanity/remquof.h"
+#include "special/remquof.h"
 };
 
 int main(void)

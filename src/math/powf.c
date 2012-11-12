@@ -5,6 +5,7 @@
 static struct ff_f t[] = {
 #include "ucb/powf.h"
 #include "sanity/powf.h"
+#include "special/powf.h"
 
 };
 

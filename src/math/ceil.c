@@ -5,6 +5,7 @@
 static struct d_d t[] = {
 #include "ucb/ceil.h"
 #include "sanity/ceil.h"
+#include "special/ceil.h"
 
 };
 

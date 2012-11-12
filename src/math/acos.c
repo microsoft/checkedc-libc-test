@@ -6,6 +6,7 @@ static struct d_d t[] = {
 #include "crlibm/acos.h"
 #include "ucb/acos.h"
 #include "sanity/acos.h"
+#include "special/acos.h"
 
 };
 

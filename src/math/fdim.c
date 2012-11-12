@@ -4,6 +4,7 @@
 
 static struct dd_d t[] = {
 #include "sanity/fdim.h"
+#include "special/fdim.h"
 
 };
 

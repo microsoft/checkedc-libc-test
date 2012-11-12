@@ -5,6 +5,7 @@
 static struct d_d t[] = {
 #include "ucb/tanh.h"
 #include "sanity/tanh.h"
+#include "special/tanh.h"
 
 };
 

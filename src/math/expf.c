@@ -5,6 +5,7 @@
 static struct f_f t[] = {
 #include "ucb/expf.h"
 #include "sanity/expf.h"
+#include "special/expf.h"
 
 };
 

@@ -4,6 +4,7 @@
 
 static struct d_i t[] = {
 #include "sanity/ilogb.h"
+#include "special/ilogb.h"
 
 };
 

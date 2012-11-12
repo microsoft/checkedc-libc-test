@@ -5,6 +5,7 @@
 static struct f_f t[] = {
 #include "ucb/acosf.h"
 #include "sanity/acosf.h"
+#include "special/acosf.h"
 
 };
 

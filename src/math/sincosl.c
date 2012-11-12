@@ -5,8 +5,10 @@
 static struct l_ll t[] = {
 #if LDBL_MANT_DIG == 53
 #include "sanity/sincos.h"
+#include "special/sincos.h"
 #elif LDBL_MANT_DIG == 64
 #include "sanity/sincosl.h"
+#include "special/sincosl.h"
 #endif
 };
 

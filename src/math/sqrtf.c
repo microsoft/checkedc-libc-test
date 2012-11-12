@@ -5,6 +5,7 @@
 static struct f_f t[] = {
 #include "ucb/sqrtf.h"
 #include "sanity/sqrtf.h"
+#include "special/sqrtf.h"
 
 };
 

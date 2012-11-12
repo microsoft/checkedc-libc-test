@@ -4,6 +4,7 @@
 
 static struct ff_f t[] = {
 #include "sanity/copysignf.h"
+#include "special/copysignf.h"
 
 };
 

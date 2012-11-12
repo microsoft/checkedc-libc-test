@@ -4,6 +4,7 @@
 
 static struct ff_f t[] = {
 #include "sanity/fmaxf.h"
+#include "special/fmaxf.h"
 
 };
 

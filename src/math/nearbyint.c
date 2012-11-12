@@ -4,6 +4,7 @@
 
 static struct d_d t[] = {
 #include "sanity/nearbyint.h"
+#include "special/nearbyint.h"
 
 };
 

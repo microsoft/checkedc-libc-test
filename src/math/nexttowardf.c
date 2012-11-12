@@ -2,12 +2,15 @@
 #include <stdio.h>
 #include "util.h"
 
+// TODO: separate ldbl dir
 static struct ll_l t[] = {
 #if LDBL_MANT_DIG == 53
 #include "sanity/nexttowardf.h"
+#include "special/nexttowardf.h"
 
 #elif LDBL_MANT_DIG == 64
 #include "sanity/nexttowardf.h"
+#include "special/nexttowardf.h"
 
 #endif
 };

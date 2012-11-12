@@ -4,6 +4,7 @@
 
 static struct dd_d t[] = {
 #include "sanity/nextafter.h"
+#include "special/nextafter.h"
 
 };
 

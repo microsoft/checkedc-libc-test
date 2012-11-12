@@ -4,6 +4,7 @@
 
 static struct ddd_d t[] = {
 #include "sanity/fma.h"
+#include "special/fma.h"
 };
 
 int main(void)

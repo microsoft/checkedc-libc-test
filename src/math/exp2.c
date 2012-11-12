@@ -4,6 +4,7 @@
 
 static struct d_d t[] = {
 #include "sanity/exp2.h"
+#include "special/exp2.h"
 
 };
 

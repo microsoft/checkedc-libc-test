@@ -5,6 +5,7 @@
 static struct ff_f t[] = {
 #include "ucb/hypotf.h"
 #include "sanity/hypotf.h"
+#include "special/hypotf.h"
 
 };
 

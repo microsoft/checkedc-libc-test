@@ -6,6 +6,7 @@ static struct dd_d t[] = {
 #include "crlibm/pow.h"
 #include "ucb/pow.h"
 #include "sanity/pow.h"
+#include "special/pow.h"
 
 };
 

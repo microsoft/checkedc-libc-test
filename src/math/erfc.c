@@ -4,6 +4,7 @@
 
 static struct d_d t[] = {
 #include "sanity/erfc.h"
+#include "special/erfc.h"
 
 };
 

@@ -4,6 +4,7 @@
 
 static struct dd_d t[] = {
 #include "sanity/copysign.h"
+#include "special/copysign.h"
 
 };
 

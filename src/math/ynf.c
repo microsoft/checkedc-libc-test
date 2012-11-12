@@ -4,6 +4,7 @@
 
 static struct fi_f t[] = {
 #include "sanity/ynf.h"
+#include "special/ynf.h"
 };
 
 int main(void)

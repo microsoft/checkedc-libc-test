@@ -5,9 +5,11 @@
 static struct l_li t[] = {
 #if LDBL_MANT_DIG == 53
 #include "sanity/frexp.h"
+#include "special/frexp.h"
 
 #elif LDBL_MANT_DIG == 64
 #include "sanity/frexpl.h"
+#include "special/frexpl.h"
 
 #endif
 };

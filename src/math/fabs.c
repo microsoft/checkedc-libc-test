@@ -5,6 +5,7 @@
 static struct d_d t[] = {
 #include "ucb/fabs.h"
 #include "sanity/fabs.h"
+#include "special/fabs.h"
 
 };
 

@@ -4,6 +4,7 @@
 
 static struct f_f t[] = {
 #include "sanity/truncf.h"
+#include "special/truncf.h"
 
 };
 

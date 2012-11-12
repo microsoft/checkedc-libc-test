@@ -4,6 +4,7 @@
 
 static struct d_d t[] = {
 #include "sanity/logb.h"
+#include "special/logb.h"
 
 };
 

@@ -4,6 +4,7 @@
 
 static struct di_d t[] = {
 #include "sanity/yn.h"
+#include "special/yn.h"
 };
 
 int main(void)

@@ -4,6 +4,7 @@
 
 static struct dd_di t[] = {
 #include "sanity/remquo.h"
+#include "special/remquo.h"
 };
 
 int main(void)
