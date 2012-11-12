@@ -34,7 +34,7 @@ int main(void)
 			err++;
 		}
 		d = ulperrf(y, p->y, p->dy);
-		if (!checkcr(y, p->y, p->r) || yi != p->i) {
+		if (!checkcr(y, p->y, p->r) || (isfinite(p->x) && yi != p->i)) {
 			printf("%s:%d: %s frexpf(%a) want %a,%lld got %a,%d ulperr %.3f = %a + %a\n",
 				p->file, p->line, rstr(p->r), p->x, p->y, p->i, y, yi, d, d-p->dy, p->dy);
 			err++;
