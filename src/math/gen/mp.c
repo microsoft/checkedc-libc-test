@@ -123,7 +123,7 @@ static void genf(struct t *p, mpfr_t my, int t, int r)
 
 	t = adjust(mr, my, t, r);
 	p->y = mpfr_get_flt(mr, r);
-	p->e = eflags(isnan(p->x) || isnan(p->x2));
+	p->e = eflags(isnan(p->x) || isnan(p->x2) || isnan(p->x3));
 	i = eulpf(p->y);
 	if (!isfinite(p->y)) {
 		p->dy = 0;
@@ -193,7 +193,7 @@ static void gend(struct t *p, mpfr_t my, int t, int r)
 
 	t = adjust(mr, my, t, r);
 	p->y = mpfr_get_d(mr, r);
-	p->e = eflags(isnan(p->x) || isnan(p->x2));
+	p->e = eflags(isnan(p->x) || isnan(p->x2) || isnan(p->x3));
 	i = eulp(p->y);
 	if (!isfinite(p->y)) {
 		p->dy = 0;
@@ -268,7 +268,7 @@ static void genl(struct t *p, mpfr_t my, int t, int r)
 
 	t = adjust(mr, my, t, r);
 	p->y = mpfr_get_ld(mr, r);
-	p->e = eflags(isnan(p->x) || isnan(p->x2));
+	p->e = eflags(isnan(p->x) || isnan(p->x2) || isnan(p->x3));
 	i = eulpl(p->y);
 	if (!isfinite(p->y)) {
 		p->dy = 0;
