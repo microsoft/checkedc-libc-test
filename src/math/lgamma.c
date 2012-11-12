@@ -35,7 +35,7 @@ int main(void)
 			err++;
 		}
 		d = ulperr(y, p->y, p->dy);
-		if (!checkulp(d, p->r) || yi != p->i) {
+		if (!checkulp(d, p->r) || (!isnan(p->x) && p->x!=-inf && !(p->e&DIVBYZERO) && yi != p->i)) {
 			printf("%s:%d: %s lgamma(%a) want %a,%lld got %a,%d ulperr %.3f = %a + %a\n",
 				p->file, p->line, rstr(p->r), p->x, p->y, p->i, y, yi, d, d-p->dy, p->dy);
 			err++;
