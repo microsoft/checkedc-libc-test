@@ -18,7 +18,7 @@ static struct ll_l t[] = {
 int main(void)
 {
 	#pragma STDC FENV_ACCESS ON
-	long double y;
+	double y;
 	float d;
 	int e, i, err = 0;
 	struct ll_l *p;

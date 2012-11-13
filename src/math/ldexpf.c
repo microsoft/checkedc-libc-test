@@ -11,7 +11,7 @@ static struct fi_f t[] = {
 int main(void)
 {
 	#pragma STDC FENV_ACCESS ON
-	double y;
+	float y;
 	float d;
 	int e, i, err = 0;
 	struct fi_f *p;
