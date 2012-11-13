@@ -39,9 +39,9 @@ int main(void)
 			printf(" got %s\n", estr(e));
 			err++;
 		}
-		d = ulperrl(y, p->y, p->dy);
+		d = ulperrf(y, p->y, p->dy);
 		if (!checkcr(y, p->y, p->r)) {
-			printf("%s:%d: %s nexttowardf(%La,%La) want %La got %La ulperr %.3f = %a + %a\n",
+			printf("%s:%d: %s nexttowardf(%La,%La) want %La got %a ulperr %.3f = %a + %a\n",
 				p->file, p->line, rstr(p->r), p->x, p->x2, p->y, y, d, d-p->dy, p->dy);
 			err++;
 		}
