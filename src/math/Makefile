@@ -1,5 +1,5 @@
 CFLAGS+=-g -pipe -std=c99 -D_POSIX_C_SOURCE=200809L -Wall -Wno-unused-function -Wno-missing-braces
-CFLAGS+=-Wno-unknown-pragmas -fno-builtin -ffloat-store -frounding-math -D_GNU_SOURCE
+CFLAGS+=-Wno-unknown-pragmas -fno-builtin -frounding-math -D_GNU_SOURCE
 LDFLAGS+=-g -lm
 
 SRC=$(sort $(wildcard *.c))
@@ -17,7 +17,7 @@ clean:
 
 $(BIN): util.o
 
-%.o: %.c sanity/%.h ucb/%.h crlibm/%.h util.h
+%.o: %.c sanity/%.h ucb/%.h crlibm/%.h special/%.h util.h
 	$(CC) $(CFLAGS) -c -o $@ $<
 %: %.c
 %: %.o
