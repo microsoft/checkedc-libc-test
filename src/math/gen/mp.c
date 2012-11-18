@@ -391,6 +391,8 @@ static int wrap_pow10(mpfr_t my, const mpfr_t mx, mpfr_rnd_t r)
 	return mpfr_ui_pow(my, 10, mx, r);
 }
 
+int mpadd(struct t *t) { return mpd2(t, mpfr_add); }
+
 int mpacos(struct t *t) { return mpd1(t, mpfr_acos); }
 int mpacosf(struct t *t) { return mpf1(t, mpfr_acos); }
 int mpacosl(struct t *t) { return mpl1(t, mpfr_acos); }

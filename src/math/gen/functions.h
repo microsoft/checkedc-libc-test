@@ -1,3 +1,5 @@
+T(add,         dd_d)
+
 T(acos,        d_d)
 T(acosf,       f_f)
 T(acosl,       l_l)

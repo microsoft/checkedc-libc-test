@@ -54,6 +54,8 @@ static int mpl2(struct t *s, long double (*f)(long double, long double))
 	return 0;
 }
 
+static double add(double x, double y) { double z = x + y; return z; }
+int mpadd(struct t *t) { return mpd2(t, add); }
 
 int mpacos(struct t *t) { return mpd1(t, acos); }
 int mpacosf(struct t *t) { return mpf1(t, acosf); }
