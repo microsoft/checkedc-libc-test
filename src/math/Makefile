@@ -16,9 +16,11 @@ clean:
 	rm -f $(OBJ) $(BIN)
 
 $(BIN): util.o
-
-%.o: %.c sanity/%.h ucb/%.h crlibm/%.h special/%.h util.h
+$(OBJ): util.h
+%.o: %.c
 	$(CC) $(CFLAGS) -c -o $@ $<
 %: %.c
 %: %.o
 	$(CC) $(LDFLAGS) -o $@ $^
+
+.PRECIOUS: $(OBJ)
