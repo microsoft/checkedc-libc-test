@@ -3,14 +3,14 @@
 // This file is part of crlibm and is distributed under the GNU Public Licence
 // See file COPYING for details
 // The following lines are either comments (beginning with a #)
-// or give 
+// or give
 //   1/ a rounding mode : RN|RU|RD|RZ (crlibm syntax) or  N|P|M|Z (libmcr syntax)
 //   2/ The high and low hexadecimal halves of an input
 //   3/ The high and low hexadecimal halves of the expected corresponding output
-// Some special cases. Much to do here 
+// Some special cases. Much to do here
 T(RN,                  0x0p+0,                  0x0p+0,                  0x1p+0,          0x0p+0, 0)
-T(RN,                  0x1p+1,            -0x1.0ccp+10,                  0x0p+0,         -0x1p-1, INEXACT|UNDERFLOW) // 2^-1075 
-T(RN,                  0x1p+1,            -0x1.0c8p+10,               0x1p-1074,          0x0p+0, 0) // 2^-1074 
+T(RN,                  0x1p+1,            -0x1.0ccp+10,                  0x0p+0,         -0x1p-1, INEXACT|UNDERFLOW) // 2^-1075
+T(RN,                  0x1p+1,            -0x1.0c8p+10,               0x1p-1074,          0x0p+0, 0) // 2^-1074
 // Some exact mid-point cases. Subnormal cases are missing.
 T(RN,           0x1.cfdd8p+17,                0x1.8p+1,   0x1.7cbf0571d6e62p+53,          0x1p-1, INEXACT)
 T(RN,       0x1.927a0f5b2p+35,                0x1.8p+0,   0x1.64d79ee5e5b8ep+53,         -0x1p-1, INEXACT)

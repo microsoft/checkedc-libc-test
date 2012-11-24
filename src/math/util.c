@@ -43,8 +43,11 @@ float ulperrf(float got, float want, float dwant)
 {
 	if (isnan(got) && isnan(want))
 		return 0;
-	if (got == want && signbit(got) == signbit(want))
-		return dwant;
+	if (got == want) {
+		if (signbit(got) == signbit(want))
+			return dwant;
+		return inf;
+	}
 	if (isinf(got)) {
 		got = copysignf(0x1p127, got);
 		want *= 0.5;
@@ -56,8 +59,11 @@ float ulperr(double got, double want, float dwant)
 {
 	if (isnan(got) && isnan(want))
 		return 0;
-	if (got == want && signbit(got) == signbit(want))
-		return dwant;
+	if (got == want) {
+		if (signbit(got) == signbit(want))
+			return dwant;
+		return inf; // treat 0 sign errors badly
+	}
 	if (isinf(got)) {
 		got = copysign(0x1p1023, got);
 		want *= 0.5;
@@ -72,8 +78,11 @@ float ulperrl(long double got, long double want, float dwant)
 #elif LDBL_MANT_DIG == 64
 	if (isnan(got) && isnan(want))
 		return 0;
-	if (got == want && signbit(got) == signbit(want))
-		return dwant;
+	if (got == want) {
+		if (signbit(got) == signbit(want))
+			return dwant;
+		return inf;
+	}
 	if (isinf(got)) {
 		got = copysignl(0x1p16383L, got);
 		want *= 0.5;

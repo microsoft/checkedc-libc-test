@@ -3,12 +3,12 @@
 // This file is part of crlibm and is distributed under the GNU Public Licence
 // See file COPYING for details
 // The following lines are either comments (beginning with a #)
-// or give 
+// or give
 //   1/ a rounding mode : RN|RU|RD|RZ (crlibm syntax) or  N|P|M|Z (libmcr syntax)
 //   2/ The high and low hexadecimal halves of an input
 //   3/ The high and low hexadecimal halves of the expected corresponding output
-// Test all positive integer powers of 10 for exponents (to 10) from 0 to 25 
-// especially in the directed rounding modes 
+// Test all positive integer powers of 10 for exponents (to 10) from 0 to 25
+// especially in the directed rounding modes
 // (testing exponents 0 to 17 should suffice in fact)
 T(RN,                  0x1p+0,                  0x0p+0,          0x0p+0, 0)
 T(RU,                  0x1p+0,                  0x0p+0,          0x0p+0, 0)
@@ -103,21 +103,21 @@ T(RU,   0x1.0f0cf064dd592p+73,                0x1.6p+4,          0x0p+0, 0)
 T(RD,   0x1.0f0cf064dd592p+73,                0x1.6p+4,          0x0p+0, 0)
 T(RZ,   0x1.0f0cf064dd592p+73,                0x1.6p+4,          0x0p+0, 0)
 T(RN,   0x1.52d02c7e14af6p+76,                0x1.7p+4,   0x1.5004e2p-7, INEXACT)
-T(RU,   0x1.52d02c7e14af6p+76,                0x1.7p+4,   0x1.5004e4p-7, INEXACT)
-T(RD,   0x1.52d02c7e14af6p+76,    0x1.6ffffffffffffp+4,  -0x1.fabfeep-1, INEXACT)
+T(RU,   0x1.52d02c7e14af6p+76,                0x1.7p+4,   0x1.5004e2p-7, INEXACT)
+T(RD,   0x1.52d02c7e14af6p+76,    0x1.6ffffffffffffp+4,  -0x1.fabfecp-1, INEXACT)
 T(RZ,   0x1.52d02c7e14af6p+76,    0x1.6ffffffffffffp+4,  -0x1.fabfecp-1, INEXACT)
 T(RN,   0x1.a784379d99db4p+79,                0x1.8p+4,   0x1.0cd0b6p-9, INEXACT)
 T(RU,   0x1.a784379d99db4p+79,                0x1.8p+4,   0x1.0cd0b6p-9, INEXACT)
 T(RD,   0x1.a784379d99db4p+79,    0x1.7ffffffffffffp+4,   -0x1.fef33p-1, INEXACT)
-T(RZ,   0x1.a784379d99db4p+79,    0x1.7ffffffffffffp+4,  -0x1.fef32ep-1, INEXACT)
+T(RZ,   0x1.a784379d99db4p+79,    0x1.7ffffffffffffp+4,   -0x1.fef33p-1, INEXACT)
 T(RN,   0x1.08b2a2c280291p+83,                0x1.9p+4,  -0x1.6ae68ep-7, INEXACT)
 T(RU,   0x1.08b2a2c280291p+83,    0x1.9000000000001p+4,   0x1.fa5466p-1, INEXACT)
-T(RD,   0x1.08b2a2c280291p+83,                0x1.9p+4,   -0x1.6ae69p-7, INEXACT)
+T(RD,   0x1.08b2a2c280291p+83,                0x1.9p+4,  -0x1.6ae68ep-7, INEXACT)
 T(RZ,   0x1.08b2a2c280291p+83,                0x1.9p+4,  -0x1.6ae68ep-7, INEXACT)
 // The very worst case
 T(RN,  0x1.e12d66744ff81p+429,    0x1.02d4f53729e45p+7,          0x1p-1, INEXACT)
 T(RU,  0x1.e12d66744ff81p+429,    0x1.02d4f53729e45p+7,          0x1p-1, INEXACT)
-T(RD,  0x1.e12d66744ff81p+429,    0x1.02d4f53729e44p+7,  -0x1.000002p-1, INEXACT)
+T(RD,  0x1.e12d66744ff81p+429,    0x1.02d4f53729e44p+7,         -0x1p-1, INEXACT)
 T(RZ,  0x1.e12d66744ff81p+429,    0x1.02d4f53729e44p+7,         -0x1p-1, INEXACT)
 T(RN,    0x1.ce41d8fa665fap+4,    0x1.75f49c6ad3badp+0,     -0x1.46p-68, INEXACT)
 T(RU,    0x1.ce41d8fa665fap+4,    0x1.75f49c6ad3baep+0,          0x1p+0, INEXACT)
@@ -128,7 +128,7 @@ T(RZ,    0x1.ce41d8fa665fap+4,    0x1.75f49c6ad3badp+0,     -0x1.46p-68, INEXACT
 // These worst cases have been selected thanks to the filterlists 5 script
 // If you want the full list please contact Jean-Michel Muller
 T(RN,     0x1.62410eb7b7e1p-1,   -0x1.479681c44dd78p-3,         -0x1p-1, INEXACT) // 6.919025992646670175645340350457e-01
-T(RZ,    0x1.2a8e6c238a22ep-1,   -0x1.dfbb24b4d439dp-3,   0x1.fffffep-1, INEXACT) // 5.831178468116087199035746380105e-01
+T(RZ,    0x1.2a8e6c238a22ep-1,   -0x1.dfbb24b4d439dp-3,          0x1p+0, INEXACT) // 5.831178468116087199035746380105e-01
 T(RN,    0x1.b0cf736f1ae1dp-1,   -0x1.2ae5057cd8c44p-4,          0x1p-1, INEXACT) // 8.453327248693686124525470404478e-01
 T(RN,    0x1.89825f74aa6b7p+0,    0x1.7e646f3fab0d1p-3,          0x1p-1, INEXACT) // 1.537145582182729119935515882389e+00
 T(RN,    0x1.1705af708c532p+2,    0x1.476724bcf05c3p-1,          0x1p-1, INEXACT) // 4.359722003851219440662134729791e+00
@@ -137,7 +137,7 @@ T(RN,     0x1.09732bc3fb6fp+3,    0x1.d67138d8e1fabp-1,          0x1p-1, INEXACT
 T(RN,    0x1.819598b70b769p+1,    0x1.ea673c9a0bc62p-2,         -0x1p-1, INEXACT) // 3.012377824189503616736374169705e+00
 T(RN,    0x1.96c0b463d632ep+3,    0x1.1aab931fc4a83p+0,          0x1p-1, INEXACT) // 1.271102351664884722026727104094e+01
 T(RZ,    0x1.3ba0e5e7c603dp+4,    0x1.4b88ce4490878p+0, -0x1.f0e37cp-53, INEXACT) // 1.972678175484201190670319192577e+01
-T(RZ,    0x1.f60165d5bc3e1p+5,    0x1.cc30b915ec8c3p+0,  -0x1.fffffep-1, INEXACT) // 6.275068251591415702250742469914e+01
+T(RZ,    0x1.f60165d5bc3e1p+5,    0x1.cc30b915ec8c3p+0,         -0x1p+0, INEXACT) // 6.275068251591415702250742469914e+01
 T(RN,    0x1.0214115c6897ep+7,    0x1.0e2c2079f4791p+1,         -0x1p-1, INEXACT) // 1.290391949536969491418858524412e+02
 T(RN,    0x1.e5b46cc566c89p+7,    0x1.3152e63907254p+1,         -0x1p-1, INEXACT) // 2.428523923576324534678860800341e+02
 T(RN,   0x1.13aedb3538379p+12,    0x1.d27ff5ae16374p+1,         -0x1p-1, INEXACT) // 4.410928517551038567034993320704e+03
@@ -158,7 +158,7 @@ T(RZ,  0x1.00ecbfe1c7e24p+226,    0x1.10232b5bc1921p+6,  -0x1.34878p-58, INEXACT
 T(RZ,  0x1.01db5ea232cccp+265,     0x1.3f1ab6b9840dp+6,   -0x1.6b55p-58, INEXACT) // 5.971558130181310987237296921284e+79
 T(RN,  0x1.aa8cce883305bp+313,    0x1.79c6c70a21751p+6,          0x1p-1, INEXACT) // 2.780472798533127667532607272298e+94
 T(RN,  0x1.6848181b7571cp+318,    0x1.7f80f69d57adep+6,         -0x1p-1, INEXACT) // 7.515203759795911185316596929209e+95
-T(RZ,  0x1.f5b55de961a8ep+541,    0x1.464c8348af949p+7,  -0x1.fffffep-1, INEXACT) // 1.410714456596528386795551901832e+163
+T(RZ,  0x1.f5b55de961a8ep+541,    0x1.464c8348af949p+7,         -0x1p+0, INEXACT) // 1.410714456596528386795551901832e+163
 T(RN,  0x1.4d0f00313488cp+576,    0x1.5b03deaa9abb2p+7,         -0x1p-1, INEXACT) // 3.217793610610951495377196763253e+173
 T(RN,  0x1.3e238630d4b3bp+581,    0x1.5dfc50d1ef669p+7,          0x1p-1, INEXACT) // 9.835673600325649497978919582662e+174
 T(RZ,  0x1.061d60c2c0093p+803,    0x1.e379845eaa774p+7,   -0x1.838ap-59, INEXACT) // 5.461828085706753538145251018537e+241

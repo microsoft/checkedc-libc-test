@@ -36,8 +36,8 @@
 // that they be sent to fdlibm-comments@sunpro.sun.com.
 // 0.7max,0.6max
 T(RN, 0x1.666666p+127, 0x1.333334p+127, 0x1.d80a6ap+127,   0x1.b63f02p-7, INEXACT)
-T(RZ, 0x1.666666p+127, 0x1.333334p+127, 0x1.d80a68p+127,  -0x1.f92702p-1, INEXACT)
-T(RU, 0x1.666666p+127, 0x1.333334p+127, 0x1.d80a6ap+127,   0x1.b63f04p-7, INEXACT)
+T(RZ, 0x1.666666p+127, 0x1.333334p+127, 0x1.d80a68p+127,  -0x1.f92704p-1, INEXACT)
+T(RU, 0x1.666666p+127, 0x1.333334p+127, 0x1.d80a6ap+127,   0x1.b63f02p-7, INEXACT)
 T(RD, 0x1.666666p+127, 0x1.333334p+127, 0x1.d80a68p+127,  -0x1.f92704p-1, INEXACT)
 // tiny,huge = huge,tiny = huge
 T(RN,          0x0p+0, 0x1.fffffep+127, 0x1.fffffep+127,          0x0p+0, 0)
@@ -92,7 +92,7 @@ T(RZ,             nan,            -inf,             inf,          0x0p+0, 0)
 T(RN,             nan,             inf,             inf,          0x0p+0, 0)
 // overflow
 T(RN,-0x1.fffffep+127, 0x1.fddddcp+127,             inf,          0x0p+0, INEXACT|OVERFLOW)
-T(RZ,-0x1.fffffep+127, 0x1.fddddcp+127, 0x1.fffffep+127,  -0x1.fffffep-1, INEXACT|OVERFLOW)
+T(RZ,-0x1.fffffep+127, 0x1.fddddcp+127, 0x1.fffffep+127,         -0x1p+0, INEXACT|OVERFLOW)
 T(RU,-0x1.fffffep+127, 0x1.fddddcp+127,             inf,          0x0p+0, INEXACT|OVERFLOW)
 T(RD,-0x1.fffffep+127, 0x1.fddddcp+127, 0x1.fffffep+127,         -0x1p+0, INEXACT|OVERFLOW)
 // subnormal number

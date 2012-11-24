@@ -3,7 +3,7 @@
 // This file is part of crlibm and is distributed under the GNU Public Licence
 // See file COPYING for details
 // The following lines are either comments (beginning with a #)
-// or give 
+// or give
 //   1/ a rounding mode : RN|RU|RD|RZ (crlibm syntax) or  N|P|M|Z (libmcr syntax)
 //   2/ The high and low hexadecimal halves of an input
 //   3/ The high and low hexadecimal halves of the expected corresponding output
@@ -20,9 +20,9 @@ T(RN,               0x1p-1074,   -0x1.74385446d71c3p+9,    0x1.8e56ap-2, INEXACT
 T(RN,              -0x1p-1074,                     nan,          0x0p+0, INVALID) // smallest denorm negative
 T(RU,               0x1p-1074,   -0x1.74385446d71c3p+9,    0x1.8e56ap-2, INEXACT) // smallest denorm positive
 T(RU,              -0x1p-1074,                     nan,          0x0p+0, INVALID) // smallest denorm negative
-T(RD,               0x1p-1074,   -0x1.74385446d71c4p+9,  -0x1.38d4b2p-1, INEXACT) // smallest denorm positive
+T(RD,               0x1p-1074,   -0x1.74385446d71c4p+9,   -0x1.38d4bp-1, INEXACT) // smallest denorm positive
 T(RD,              -0x1p-1074,                     nan,          0x0p+0, INVALID) // smallest denorm negative
-T(RZ,               0x1p-1074,   -0x1.74385446d71c3p+9,   0x1.8e569ep-2, INEXACT) // smallest denorm positive
+T(RZ,               0x1p-1074,   -0x1.74385446d71c3p+9,    0x1.8e56ap-2, INEXACT) // smallest denorm positive
 T(RZ,              -0x1p-1074,                     nan,          0x0p+0, INVALID) // smallest denorm negative
 T(RN,                     inf,                     inf,          0x0p+0, 0) // +inf
 T(RN,                    -inf,                     nan,          0x0p+0, INVALID) // -inf
@@ -44,7 +44,7 @@ T(RZ,                  0x1p+0,                  0x0p+0,          0x0p+0, 0)
 // Rounding these values requires evaluating the function to at least 2^(-100).
 // These worst cases have been selected thanks to the filterlists 5 script
 // If you want the full list please contact Jean-Michel Muller
-T(RZ,    0x1.bdfbc244c2cfep+0,    0x1.1c36a38ab4c0ap-1, -0x1.149b26p-50, INEXACT) // 1.742122785365438186744313497911e+00
+T(RZ,    0x1.bdfbc244c2cfep+0,    0x1.1c36a38ab4c0ap-1, -0x1.149b28p-50, INEXACT) // 1.742122785365438186744313497911e+00
 T(RN,    0x1.b9f1fa4587967p+0,    0x1.178e6d3ecaceap-1,          0x1p-1, INEXACT) // 1.726348535513887005876654257008e+00
 T(RZ,    0x1.01f2ebd9637eap+2,    0x1.64d5380fe51dep+0, -0x1.62e236p-52, INEXACT) // 4.030451738637546910126729926560e+00
 T(RN,    0x1.05eb7625384e6p+2,     0x1.68be647615f3p+0,         -0x1p-1, INEXACT) // 4.092496429774859834083144960459e+00
@@ -56,11 +56,11 @@ T(RZ,    0x1.03870c921acb9p+3,    0x1.0beb951810e2bp+1, -0x1.3868f4p-52, INEXACT
 T(RN,    0x1.11867637cbd03p+4,    0x1.6b5df7e3cd422p+1,          0x1p-1, INEXACT) // 1.709532758517617523352782882284e+01
 T(RZ,    0x1.6a942e8e7679cp+4,    0x1.8f71907199198p+1, -0x1.357b56p-52, INEXACT) // 2.266117721223382375228538876399e+01
 T(RN,    0x1.8b247b74ee4b5p+5,    0x1.f32cceeae323dp+1,          0x1p-1, INEXACT) // 4.939281360008445886933259316720e+01
-T(RZ,    0x1.1c23f3bc09a76p+6,    0x1.10d7d8d3ce42cp+2,  -0x1.fffffep-1, INEXACT) // 7.103510946091577693550789263099e+01
+T(RZ,    0x1.1c23f3bc09a76p+6,    0x1.10d7d8d3ce42cp+2,         -0x1p+0, INEXACT) // 7.103510946091577693550789263099e+01
 T(RN,    0x1.bdd793fe7b41cp+7,    0x1.5a094d02db358p+2,         -0x1p-1, INEXACT) // 2.229210509801349644476431421936e+02
-T(RZ,    0x1.ac50b409c8aeep+8,    0x1.83d4bcdebb3f3p+2,  -0x1.fffffep-1, INEXACT) // 4.283152471651982295952620916069e+02
+T(RZ,    0x1.ac50b409c8aeep+8,    0x1.83d4bcdebb3f3p+2,         -0x1p+0, INEXACT) // 4.283152471651982295952620916069e+02
 T(RN,   0x1.0dfe7ad41fd87p+17,    0x1.7ac672a5cea6ep+3,          0x1p-1, INEXACT) // 1.382369595985228370409458875656e+05
-T(RZ,   0x1.22306b68a614bp+22,    0x1.ebfcab6287493p+3,  -0x1.fffffep-1, INEXACT) // 4.754458852196048013865947723389e+06
+T(RZ,   0x1.22306b68a614bp+22,    0x1.ebfcab6287493p+3,         -0x1p+0, INEXACT) // 4.754458852196048013865947723389e+06
 T(RN,   0x1.30dafba546295p+24,    0x1.0cf68c5f1466dp+4,          0x1p-1, INEXACT) // 1.997900364560182765126228332520e+07
 T(RN,    0x1.0bb1a825d53dp+30,    0x1.4d6ce1abf2cccp+4,          0x1p-1, INEXACT) // 1.122789897458240509033203125000e+09
 T(RN,   0x1.33e19970f77b8p+33,    0x1.70ef2e31813d1p+4,          0x1p-1, INEXACT) // 1.033078038593345642089843750000e+10
@@ -69,35 +69,35 @@ T(RN,   0x1.73e874fe9220cp+25,    0x1.1b3c004006063p+4,         -0x1p-1, INEXACT
 T(RN,   0x1.bc4dd1dc00b0fp+37,    0x1.a32a18700a585p+4,         -0x1p-1, INEXACT) // 2.385338848000863952636718750000e+11
 T(RN,   0x1.bcc715a6c1dc8p+47,    0x1.090ae2604154fp+5,          0x1p-1, INEXACT) // 2.445191122372942500000000000000e+14
 T(RN,   0x1.c76131364e7ebp+58,    0x1.463a593b928e7p+5,         -0x1p-1, INEXACT) // 5.127119135830166400000000000000e+17
-T(RZ,   0x1.109d5d91037d9p+64,    0x1.6364f83b05572p+5,  -0x1.fffffep-1, INEXACT) // 1.964396002707017318400000000000e+19
+T(RZ,   0x1.109d5d91037d9p+64,    0x1.6364f83b05572p+5,         -0x1p+0, INEXACT) // 1.964396002707017318400000000000e+19
 T(RZ,   0x1.a97e7be23e65ap+90,    0x1.f7216c4b435c9p+5,  -0x1.ec768p-58, INEXACT) // 2.057563107060637919275384832000e+27
 T(RN,   0x1.9b83394eee5e3p+81,    0x1.c4f4e85a701adp+5,          0x1p-1, INEXACT) // 3.886626554866153558114304000000e+24
 T(RN,  0x1.04517520386e5p+137,    0x1.7be95c41da94ap+6,         -0x1p-1, INEXACT) // 1.771633820386861034876266359433e+41
 T(RN,  0x1.20738f115065bp+148,    0x1.9ad20e18b3103p+6,         -0x1p-1, INEXACT) // 4.020425758407352332424907032761e+44
 T(RN,  0x1.c35165a3660fbp+149,    0x1.9f623a0be684bp+6,          0x1p-1, INEXACT) // 1.258090845676367300551036533084e+45
-T(RZ,  0x1.0bd73b73fc74cp+207,    0x1.1f0da93354197p+7,  -0x1.fffffep-1, INEXACT) // 2.152017462376579206251183125431e+62
-T(RZ,  0x1.37e7ac4e7f9b3p+246,    0x1.556c678d5e975p+7,  -0x1.fffffep-1, INEXACT) // 1.377720964824664482963749825978e+74
+T(RZ,  0x1.0bd73b73fc74cp+207,    0x1.1f0da93354197p+7,         -0x1p+0, INEXACT) // 2.152017462376579206251183125431e+62
+T(RZ,  0x1.37e7ac4e7f9b3p+246,    0x1.556c678d5e975p+7,         -0x1p+0, INEXACT) // 1.377720964824664482963749825978e+74
 T(RN,  0x1.b7f71a488641ap+340,    0x1.d86c518ceab6bp+7,          0x1p-1, INEXACT) // 3.849257202283993873346921882146e+102
 T(RN,  0x1.49f24f35d3f37p+344,    0x1.dd648c587cb4fp+7,         -0x1p-1, INEXACT) // 4.618724912198040172360765091227e+103
 T(RZ,  0x1.db9797d3d32e8p+415,    0x1.204684c1167e9p+8,   -0x1.6bc4p-61, INEXACT) // 1.571965181886189361545056053170e+125
 T(RN,  0x1.6ab13075e3f2dp+457,    0x1.3d1ddc04ad601p+8,          0x1p-1, INEXACT) // 5.272373929833471134047051998241e+137
 T(RN,  0x1.382c35530591fp+521,    0x1.6953fbc004beep+8,          0x1p-1, INEXACT) // 8.371102901169478769707544639120e+156
 T(RN,  0x1.d4a93d69f93ebp+463,    0x1.41882720c76efp+8,          0x1p-1, INEXACT) // 4.360205199608654982781689672527e+139
-T(RZ,  0x1.758247d0be2e1p+534,    0x1.7284b32a0d4b9p+8,  -0x1.fffffep-1, INEXACT) // 8.205001855507490349849897983744e+160
+T(RZ,  0x1.758247d0be2e1p+534,    0x1.7284b32a0d4b9p+8,         -0x1p+0, INEXACT) // 8.205001855507490349849897983744e+160
 T(RN,  0x1.6b3d29c0f9e6ep+543,     0x1.78ba92cb3239p+8,         -0x1p-1, INEXACT) // 4.085451451341444578026962920645e+163
 T(RN,  0x1.5b46700fda328p+678,    0x1.d6423c05cc7d6p+8,          0x1p-1, INEXACT) // 1.701260423947209564115417991829e+204
 T(RZ,  0x1.2b67eff65dce8p+709,    0x1.eb9914d4ac1c8p+8,   -0x1.b8c8p-62, INEXACT) // 3.149832555079405488339917129684e+213
 T(RN,  0x1.be87838f1a47cp+774,    0x1.0c86affa8af55p+9,          0x1p-1, INEXACT) // 1.733112241129305460689242039638e+233
 T(RN,  0x1.31143c7c0b1e6p+962,    0x1.4d7dd253b66d7p+9,         -0x1p-1, INEXACT) // 4.645454875450314099508213998054e+289
-T(RZ,    0x1.2062bf45679f6p-1,    -0x1.25e6b237c2d9p-1,  0x1.7c0c4ap-51, INEXACT) // 5.632533809874178398757749164361e-01
+T(RZ,    0x1.2062bf45679f6p-1,    -0x1.25e6b237c2d9p-1,  0x1.7c0c4cp-51, INEXACT) // 5.632533809874178398757749164361e-01
 T(RN,    0x1.25fd45593f228p-1,   -0x1.1c0c45537d87ep-1,         -0x1p-1, INEXACT) // 5.741979285663250109905675344635e-01
-T(RZ,    0x1.2ae27ea671361p-1,   -0x1.1397add4538acp-1,  0x1.d1272ap-51, INEXACT) // 5.837592676331092578223547207017e-01
-T(RZ,    0x1.468e956d45383p-1,   -0x1.cc83748b7669dp-2,   0x1.fffffep-1, INEXACT) // 6.378065772902207219985371011717e-01
-T(RZ,    0x1.507e542d9849dp-1,   -0x1.add1dce7cd5bcp-2,  0x1.dd045ep-51, INEXACT) // 6.572138124139602632922674274596e-01
+T(RZ,    0x1.2ae27ea671361p-1,   -0x1.1397add4538acp-1,  0x1.d1272cp-51, INEXACT) // 5.837592676331092578223547207017e-01
+T(RZ,    0x1.468e956d45383p-1,   -0x1.cc83748b7669dp-2,          0x1p+0, INEXACT) // 6.378065772902207219985371011717e-01
+T(RZ,    0x1.507e542d9849dp-1,   -0x1.add1dce7cd5bcp-2,   0x1.dd046p-51, INEXACT) // 6.572138124139602632922674274596e-01
 T(RN,    0x1.edeffbdb1a6e6p-1,   -0x1.2638cff387e06p-5,         -0x1p-1, INEXACT) // 9.647215561828630381313587349723e-01
-T(RZ,    0x1.1538ea18a4585p+0,    0x1.46370d915991ap-4,  -0x1.fffffep-1, INEXACT) // 1.082899695411783769216640394006e+00
-T(RZ,    0x1.47408cb9583cep+0,    0x1.f6e4c3ced7c71p-3,  -0x1.fffffep-1, INEXACT) // 1.278328700304189435854596013087e+00
-T(RZ,    0x1.512b3126454f3p+0,    0x1.1a0408712e009p-2,  -0x1.fffffep-1, INEXACT) // 1.317065307467882417924442961521e+00
+T(RZ,    0x1.1538ea18a4585p+0,    0x1.46370d915991ap-4,         -0x1p+0, INEXACT) // 1.082899695411783769216640394006e+00
+T(RZ,    0x1.47408cb9583cep+0,    0x1.f6e4c3ced7c71p-3,         -0x1p+0, INEXACT) // 1.278328700304189435854596013087e+00
+T(RZ,    0x1.512b3126454f3p+0,    0x1.1a0408712e009p-2,         -0x1p+0, INEXACT) // 1.317065307467882417924442961521e+00
 T(RN,    0x1.789e95b11578cp+0,    0x1.8b52c15ea9c23p-2,         -0x1p-1, INEXACT) // 1.471169810994498838851995969890e+00
 T(RN,    0x1.b9f1fa4587967p+0,    0x1.178e6d3ecaceap-1,          0x1p-1, INEXACT) // 1.726348535513887005876654257008e+00
 T(RZ,    0x1.0000000000002p+0,   0x1.ffffffffffffep-52, -0x1.555554p-51, INEXACT) // 1.000000000000000444089209850063e+00
@@ -106,89 +106,89 @@ T(RZ,    0x1.0000000000002p+0,   0x1.ffffffffffffep-52, -0x1.555554p-51, INEXACT
 T(RN,  0x1.c801ddf0ef4a3p-151,   -0x1.a05a00991e8a3p+6,  -0x1.ffa55ep-2, INEXACT)
 T(RN,  0x1.74aabbb8a16e5p+789,    0x1.11a262919c079p+9,  -0x1.ff28eap-2, INEXACT)
 T(RN,  0x1.ed4775529558dp-385,   -0x1.0a34ad213ccd1p+8,  -0x1.ff1978p-2, INEXACT)
-T(RZ,  0x1.a712fbeade504p+211,    0x1.25834a278649cp+7, -0x1.b28586p-11, INEXACT)
+T(RZ,  0x1.a712fbeade504p+211,    0x1.25834a278649cp+7, -0x1.b28588p-11, INEXACT)
 T(RD,  0x1.a712fbeade504p+211,    0x1.25834a278649cp+7, -0x1.b28588p-11, INEXACT)
-T(RU,  0x1.a712fbeade504p+211,    0x1.25834a278649dp+7,    0x1.ff936p-1, INEXACT)
+T(RU,  0x1.a712fbeade504p+211,    0x1.25834a278649dp+7,   0x1.ff935ep-1, INEXACT)
 T(RZ,  0x1.c478ccc2014cep-178,   -0x1.eb3e1b073241fp+6,   0x1.ffab42p-1, INEXACT)
-T(RU,  0x1.c478ccc2014cep-178,   -0x1.eb3e1b073241fp+6,   0x1.ffab44p-1, INEXACT)
+T(RU,  0x1.c478ccc2014cep-178,   -0x1.eb3e1b073241fp+6,   0x1.ffab42p-1, INEXACT)
 T(RD,  0x1.c478ccc2014cep-178,    -0x1.eb3e1b073242p+6, -0x1.52f434p-11, INEXACT)
 T(RN,  0x1.90ae90e99ad29p+129,    0x1.6774b64e32de6p+6,  -0x1.ffb28cp-2, INEXACT)
 T(RN,  0x1.87d8123d3eb89p+722,    0x1.f4e0c1621958cp+8,  -0x1.ffa364p-2, INEXACT)
 T(RN,  0x1.fffaef23f6059p+233,    0x1.44648ec0291adp+7,   -0x1.ffffep-2, INEXACT)
 T(RZ,  0x1.f0ff0034baafap-576,   -0x1.8e96e1092c381p+8,   0x1.fff668p-1, INEXACT)
-T(RU,  0x1.f0ff0034baafap-576,   -0x1.8e96e1092c381p+8,   0x1.fff66ap-1, INEXACT)
-T(RD,  0x1.f0ff0034baafap-576,   -0x1.8e96e1092c382p+8, -0x1.32e53ap-14, INEXACT)
+T(RU,  0x1.f0ff0034baafap-576,   -0x1.8e96e1092c381p+8,   0x1.fff668p-1, INEXACT)
+T(RD,  0x1.f0ff0034baafap-576,   -0x1.8e96e1092c382p+8, -0x1.32e538p-14, INEXACT)
 T(RZ,  0x1.ab0cf26400992p+417,    0x1.218dd9738cd1fp+8,  -0x1.fff2d2p-1, INEXACT)
-T(RD,  0x1.ab0cf26400992p+417,    0x1.218dd9738cd1fp+8,  -0x1.fff2d4p-1, INEXACT)
+T(RD,  0x1.ab0cf26400992p+417,    0x1.218dd9738cd1fp+8,  -0x1.fff2d2p-1, INEXACT)
 T(RU,  0x1.ab0cf26400992p+417,     0x1.218dd9738cd2p+8,  0x1.a5b316p-14, INEXACT)
 T(RZ,   0x1.73a22a6e16c6dp+60,    0x1.4fb1471f1f0b9p+5,  -0x1.fff9e2p-1, INEXACT)
-T(RD,   0x1.73a22a6e16c6dp+60,    0x1.4fb1471f1f0b9p+5,  -0x1.fff9e4p-1, INEXACT)
+T(RD,   0x1.73a22a6e16c6dp+60,    0x1.4fb1471f1f0b9p+5,  -0x1.fff9e2p-1, INEXACT)
 T(RU,   0x1.73a22a6e16c6dp+60,    0x1.4fb1471f1f0bap+5,  0x1.87444ap-15, INEXACT)
-T(RZ,  0x1.656269ed5a8cbp-530,   -0x1.6f08cc8b7e3f7p+8,   0x1.fffafcp-1, INEXACT)
+T(RZ,  0x1.656269ed5a8cbp-530,   -0x1.6f08cc8b7e3f7p+8,   0x1.fffafep-1, INEXACT)
 T(RU,  0x1.656269ed5a8cbp-530,   -0x1.6f08cc8b7e3f7p+8,   0x1.fffafep-1, INEXACT)
 T(RD,  0x1.656269ed5a8cbp-530,   -0x1.6f08cc8b7e3f8p+8, -0x1.408788p-15, INEXACT)
 T(RZ,  0x1.0fa1e33b84241p-184,   -0x1.fdeb531283c29p+6,   0x1.fff422p-1, INEXACT)
-T(RU,  0x1.0fa1e33b84241p-184,   -0x1.fdeb531283c29p+6,   0x1.fff424p-1, INEXACT)
+T(RU,  0x1.0fa1e33b84241p-184,   -0x1.fdeb531283c29p+6,   0x1.fff422p-1, INEXACT)
 T(RD,  0x1.0fa1e33b84241p-184,   -0x1.fdeb531283c2ap+6, -0x1.7ba56cp-14, INEXACT)
 T(RN,  0x1.eff4d3091605bp+291,    0x1.94bbf9c66a82bp+7,  -0x1.fff20ep-2, INEXACT)
 T(RN,  0x1.3c365d3db4e96p+320,    0x1.bc09631ea7e67p+7,  -0x1.ffe606p-2, INEXACT)
 T(RN,  0x1.ccce67200e6fdp-106,    -0x1.238b0f634482p+6,  -0x1.fffec2p-2, INEXACT)
-T(RZ,   0x1.51905ad0269ap-613,   -0x1.a89f659ea81c3p+8,  0x1.00664ap-19, INEXACT)
+T(RZ,   0x1.51905ad0269ap-613,   -0x1.a89f659ea81c3p+8,  0x1.00664cp-19, INEXACT)
 T(RU,   0x1.51905ad0269ap-613,   -0x1.a89f659ea81c3p+8,  0x1.00664cp-19, INEXACT)
 T(RD,   0x1.51905ad0269ap-613,   -0x1.a89f659ea81c4p+8,   -0x1.ffffcp-1, INEXACT)
-T(RZ,  0x1.df3d14c7695cep+998,    0x1.5a31a6f2a8f79p+9, -0x1.d21872p-17, INEXACT)
+T(RZ,  0x1.df3d14c7695cep+998,    0x1.5a31a6f2a8f79p+9, -0x1.d21874p-17, INEXACT)
 T(RD,  0x1.df3d14c7695cep+998,    0x1.5a31a6f2a8f79p+9, -0x1.d21874p-17, INEXACT)
 T(RU,  0x1.df3d14c7695cep+998,    0x1.5a31a6f2a8f7ap+9,   0x1.fffe2ep-1, INEXACT)
 T(RN,  0x1.4d2ea2411d301p-516,   -0x1.656682cae5104p+8,  -0x1.fffe06p-2, INEXACT)
-T(RZ,  0x1.9297df0276db8p-985,   -0x1.55260b6be9567p+9,  0x1.9ff558p-18, INEXACT)
+T(RZ,  0x1.9297df0276db8p-985,   -0x1.55260b6be9567p+9,  0x1.9ff55ap-18, INEXACT)
 T(RU,  0x1.9297df0276db8p-985,   -0x1.55260b6be9567p+9,  0x1.9ff55ap-18, INEXACT)
-T(RD,  0x1.9297df0276db8p-985,   -0x1.55260b6be9568p+9,  -0x1.ffff32p-1, INEXACT)
+T(RD,  0x1.9297df0276db8p-985,   -0x1.55260b6be9568p+9,   -0x1.ffff3p-1, INEXACT)
 T(RN,   0x1.fc5da34559d7p+536,    0x1.7436816fd2512p+8,  -0x1.fffc68p-2, INEXACT)
 T(RN,  0x1.8f2225b7a7f01p+692,     0x1.e01a1a853bbfp+8,  -0x1.ffffeap-2, INEXACT)
 T(RN,   0x1.95340cb17408p-142,   -0x1.87dee9a288dd6p+6,  -0x1.ffff84p-2, INEXACT)
 T(RZ,  0x1.a3a9b267d484fp-140,   -0x1.822f71650e3d6p+6,   0x1.ffffdap-1, INEXACT)
-T(RU,  0x1.a3a9b267d484fp-140,   -0x1.822f71650e3d6p+6,   0x1.ffffdcp-1, INEXACT)
+T(RU,  0x1.a3a9b267d484fp-140,   -0x1.822f71650e3d6p+6,   0x1.ffffdap-1, INEXACT)
 T(RD,  0x1.a3a9b267d484fp-140,   -0x1.822f71650e3d7p+6, -0x1.2a6426p-20, INEXACT)
 T(RN,   0x1.97912e7b6c53bp-50,   -0x1.1189e4c213767p+5,   -0x1.ffff9p-2, INEXACT)
 T(RN,  0x1.c1689d1afe5bap+447,    0x1.3666489289951p+8,  -0x1.ffffccp-2, INEXACT)
 T(RN,  0x1.7b3e9ce156956p+805,    0x1.173030a2ad8ddp+9,  -0x1.ffff88p-2, INEXACT)
 T(RZ, 0x1.bac883973bd33p-1014,   -0x1.5f26d3c8c32dfp+9,  0x1.732c58p-23, INEXACT)
-T(RU, 0x1.bac883973bd33p-1014,   -0x1.5f26d3c8c32dfp+9,  0x1.732c5ap-23, INEXACT)
-T(RD, 0x1.bac883973bd33p-1014,    -0x1.5f26d3c8c32ep+9,  -0x1.fffffcp-1, INEXACT)
+T(RU, 0x1.bac883973bd33p-1014,   -0x1.5f26d3c8c32dfp+9,  0x1.732c58p-23, INEXACT)
+T(RD, 0x1.bac883973bd33p-1014,    -0x1.5f26d3c8c32ep+9,  -0x1.fffffap-1, INEXACT)
 T(RN,  0x1.5584b1e4a15b2p-354,   -0x1.ea2bf832ecf53p+7,  -0x1.ffff8ap-2, INEXACT)
 T(RN,   0x1.3ed1df999d2ap-619,   -0x1.acd6b22a8ffb2p+8,  -0x1.fffffep-2, INEXACT)
 T(RN,  0x1.8180385e3411fp+266,    0x1.7192b239ed8d8p+7,   -0x1.fffffp-2, INEXACT)
 T(RN,   0x1.db829630f76cep-84,   -0x1.ccd75a2ef71c7p+5,  -0x1.fffff2p-2, INEXACT)
-T(RZ,  0x1.9cb08f2e629a5p+989,    0x1.5700029fafb6ep+9,  -0x1.fffffep-1, INEXACT)
+T(RZ,  0x1.9cb08f2e629a5p+989,    0x1.5700029fafb6ep+9,         -0x1p+0, INEXACT)
 T(RD,  0x1.9cb08f2e629a5p+989,    0x1.5700029fafb6ep+9,         -0x1p+0, INEXACT)
 T(RU,  0x1.9cb08f2e629a5p+989,    0x1.5700029fafb6fp+9,  0x1.395be8p-31, INEXACT)
-T(RZ,  0x1.fbf3b87a3fb02p+256,    0x1.644303b9c9481p+7,  -0x1.fffffcp-1, INEXACT)
+T(RZ,  0x1.fbf3b87a3fb02p+256,    0x1.644303b9c9481p+7,  -0x1.fffffep-1, INEXACT)
 T(RD,  0x1.fbf3b87a3fb02p+256,    0x1.644303b9c9481p+7,  -0x1.fffffep-1, INEXACT)
 T(RU,  0x1.fbf3b87a3fb02p+256,    0x1.644303b9c9482p+7,  0x1.763beap-24, INEXACT)
-T(RZ,  0x1.ed42376f2c12cp-486,   -0x1.5036b34e6ea95p+8,   0x1.fffffap-1, INEXACT)
+T(RZ,  0x1.ed42376f2c12cp-486,   -0x1.5036b34e6ea95p+8,   0x1.fffffcp-1, INEXACT)
 T(RU,  0x1.ed42376f2c12cp-486,   -0x1.5036b34e6ea95p+8,   0x1.fffffcp-1, INEXACT)
-T(RD,  0x1.ed42376f2c12cp-486,   -0x1.5036b34e6ea96p+8, -0x1.331d8ap-23, INEXACT)
+T(RD,  0x1.ed42376f2c12cp-486,   -0x1.5036b34e6ea96p+8, -0x1.331d88p-23, INEXACT)
 T(RN,  0x1.55148d7c2b924p+279,    0x1.83599a19b582cp+7,  -0x1.fffffap-2, INEXACT)
-T(RZ,  0x1.c9273187a9e4fp+611,    0x1.a817bfa880fabp+8,  -0x1.fffffep-1, INEXACT)
+T(RZ,  0x1.c9273187a9e4fp+611,    0x1.a817bfa880fabp+8,         -0x1p+0, INEXACT)
 T(RD,  0x1.c9273187a9e4fp+611,    0x1.a817bfa880fabp+8,         -0x1p+0, INEXACT)
 T(RU,  0x1.c9273187a9e4fp+611,    0x1.a817bfa880facp+8,  0x1.c7b9c8p-26, INEXACT)
 T(RN,  0x1.dd091b1909c9ep+551,    0x1.7e8be8160642cp+8,         -0x1p-1, INEXACT)
-T(RZ,  0x1.884c0766ab85ap+672,    0x1.d238c46a70d1ep+8,  -0x1.fffffep-1, INEXACT)
+T(RZ,  0x1.884c0766ab85ap+672,    0x1.d238c46a70d1ep+8,         -0x1p+0, INEXACT)
 T(RD,  0x1.884c0766ab85ap+672,    0x1.d238c46a70d1ep+8,         -0x1p+0, INEXACT)
-T(RU,  0x1.884c0766ab85ap+672,    0x1.d238c46a70d1fp+8,  0x1.437086p-26, INEXACT)
+T(RU,  0x1.884c0766ab85ap+672,    0x1.d238c46a70d1fp+8,  0x1.437084p-26, INEXACT)
 T(RN,  0x1.b800a205f7372p-488,   -0x1.51b6d7338bbbcp+8,         -0x1p-1, INEXACT)
 T(RN,  0x1.4c6b09e6a0165p-207,   -0x1.1e70c4a3edbbbp+7,         -0x1p-1, INEXACT)
 T(RN,   0x1.f3fce664ce889p-69,   -0x1.794311eb95eecp+5,  -0x1.fffffep-2, INEXACT)
 T(RN,  0x1.448e6bbf82fb2p-424,   -0x1.25a8393497ac3p+8,  -0x1.fffffep-2, INEXACT)
 T(RN,  0x1.b7efd549e6839p+359,    0x1.f2c338a5f0ca8p+7,  -0x1.fffffep-2, INEXACT)
 T(RN,   0x1.b3f415c812f1p+474,    0x1.491588febf34cp+8,         -0x1p-1, INEXACT)
-T(RZ,  0x1.7e097af81e0d9p+160,    0x1.bd372ead1aad5p+6, -0x1.9fb4f6p-30, INEXACT)
+T(RZ,  0x1.7e097af81e0d9p+160,    0x1.bd372ead1aad5p+6, -0x1.9fb4f8p-30, INEXACT)
 T(RD,  0x1.7e097af81e0d9p+160,    0x1.bd372ead1aad5p+6, -0x1.9fb4f8p-30, INEXACT)
 T(RU,  0x1.7e097af81e0d9p+160,    0x1.bd372ead1aad6p+6,          0x1p+0, INEXACT)
-T(RZ,  0x1.9ad7f82bc157ap-633,   -0x1.b64a046d6e8bep+8,   0x1.fffffep-1, INEXACT)
+T(RZ,  0x1.9ad7f82bc157ap-633,   -0x1.b64a046d6e8bep+8,          0x1p+0, INEXACT)
 T(RU,  0x1.9ad7f82bc157ap-633,   -0x1.b64a046d6e8bep+8,          0x1p+0, INEXACT)
-T(RD,  0x1.9ad7f82bc157ap-633,   -0x1.b64a046d6e8bfp+8, -0x1.b84574p-29, INEXACT)
-T(RZ,  0x1.b5ffc2106cd0bp+479,    0x1.4c8df6412b00bp+8, -0x1.863898p-29, INEXACT)
+T(RD,  0x1.9ad7f82bc157ap-633,   -0x1.b64a046d6e8bfp+8, -0x1.b84572p-29, INEXACT)
+T(RZ,  0x1.b5ffc2106cd0bp+479,    0x1.4c8df6412b00bp+8, -0x1.86389ap-29, INEXACT)
 T(RD,  0x1.b5ffc2106cd0bp+479,    0x1.4c8df6412b00bp+8, -0x1.86389ap-29, INEXACT)
 T(RU,  0x1.b5ffc2106cd0bp+479,    0x1.4c8df6412b00cp+8,          0x1p+0, INEXACT)
 T(RN,  0x1.1157f32defcc2p-545,   -0x1.79b31d02837eep+8,         -0x1p-1, INEXACT)

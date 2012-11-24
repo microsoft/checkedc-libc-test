@@ -7,7 +7,7 @@ OBJ=$(SRC:.c=.o)
 BINOBJ=$(filter-out util.o,$(OBJ))
 BIN=$(BINOBJ:.o=)
 
-include ../../config.mak
+#include ../../config.mak
 
 all: $(BIN)
 run: all

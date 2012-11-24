@@ -54,8 +54,15 @@ static int mpl2(struct t *s, long double (*f)(long double, long double))
 	return 0;
 }
 
+static double sinpi(double x) { return sin(3.141592653589793238*x); }
+int mpsinpi(struct t *t) { return mpd1(t, sinpi); }
+
 static double add(double x, double y) { double z = x + y; return z; }
 int mpadd(struct t *t) { return mpd2(t, add); }
+static double mul(double x, double y) { double z = x * y; return z; }
+int mpmul(struct t *t) { return mpd2(t, mul); }
+static double div(double x, double y) { double z = x / y; return z; }
+int mpdiv(struct t *t) { return mpd2(t, div); }
 
 int mpacos(struct t *t) { return mpd1(t, acos); }
 int mpacosf(struct t *t) { return mpf1(t, acosf); }

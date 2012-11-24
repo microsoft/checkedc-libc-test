@@ -38,7 +38,7 @@
 T(RN, 0x1.6666666666666p+1023, 0x1.3333333333333p+1023, 0x1.d80a69c19e429p+1023,  -0x1.83b0f8p-2, INEXACT)
 T(RZ, 0x1.6666666666666p+1023, 0x1.3333333333333p+1023, 0x1.d80a69c19e429p+1023,  -0x1.83b0f8p-2, INEXACT)
 T(RU, 0x1.6666666666666p+1023, 0x1.3333333333333p+1023, 0x1.d80a69c19e42ap+1023,   0x1.3e2784p-1, INEXACT)
-T(RD, 0x1.6666666666666p+1023, 0x1.3333333333333p+1023, 0x1.d80a69c19e429p+1023,  -0x1.83b0fap-2, INEXACT)
+T(RD, 0x1.6666666666666p+1023, 0x1.3333333333333p+1023, 0x1.d80a69c19e429p+1023,  -0x1.83b0f8p-2, INEXACT)
 // tiny,huge = huge,tiny = huge
 T(RN,                  0x0p+0, 0x1.fffffffffffffp+1023, 0x1.fffffffffffffp+1023,          0x0p+0, 0)
 T(RN,               0x1p-1074, 0x1.fffffffffffffp+1023, 0x1.fffffffffffffp+1023,          0x0p+0, INEXACT)
@@ -92,7 +92,7 @@ T(RZ,                     nan,                    -inf,                     inf,
 T(RN,                     nan,                     inf,                     inf,          0x0p+0, 0)
 // overflow
 T(RN,        -0x1.fffffp+1023,         0x1.eeeeep+1023,                     inf,          0x0p+0, INEXACT|OVERFLOW)
-T(RZ,        -0x1.fffffp+1023,         0x1.eeeeep+1023, 0x1.fffffffffffffp+1023,  -0x1.fffffep-1, INEXACT|OVERFLOW)
+T(RZ,        -0x1.fffffp+1023,         0x1.eeeeep+1023, 0x1.fffffffffffffp+1023,         -0x1p+0, INEXACT|OVERFLOW)
 T(RU,        -0x1.fffffp+1023,         0x1.eeeeep+1023,                     inf,          0x0p+0, INEXACT|OVERFLOW)
 T(RD,        -0x1.fffffp+1023,         0x1.eeeeep+1023, 0x1.fffffffffffffp+1023,         -0x1p+0, INEXACT|OVERFLOW)
 // subnormal number

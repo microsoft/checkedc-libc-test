@@ -1,5 +1,4 @@
 #include <stdio.h>
-
 #include <stdint.h>
 #include <mpfr.h>
 #include "gen.h"
@@ -15,29 +14,23 @@ static int rmap(int r)
 	return -1;
 }
 
+enum {FLT, DBL, LDBL};
+static const int emin[] = {
+[FLT] = -148,
+[DBL] = -1073,
+[LDBL] = -16444
+};
+static const int emax[] = {
+[FLT] = 128,
+[DBL] = 1024,
+[LDBL] = 16384
+};
+
 void debug(mpfr_t x)
 {
 	mpfr_out_str(stdout, 10, 0, x, MPFR_RNDN);
 	printf("\n");
 }
-
-void mpsetup()
-{
-	mpfr_set_emin(-1073);
-	mpfr_set_emax(1024);
-}
-void mpsetupf()
-{
-	mpfr_set_emin(-148);
-	mpfr_set_emax(128);
-}
-#if LDBL_MANT_DIG == 64
-void mpsetupl()
-{
-	mpfr_set_emin(-16444);
-	mpfr_set_emax(16384);
-}
-#endif
 
 /*
 round x into y considering x is already rounded (t = up or down)
@@ -75,7 +68,7 @@ static int adjust_round(mpfr_t y, mpfr_t x, int t, int r)
 	return mpfr_set(y, x, r);
 }
 
-static int adjust(mpfr_t mr, mpfr_t my, int t, int r)
+static int adjust(mpfr_t mr, mpfr_t my, int t, int r, int type)
 {
 //	double d, dn, dp;
 //printf("adj %d\n", t);
@@ -83,7 +76,13 @@ static int adjust(mpfr_t mr, mpfr_t my, int t, int r)
 	t = adjust_round(mr, my, t, r);
 //printf("rnd %d\n", t);
 //debug(mr);
+	mpfr_set_emin(emin[type]);
+	mpfr_set_emax(emax[type]);
+	// mpfr could handle this in subnormlize easily but no it doesnt...
+	t = mpfr_check_range(mr, t, r);
 	t = mpfr_subnormalize(mr, t, r);
+	mpfr_set_emax(MPFR_EMAX_DEFAULT);
+	mpfr_set_emin(MPFR_EMIN_DEFAULT);
 //printf("sub %d\n", t);
 //debug(mr);
 //	d = mpfr_get_d(mr, r);
@@ -121,21 +120,21 @@ static void genf(struct t *p, mpfr_t my, int t, int r)
 	MPFR_DECL_INIT(mr, 24);
 	int i;
 
-	t = adjust(mr, my, t, r);
+	t = adjust(mr, my, t, r, FLT);
 	p->y = mpfr_get_flt(mr, r);
 	p->e = eflags(isnan(p->x) || isnan(p->x2) || isnan(p->x3));
 	i = eulpf(p->y);
 	if (!isfinite(p->y)) {
 		p->dy = 0;
-	} else if (i < 0) {
-		mpfr_div_2si(mr, mr, i, MPFR_RNDN);
-		mpfr_div_2si(my, my, i, MPFR_RNDN);
-		mpfr_sub(my, mr, my, MPFR_RNDN);
-		p->dy = mpfr_get_flt(my, r);
 	} else {
 		mpfr_sub(my, mr, my, MPFR_RNDN);
 		mpfr_div_2si(my, my, i, MPFR_RNDN);
-		p->dy = mpfr_get_flt(my, r);
+		p->dy = mpfr_get_flt(my, MPFR_RNDN);
+		// happens in RU,RD,RZ modes when y is finite but outside the domain
+		if (p->dy > 1)
+			p->dy = 1;
+		if (p->dy < -1)
+			p->dy = -1;
 	}
 }
 
@@ -146,19 +145,11 @@ static int mpf1(struct t *p, int (*fmp)(mpfr_t, const mpfr_t, mpfr_rnd_t))
 	MPFR_DECL_INIT(mx, 24);
 	MPFR_DECL_INIT(my, 128);
 
-	mpsetupf();
 	mpfr_clear_flags();
 	mpfr_set_flt(mx, p->x, MPFR_RNDN);
 	tn = fmp(my, mx, r);
 	p->x2 = 0;
 	genf(p, my, tn, r);
-	if ((p->e & INEXACT) && nextafterf(p->y, 0) == 0) {
-		mpfr_set_emin(-(1<<20));
-		tn = fmp(my, mx, r);
-		mpfr_mul_2si(my, my, 149, MPFR_RNDN);
-		p->dy = scalbnl(p->y, 149) - mpfr_get_ld(my, r);
-		mpfr_set_emin(-148);
-	}
 	return 0;
 }
 
@@ -170,19 +161,11 @@ static int mpf2(struct t *p, int (*fmp)(mpfr_t, const mpfr_t, const mpfr_t, mpfr
 	MPFR_DECL_INIT(mx2, 24);
 	MPFR_DECL_INIT(my, 128);
 
-	mpsetupf();
 	mpfr_clear_flags();
 	mpfr_set_flt(mx, p->x, MPFR_RNDN);
 	mpfr_set_flt(mx2, p->x2, MPFR_RNDN);
 	tn = fmp(my, mx, mx2, r);
 	genf(p, my, tn, r);
-	if ((p->e & INEXACT) && nextafterf(p->y, 0) == 0) {
-		mpfr_set_emin(-(1<<20));
-		tn = fmp(my, mx, mx2, r);
-		mpfr_mul_2si(my, my, 149, MPFR_RNDN);
-		p->dy = scalbnl(p->y, 149) - mpfr_get_ld(my, r);
-		mpfr_set_emin(-148);
-	}
 	return 0;
 }
 
@@ -191,21 +174,21 @@ static void gend(struct t *p, mpfr_t my, int t, int r)
 	MPFR_DECL_INIT(mr, 53);
 	int i;
 
-	t = adjust(mr, my, t, r);
+	t = adjust(mr, my, t, r, DBL);
 	p->y = mpfr_get_d(mr, r);
 	p->e = eflags(isnan(p->x) || isnan(p->x2) || isnan(p->x3));
 	i = eulp(p->y);
 	if (!isfinite(p->y)) {
 		p->dy = 0;
-	} else if (i < 0) {
-		mpfr_div_2si(mr, mr, i, MPFR_RNDN);
-		mpfr_div_2si(my, my, i, MPFR_RNDN);
-		mpfr_sub(my, mr, my, MPFR_RNDN);
-		p->dy = mpfr_get_flt(my, r);
 	} else {
 		mpfr_sub(my, mr, my, MPFR_RNDN);
 		mpfr_div_2si(my, my, i, MPFR_RNDN);
-		p->dy = mpfr_get_flt(my, r);
+		p->dy = mpfr_get_flt(my, MPFR_RNDN);
+		// happens in RU,RD,RZ modes when y is finite but outside the domain
+		if (p->dy > 1)
+			p->dy = 1;
+		if (p->dy < -1)
+			p->dy = -1;
 	}
 }
 
@@ -216,23 +199,11 @@ static int mpd1(struct t *p, int (*fmp)(mpfr_t, const mpfr_t, mpfr_rnd_t))
 	MPFR_DECL_INIT(mx, 53);
 	MPFR_DECL_INIT(my, 128);
 
-	mpsetup();
 	mpfr_clear_flags();
 	mpfr_set_d(mx, p->x, MPFR_RNDN);
 	tn = fmp(my, mx, r);
-//printf("underflow: %d\n", mpfr_underflow_p());
 	p->x2 = 0;
 	gend(p, my, tn, r);
-//printf("dy: %a  %.3f\n", p->dy, p->dy);
-	if ((p->e & INEXACT) && nextafter(p->y, 0) == 0) {
-		mpfr_set_emin(-(1<<20));
-		tn = fmp(my, mx, r);
-		mpfr_mul_2si(my, my, 1074, MPFR_RNDN);
-//debug(my);
-		p->dy = scalbnl(p->y, 1074) - mpfr_get_ld(my, r);
-//printf("dy: %a  %.3f\n", p->dy, p->dy);
-		mpfr_set_emin(-1073);
-	}
 	return 0;
 }
 
@@ -244,19 +215,11 @@ static int mpd2(struct t *p, int (*fmp)(mpfr_t, const mpfr_t, const mpfr_t, mpfr
 	MPFR_DECL_INIT(mx2, 53);
 	MPFR_DECL_INIT(my, 128);
 
-	mpsetup();
 	mpfr_clear_flags();
 	mpfr_set_d(mx, p->x, MPFR_RNDN);
 	mpfr_set_d(mx2, p->x2, MPFR_RNDN);
 	tn = fmp(my, mx, mx2, r);
 	gend(p, my, tn, r);
-	if ((p->e & INEXACT) && nextafter(p->y, 0) == 0) {
-		mpfr_set_emin(-(1<<20));
-		tn = fmp(my, mx, mx2, r);
-		mpfr_mul_2si(my, my, 1074, MPFR_RNDN);
-		p->dy = scalbnl(p->y, 1074) - mpfr_get_ld(my, r);
-		mpfr_set_emin(-1073);
-	}
 	return 0;
 }
 
@@ -266,21 +229,21 @@ static void genl(struct t *p, mpfr_t my, int t, int r)
 	MPFR_DECL_INIT(mr, 64);
 	int i;
 
-	t = adjust(mr, my, t, r);
+	t = adjust(mr, my, t, r, LDBL);
 	p->y = mpfr_get_ld(mr, r);
 	p->e = eflags(isnan(p->x) || isnan(p->x2) || isnan(p->x3));
 	i = eulpl(p->y);
 	if (!isfinite(p->y)) {
 		p->dy = 0;
-	} else if (i < 0) {
-		mpfr_div_2si(mr, mr, i, MPFR_RNDN);
-		mpfr_div_2si(my, my, i, MPFR_RNDN);
-		mpfr_sub(my, mr, my, MPFR_RNDN);
-		p->dy = mpfr_get_flt(my, r);
 	} else {
 		mpfr_sub(my, mr, my, MPFR_RNDN);
 		mpfr_div_2si(my, my, i, MPFR_RNDN);
-		p->dy = mpfr_get_flt(my, r);
+		p->dy = mpfr_get_flt(my, MPFR_RNDN);
+		// happens in RU,RD,RZ modes when y is finite but outside the domain
+		if (p->dy > 1)
+			p->dy = 1;
+		if (p->dy < -1)
+			p->dy = -1;
 	}
 }
 #endif
@@ -295,19 +258,11 @@ static int mpl1(struct t *p, int (*fmp)(mpfr_t, const mpfr_t, mpfr_rnd_t))
 	MPFR_DECL_INIT(mx, 64);
 	MPFR_DECL_INIT(my, 128);
 
-	mpsetupl();
 	mpfr_clear_flags();
 	mpfr_set_ld(mx, p->x, MPFR_RNDN);
 	tn = fmp(my, mx, r);
 	p->x2 = 0;
 	genl(p, my, tn, r);
-	if ((p->e & INEXACT) && nextafterl(p->y, 0) == 0) {
-		mpfr_set_emin(-(1<<20));
-		tn = fmp(my, mx, r);
-		mpfr_mul_2si(my, my, 16445, MPFR_RNDN);
-		p->dy = scalbnl(p->y, 16445) - mpfr_get_ld(my, r);
-		mpfr_set_emin(-16444);
-	}
 	return 0;
 #else
 	return -1;
@@ -325,19 +280,11 @@ static int mpl2(struct t *p, int (*fmp)(mpfr_t, const mpfr_t, const mpfr_t, mpfr
 	MPFR_DECL_INIT(mx2, 64);
 	MPFR_DECL_INIT(my, 128);
 
-	mpsetupl();
 	mpfr_clear_flags();
 	mpfr_set_ld(mx, p->x, MPFR_RNDN);
 	mpfr_set_ld(mx2, p->x2, MPFR_RNDN);
 	tn = fmp(my, mx, mx2, r);
 	genl(p, my, tn, r);
-	if ((p->e & INEXACT) && nextafterl(p->y, 0) == 0) {
-		mpfr_set_emin(-(1<<20));
-		tn = fmp(my, mx, mx2, r);
-		mpfr_mul_2si(my, my, 16445, MPFR_RNDN);
-		p->dy = scalbnl(p->y, 16445) - mpfr_get_ld(my, r);
-		mpfr_set_emin(-16444);
-	}
 	return 0;
 #else
 	return -1;
@@ -391,7 +338,20 @@ static int wrap_pow10(mpfr_t my, const mpfr_t mx, mpfr_rnd_t r)
 	return mpfr_ui_pow(my, 10, mx, r);
 }
 
+
+static int wrap_sinpi(mpfr_t my, const mpfr_t mx, mpfr_rnd_t r)
+{
+	// hack because mpfr has no sinpi
+	MPFR_DECL_INIT(mz, 4096);
+	mpfr_const_pi(mz, r);
+	mpfr_mul(mz,mz,mx,r);
+	return mpfr_sin(my, mz, r);
+}
+int mpsinpi(struct t *t) { return mpd1(t, wrap_sinpi); }
+
 int mpadd(struct t *t) { return mpd2(t, mpfr_add); }
+int mpmul(struct t *t) { return mpd2(t, mpfr_mul); }
+int mpdiv(struct t *t) { return mpd2(t, mpfr_div); }
 
 int mpacos(struct t *t) { return mpd1(t, mpfr_acos); }
 int mpacosf(struct t *t) { return mpf1(t, mpfr_acos); }
@@ -672,11 +632,9 @@ int mpfrexp(struct t *t)
 
 	t->dy = 0;
 	t->y = 0;
-	mpsetup();
 	mpfr_clear_flags();
 	mpfr_set_d(mx, t->x, MPFR_RNDN);
 	k = mpfr_frexp(&e, mx, mx, t->r);
-	mpfr_subnormalize(mx, k, t->r);
 	t->y = mpfr_get_d(mx, MPFR_RNDN);
 	t->i = e;
 	t->e = eflags(isnan(t->x));
@@ -691,11 +649,9 @@ int mpfrexpf(struct t *t)
 
 	t->dy = 0;
 	t->y = 0;
-	mpsetup();
 	mpfr_clear_flags();
 	mpfr_set_flt(mx, t->x, MPFR_RNDN);
 	k = mpfr_frexp(&e, mx, mx, t->r);
-	mpfr_subnormalize(mx, k, t->r);
 	t->y = mpfr_get_flt(mx, MPFR_RNDN);
 	t->i = e;
 	t->e = eflags(isnan(t->x));
@@ -710,11 +666,9 @@ int mpfrexpl(struct t *t)
 
 	t->dy = 0;
 	t->y = 0;
-	mpsetup();
 	mpfr_clear_flags();
 	mpfr_set_ld(mx, t->x, MPFR_RNDN);
 	k = mpfr_frexp(&e, mx, mx, t->r);
-	mpfr_subnormalize(mx, k, t->r);
 	t->y = mpfr_get_ld(mx, MPFR_RNDN);
 	t->i = e;
 	t->e = eflags(isnan(t->x));
@@ -728,11 +682,10 @@ int mpldexp(struct t *t)
 
 	t->dy = 0;
 	t->y = 0;
-	mpsetup();
 	mpfr_clear_flags();
 	mpfr_set_d(mx, t->x, MPFR_RNDN);
 	k = mpfr_mul_2si(mx, mx, t->i, t->r);
-	mpfr_subnormalize(mx, k, t->r);
+	adjust(mx, mx, k, t->r, DBL);
 	t->y = mpfr_get_d(mx, MPFR_RNDN);
 	t->e = eflags(isnan(t->x));
 	return 0;
@@ -745,11 +698,10 @@ int mpldexpf(struct t *t)
 
 	t->dy = 0;
 	t->y = 0;
-	mpsetup();
 	mpfr_clear_flags();
 	mpfr_set_flt(mx, t->x, MPFR_RNDN);
 	k = mpfr_mul_2si(mx, mx, t->i, t->r);
-	mpfr_subnormalize(mx, k, t->r);
+	adjust(mx, mx, k, t->r, FLT);
 	t->y = mpfr_get_flt(mx, MPFR_RNDN);
 	t->e = eflags(isnan(t->x));
 	return 0;
@@ -762,11 +714,10 @@ int mpldexpl(struct t *t)
 
 	t->dy = 0;
 	t->y = 0;
-	mpsetup();
 	mpfr_clear_flags();
 	mpfr_set_ld(mx, t->x, MPFR_RNDN);
 	k = mpfr_mul_2si(mx, mx, t->i, t->r);
-	mpfr_subnormalize(mx, k, t->r);
+	adjust(mx, mx, k, t->r, LDBL);
 	t->y = mpfr_get_ld(mx, MPFR_RNDN);
 	t->e = eflags(isnan(t->x));
 	return 0;
@@ -824,6 +775,8 @@ int mp##n(struct t *t) \
 	setupfenv(t->r); \
 	t->i = n(t->x); \
 	t->e = getexcept(); \
+	if (t->e & INVALID) \
+		t->i = 0; \
 	return 0; \
 }
 
@@ -943,20 +896,12 @@ int mpfma(struct t *t)
 	MPFR_DECL_INIT(mx3, 53);
 	MPFR_DECL_INIT(my, 128);
 
-	mpsetup();
 	mpfr_clear_flags();
 	mpfr_set_d(mx, t->x, MPFR_RNDN);
 	mpfr_set_d(mx2, t->x2, MPFR_RNDN);
 	mpfr_set_d(mx3, t->x3, MPFR_RNDN);
 	tn = mpfr_fma(my, mx, mx2, mx3, r);
 	gend(t, my, tn, r);
-	if ((t->e & INEXACT) && nextafter(t->y, 0) == 0) {
-		mpfr_set_emin(-(1<<20));
-		tn = mpfr_fma(my, mx, mx2, mx3, r);
-		mpfr_mul_2si(my, my, 1074, MPFR_RNDN);
-		t->dy = scalbnl(t->y, 1074) - mpfr_get_ld(my, r);
-		mpfr_set_emin(-1073);
-	}
 	return 0;
 }
 
@@ -969,20 +914,12 @@ int mpfmaf(struct t *t)
 	MPFR_DECL_INIT(mx3, 24);
 	MPFR_DECL_INIT(my, 128);
 
-	mpsetupf();
 	mpfr_clear_flags();
 	mpfr_set_flt(mx, t->x, MPFR_RNDN);
 	mpfr_set_flt(mx2, t->x2, MPFR_RNDN);
 	mpfr_set_flt(mx3, t->x3, MPFR_RNDN);
 	tn = mpfr_fma(my, mx, mx2, mx3, r);
 	genf(t, my, tn, r);
-	if ((t->e & INEXACT) && nextafterf(t->y, 0) == 0) {
-		mpfr_set_emin(-(1<<20));
-		tn = mpfr_fma(my, mx, mx2, mx3, r);
-		mpfr_mul_2si(my, my, 149, MPFR_RNDN);
-		t->dy = scalbnl(t->y, 149) - mpfr_get_ld(my, r);
-		mpfr_set_emin(-148);
-	}
 	return 0;
 }
 
@@ -998,20 +935,12 @@ int mpfmal(struct t *t)
 	MPFR_DECL_INIT(mx3, 64);
 	MPFR_DECL_INIT(my, 128);
 
-	mpsetupl();
 	mpfr_clear_flags();
 	mpfr_set_ld(mx, t->x, MPFR_RNDN);
 	mpfr_set_ld(mx2, t->x2, MPFR_RNDN);
 	mpfr_set_ld(mx3, t->x3, MPFR_RNDN);
 	tn = mpfr_fma(my, mx, mx2, mx3, r);
 	genl(t, my, tn, r);
-	if ((t->e & INEXACT) && nextafterl(t->y, 0) == 0) {
-		mpfr_set_emin(-(1<<20));
-		tn = mpfr_fma(my, mx, mx2, mx3, r);
-		mpfr_mul_2si(my, my, 16445, MPFR_RNDN);
-		t->dy = scalbnl(t->y, 16445) - mpfr_get_ld(my, r);
-		mpfr_set_emin(-16444);
-	}
 	return 0;
 #else
 	return -1;
