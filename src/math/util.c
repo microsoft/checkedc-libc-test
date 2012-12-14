@@ -87,7 +87,7 @@ float ulperrl(long double got, long double want, float dwant)
 		got = copysignl(0x1p16383L, got);
 		want *= 0.5;
 	}
-	return scalbn(got - want, -eulpl(want)) + dwant;
+	return scalbnl(got - want, -eulpl(want)) + dwant;
 #else
 	// TODO
 	return inf;
