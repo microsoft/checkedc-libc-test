@@ -350,8 +350,14 @@ static int wrap_sinpi(mpfr_t my, const mpfr_t mx, mpfr_rnd_t r)
 int mpsinpi(struct t *t) { return mpd1(t, wrap_sinpi); }
 
 int mpadd(struct t *t) { return mpd2(t, mpfr_add); }
+int mpaddf(struct t *t) { return mpf2(t, mpfr_add); }
+int mpaddl(struct t *t) { return mpl2(t, mpfr_add); }
 int mpmul(struct t *t) { return mpd2(t, mpfr_mul); }
+int mpmulf(struct t *t) { return mpf2(t, mpfr_mul); }
+int mpmull(struct t *t) { return mpl2(t, mpfr_mul); }
 int mpdiv(struct t *t) { return mpd2(t, mpfr_div); }
+int mpdivf(struct t *t) { return mpf2(t, mpfr_div); }
+int mpdivl(struct t *t) { return mpl2(t, mpfr_div); }
 
 int mpacos(struct t *t) { return mpd1(t, mpfr_acos); }
 int mpacosf(struct t *t) { return mpf1(t, mpfr_acos); }

@@ -1,7 +1,14 @@
 T(sinpi,       d_d)
+
 T(add,         dd_d)
+T(addf,        ff_f)
+T(addl,        ll_l)
 T(mul,         dd_d)
+T(mulf,        ff_f)
+T(mull,        ll_l)
 T(div,         dd_d)
+T(divf,        ff_f)
+T(divl,        ll_l)
 
 T(acos,        d_d)
 T(acosf,       f_f)

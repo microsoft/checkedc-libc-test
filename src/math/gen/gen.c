@@ -36,7 +36,7 @@ static int print(const char *fmt, struct t *t, char *buf, int n);
 
 // TODO: many output, fmt->ulp
 struct fun;
-static int check(struct t *want, struct t *got, struct fun *f, float ulpthres);
+static int check(struct t *want, struct t *got, struct fun *f, float ulpthres, float *abserr);
 
 struct fun {
 	char *name;
@@ -57,17 +57,28 @@ int main(int argc, char *argv[])
 	struct t t;
 	struct t tread;
 	struct fun *f = 0;
+	double ulpthres = 1.0;
+	float maxerr = 0;
+	float abserr;
+	struct t terr;
 
-	if (argc < 2) {
-		fprintf(stderr, "%s func\n", argv[0]);
-		return 1;
-	}
 	p = strrchr(argv[0], '/');
 	if (!p)
 		p = argv[0];
 	else
 		p++;
 	checkmode = strcmp(p, "check") == 0;
+	if (argc < 2) {
+		fprintf(stderr, "%s func%s\n", argv[0], checkmode ? " ulpthres" : "");
+		return 1;
+	}
+	if (argc > 2 && checkmode) {
+		ulpthres = strtod(argv[2], &p);
+		if (*p) {
+			fprintf(stderr, "invalid ulperr %s\n", argv[2]);
+			return 1;
+		}
+	}
 	for (i = 0; i < sizeof fun/sizeof *fun; i++)
 		if (strcmp(fun[i].name, argv[1]) == 0) {
 			f = fun + i;
@@ -88,11 +99,15 @@ int main(int argc, char *argv[])
 		if (f->mpf(&t))
 			fprintf(stderr, "error mpf %s, line %d\n", f->name, i);
 		if (checkmode) {
-			if (check(&tread, &t, f, 1.0)) {
+			if (check(&tread, &t, f, ulpthres, &abserr)) {
 				print(f->fmt, &tread, buf, sizeof buf);
 				fputs(buf, stdout);
-				print(f->fmt, &t, buf, sizeof buf);
-				fputs(buf, stdout);
+//				print(f->fmt, &t, buf, sizeof buf);
+//				fputs(buf, stdout);
+			}
+			if (abserr > maxerr) {
+				maxerr = abserr;
+				terr = tread;
 			}
 		} else {
 			if (print(f->fmt, &t, buf, sizeof buf))
@@ -100,16 +115,21 @@ int main(int argc, char *argv[])
 			fputs(buf, stdout);
 		}
 	}
+	if (checkmode && maxerr) {
+		printf("// maxerr: %f, ", maxerr);
+		print(f->fmt, &terr, buf, sizeof buf);
+		fputs(buf, stdout);
+	}
 	return 0;
 }
 
-static int check(struct t *want, struct t *got, struct fun *f, float ulpthres)
+static int check(struct t *want, struct t *got, struct fun *f, float ulpthres, float *abserr)
 {
 	int err = 0;
 	int m = INEXACT|UNDERFLOW; // TODO: dont check inexact and underflow for now
 
 	if ((got->e|m) != (want->e|m)) {
-		fprintf(stdout, "%s %s(%La,%La)==%La except: want %s",
+		fprintf(stdout, "//%s %s(%La,%La)==%La except: want %s",
 			rstr(want->r), f->name, want->x, want->x2, want->y, estr(want->e));
 		fprintf(stdout, " got %s\n", estr(got->e));
 		err++;
@@ -135,9 +155,10 @@ static int check(struct t *want, struct t *got, struct fun *f, float ulpthres)
 			return -1;
 
 		d = scalbnl(got->y - want->y, -n);
-		if (fabsf(d + want->dy) <= ulpthres)
+		*abserr = fabsf(d + want->dy);
+		if (*abserr <= ulpthres)
 			return err;
-		fprintf(stdout, "%s %s(%La,%La) want %La got %La ulperr %.3f = %a + %a\n",
+		fprintf(stdout, "//%s %s(%La,%La) want %La got %La ulperr %.3f = %a + %a\n",
 			rstr(want->r), f->name, want->x, want->x2, want->y, got->y, d + want->dy, d, want->dy);
 		err++;
 	}

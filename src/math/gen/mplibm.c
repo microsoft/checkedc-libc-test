@@ -57,12 +57,26 @@ static int mpl2(struct t *s, long double (*f)(long double, long double))
 static double sinpi(double x) { return sin(3.141592653589793238*x); }
 int mpsinpi(struct t *t) { return mpd1(t, sinpi); }
 
-static double add(double x, double y) { double z = x + y; return z; }
+
+#define OP(n,op,t) static t n(t x, t y) { t z = x op y; return z; }
+OP(add,+,double)
+OP(addf,+,float)
+OP(addl,+,long double)
+OP(mul,*,double)
+OP(mulf,*,float)
+OP(mull,*,long double)
+OP(div,/,double)
+OP(divf,/,float)
+OP(divl,/,long double)
 int mpadd(struct t *t) { return mpd2(t, add); }
-static double mul(double x, double y) { double z = x * y; return z; }
+int mpaddf(struct t *t) { return mpf2(t, addf); }
+int mpaddl(struct t *t) { return mpl2(t, addl); }
 int mpmul(struct t *t) { return mpd2(t, mul); }
-static double div(double x, double y) { double z = x / y; return z; }
+int mpmulf(struct t *t) { return mpf2(t, mulf); }
+int mpmull(struct t *t) { return mpl2(t, mull); }
 int mpdiv(struct t *t) { return mpd2(t, div); }
+int mpdivf(struct t *t) { return mpf2(t, divf); }
+int mpdivl(struct t *t) { return mpl2(t, divl); }
 
 int mpacos(struct t *t) { return mpd1(t, acos); }
 int mpacosf(struct t *t) { return mpf1(t, acosf); }
