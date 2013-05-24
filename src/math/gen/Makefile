@@ -2,7 +2,7 @@ CFLAGS=-I. -Wall -fno-builtin -ffloat-store -D_GNU_SOURCE
 U=mpfr
 T=$(wildcard t*.c)
 
-all: gen check mgen tof toa toe next prev rnd
+all: gen check mgen tof toa toe tox next prev rnd
 
 #tx: tx.c $(U)/lib/libmpfr.a $(U)/lib/libgmp.a
 #	musl-gcc -o $@ $(CFLAGS) -I$(U)/include $^
