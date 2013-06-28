@@ -1,4 +1,4 @@
-#if X_FMTMSG
+#ifdef X_FMTMSG
 #include <fmtmsg.h>
 #define C(n) switch(n){case n:;}
 static void f()
@@ -24,4 +24,6 @@ C(MM_NOMSG)
 C(MM_NOCON)
 {int(*p)(long,const char*,int,const char*,const char*,const char*) = fmtmsg;}
 }
+#else
+static void f(){}
 #endif

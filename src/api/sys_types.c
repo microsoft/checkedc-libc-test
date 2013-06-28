@@ -18,7 +18,7 @@ N(pid_t)
 N(size_t)
 N(ssize_t)
 N(time_t)
-N(timer_t)
+T(timer_t)
 N(uid_t)
 #ifdef _XOPEN_SOURCE
 N(fsblkcnt_t)

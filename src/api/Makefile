@@ -15,6 +15,7 @@ run: all.err
 all.err: $(ERR)
 	LC_ALL=C $(CC) $(LDFLAGS) -o main *.o 2>main.err || true
 	cat $(ERR) |\
+		grep -v 'In function .f.' |\
 		grep -v 'Each undeclared identifier is reported only once' |\
 		grep -v 'for each function it appears in' >$@ || true
 

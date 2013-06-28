@@ -68,8 +68,12 @@ C(PTHREAD_SCOPE_SYSTEM)
 {int(*p)(pthread_barrierattr_t*) = pthread_barrierattr_init;}
 {int(*p)(pthread_barrierattr_t*,int) = pthread_barrierattr_setpshared;}
 {int(*p)(pthread_t) = pthread_cancel;}
+#ifndef pthread_cleanup_pop
 {void(*p)(int) = pthread_cleanup_pop;}
+#endif
+#ifndef pthread_cleanup_push
 {void(*p)(void(*)(void*),void*) = pthread_cleanup_push;}
+#endif
 {int(*p)(pthread_cond_t*) = pthread_cond_broadcast;}
 {int(*p)(pthread_cond_t*) = pthread_cond_destroy;}
 {int(*p)(pthread_cond_t*restrict,const pthread_condattr_t*restrict) = pthread_cond_init;}
