@@ -1,5 +1,6 @@
 CFLAGS+=-g -pipe -std=c99 -D_POSIX_C_SOURCE=200809L -Wall -Wno-unused-function -Wno-missing-braces
-CFLAGS+=-Wno-unknown-pragmas -fno-builtin -frounding-math -D_GNU_SOURCE
+CFLAGS+=-Wno-unknown-pragmas -fno-builtin -frounding-math
+CFLAGS+=-D_GNU_SOURCE -O0
 LDFLAGS+=-g -lm
 
 SRC=$(sort $(wildcard *.c))
@@ -7,7 +8,7 @@ OBJ=$(SRC:.c=.o)
 BINOBJ=$(filter-out util.o,$(OBJ))
 BIN=$(BINOBJ:.o=)
 
-#include ../../config.mak
+-include ../../config.mak
 
 all: $(BIN)
 run: all
@@ -20,6 +21,7 @@ $(OBJ): util.h
 %.o: %.c
 	$(CC) $(CFLAGS) -c -o $@ $<
 %: %.c
+
 %: %.o
 	$(CC) $(LDFLAGS) -o $@ $^
 

@@ -101,11 +101,9 @@ float ulperrl(long double got, long double want, float dwant);
 
 static int checkexcept(int got, int want, int r)
 {
-	// TODO: we dont checkunderflow and inexact for now
 	if (r == RN)
-		return (got|INEXACT|UNDERFLOW) == (want|INEXACT|UNDERFLOW);
-//		return got == want || got == (want|INEXACT);
-	return 1;
+		return got == want || got == (want|INEXACT);
+	return (got|INEXACT|UNDERFLOW) == (want|INEXACT|UNDERFLOW);
 }
 
 static int checkulp(float d, int r)
@@ -120,6 +118,6 @@ static int checkcr(long double y, long double ywant, int r)
 {
 	if (isnan(ywant))
 		return isnan(y);
-	return y == ywant;
+	return y == ywant && signbit(y) == signbit(ywant);
 }
 
