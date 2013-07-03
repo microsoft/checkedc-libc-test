@@ -1,24 +1,28 @@
 CFLAGS=-I. -Wall -fno-builtin -ffloat-store -D_GNU_SOURCE
 U=mpfr
+MPFR=$(U)/lib/libmpfr.a
+GMP=$(U)/lib/libgmp.a
+#MPFR=-lmpfr
+#GMP=-lgmp
 T=$(wildcard t*.c)
+CC=musl-gcc
+#CC=gcc
 
 all: gen check mgen tof toa toe tox next prev rnd
 
-#tx: tx.c $(U)/lib/libmpfr.a $(U)/lib/libgmp.a
-#	musl-gcc -o $@ $(CFLAGS) -I$(U)/include $^
 %:%.o
 %:%.c
-	musl-gcc -o $@ $(CFLAGS) $^
+	$(CC) -o $@ $(CFLAGS) $^
 
-gen: gen.c util.c mp.c $(U)/lib/libmpfr.a $(U)/lib/libgmp.a
-	musl-gcc -o $@ $(CFLAGS) -I$(U)/include $^
+gen: gen.c util.c mp.c $(MPFR) $(GMP)
+	$(CC) -o $@ $(CFLAGS) -lm -I$(U)/include $^
 
 check: gen.c util.c mplibm.c
-	musl-gcc -o $@ $(CFLAGS) -lm $^
+	$(CC) -o $@ $(CFLAGS) -lm $^
 
 mgen: gen.c util.c mplibm.c
-	musl-gcc -o $@ $(CFLAGS) -lm $^
+	$(CC) -o $@ $(CFLAGS) -lm $^
 
 clean:
-	rm -f gen check genlibm
+	rm -f gen check mgen tof toa toe tox next prev rnd
 
