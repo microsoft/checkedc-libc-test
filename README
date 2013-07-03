@@ -16,7 +16,3 @@ at a path like src/directory/file.c with its own main
 
 the test should return 0 on success and non-0 on failure
 
-to simplify things there is a Makefile.inc that can
-be included from src/directory/Makefile when the
-above convention is used in src/directory
-
