@@ -70,5 +70,11 @@ int main(void)
 	TEST(l, strtol(s="123", &c, 37), 0, "%ld != %ld");
 	TEST2(i, c-s, 0, "wrong final position %d != %d");
 	TEST2(i, errno, EINVAL, "%d != %d");
+
+	TEST(l, strtol(s="  15437", &c, 8), 015437, "%ld != %ld");
+	TEST2(i, c-s, 7, "wrong final position %d != %d");
+
+	TEST(l, strtol(s="  1", &c, 0), 1, "%ld != %ld");
+	TEST2(i, c-s, 3, "wrong final position %d != %d");
 	return test_status;
 }

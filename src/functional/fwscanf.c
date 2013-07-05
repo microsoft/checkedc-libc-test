@@ -3,6 +3,7 @@
 #include <errno.h>
 #include <limits.h>
 #include <unistd.h>
+#include <wchar.h>
 #include "test.h"
 
 #define TEST(r, f, x, m) ( \
@@ -31,35 +32,11 @@ int main(void)
 	double u;
 	char a[100], b[100];
 	FILE *f;
-	int p[2];
-
-	TEST(i, pipe(p), 0, "failed to open pipe %d!=%d (%s)");
-	TEST(i, !(f = fdopen(p[0], "rb")), 0, "failed to fdopen pipe %d!=%d (%s)");
-
-	if (!f) {
-		close(p[0]);
-		close(p[1]);
-		return 1;
-	}
-
-	TEST(i, write(p[1], "hello, world\n", 13), 13, "write error %d!=%d (%s)");
-	TEST(i, fscanf(f, "%s %[own]", a, b), 2, "got %d fields, expected %d");
-	TEST_S(a, "hello,", "wrong result for %s");
-	TEST_S(b, "wo", "wrong result for %[own]");
-	TEST(i, fgetc(f), 'r', "'%c' != '%c') (%s)");
-
-	TEST(i, write(p[1], " 0x12 0x34", 10), 10, "write error %d!=%d (%s)");
-	TEST(i, fscanf(f, "ld %5i%2i", &x, &y), 1, "got %d fields, expected %d");
-	TEST(i, x, 0x12, "%d != %d");
-	TEST(i, fgetc(f), '3', "'%c' != '%c'");
-
-	fclose(f);
-	close(p[1]);
 
 	TEST(i, !!(f=writetemp("      42")), 1, "failed to make temp file");
 	if (f) {
 		x=y=-1;
-		TEST(i, fscanf(f, " %n%*d%n", &x, &y), 0, "%d != %d");
+		TEST(i, fwscanf(f, L" %n%*d%n", &x, &y), 0, "%d != %d");
 		TEST(i, x, 6, "%d != %d");
 		TEST(i, y, 8, "%d != %d");
 		TEST(i, ftell(f), 8, "%d != %d");
@@ -70,7 +47,7 @@ int main(void)
 	TEST(i, !!(f=writetemp("[abc123]....x")), 1, "failed to make temp file");
 	if (f) {
 		x=y=-1;
-		TEST(i, fscanf(f, "%10[^]]%n%10[].]%n", a, &x, b, &y), 2, "%d != %d");
+		TEST(i, fwscanf(f, L"%10[^]]%n%10[].]%n", a, &x, b, &y), 2, "%d != %d");
 		TEST_S(a, "[abc123", "wrong result for %[^]]");
 		TEST_S(b, "]....", "wrong result for %[].]");
 		TEST(i, x, 7, "%d != %d");
@@ -85,7 +62,7 @@ int main(void)
 	if (f) {
 		x=y=-1;
 		u=-1;
-		TEST(i, fscanf(f, "%lf%n %d", &u, &x, &y), 0, "%d != %d");
+		TEST(i, fwscanf(f, L"%lf%n %d", &u, &x, &y), 0, "%d != %d");
 		TEST(u, u, -1.0, "%g != %g");
 		TEST(i, x, -1, "%d != %d");
 		TEST(i, y, -1, "%d != %d");
@@ -95,7 +72,7 @@ int main(void)
 		rewind(f);
 		TEST(i, fgetc(f), '0', "%d != %d");
 		TEST(i, fgetc(f), 'x', "%d != %d");
-		TEST(i, fscanf(f, "%lf%n%c %d", &u, &x, a, &y), 3, "%d != %d");
+		TEST(i, fwscanf(f, L"%lf%n%c %d", &u, &x, a, &y), 3, "%d != %d");
 		TEST(u, u, 1.0, "%g != %g");
 		TEST(i, x, 1, "%d != %d");
 		TEST(i, a[0], 'p', "%d != %d");
@@ -109,7 +86,7 @@ int main(void)
 	if (f) {
 		x=y=-1;
 		u=-1;
-		TEST(i, fscanf(f, "%lf%n %i", &u, &x, &y), 2, "%d != %d");
+		TEST(i, fwscanf(f, L"%lf%n %i", &u, &x, &y), 2, "%d != %d");
 		TEST(u, u, 1.0, "%g != %g");
 		TEST(i, x, 6, "%d != %d");
 		TEST(i, y, 10, "%d != %d");
@@ -121,7 +98,7 @@ int main(void)
 	TEST(i, !!(f=writetemp("0xx")), 1, "failed to make temp file");
 	if (f) {
 		x=y=-1;
-		TEST(i, fscanf(f, "%x%n", &x, &y), 0, "%d != %d");
+		TEST(i, fwscanf(f, L"%x%n", &x, &y), 0, "%d != %d");
 		TEST(i, x, -1, "%d != %d");
 		TEST(i, y, -1, "%d != %d");
 		TEST(i, ftell(f), 2, "%d != %d");
