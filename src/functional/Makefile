@@ -39,6 +39,7 @@ pthread pthread-static: LDLIBS+=-lpthread
 sem sem-static: LDLIBS+=-lpthread -lrt
 strtod_simple strtod_simple-static: LDLIBS+=-lm
 tgmath tgmath-static: LDLIBS+=-lm
+# adding ./lib.so through LDLIBS instead of $^ in the implicit rule because make removes the leading ./ from dependencies
 tls_align: LDLIBS+=./tls_align_dso.so
 tls_align: tls_align_dso.so
 # make bug: tls_align target specific flags are also set for tls_align_dso.so when both target is built
