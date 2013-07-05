@@ -13,8 +13,13 @@ static int icmp(const void *a, const void *b)
 	return *(int*)a - *(int*)b;
 }
 
+static int ccmp(const void *a, const void *b)
+{
+	return *(char*)a - *(char*)b;
+}
+
 /* 26 items -- even */
-static char *s[] = {
+static const char *s[] = {
 	"Bob", "Alice", "John", "Ceres",
 	"Helga", "Drepper", "Emeralda", "Zoran",
 	"Momo", "Frank", "Pema", "Xavier",
@@ -23,35 +28,103 @@ static char *s[] = {
 	"Lulu", "Quincy", "Osama", "Riley",
 	"Ursula", "Sam"
 };
+static const char *s_sorted[] = {
+	"Alice", "Bob", "Ceres", "Drepper",
+	"Emeralda", "Frank", "Gedun", "Helga",
+	"Irina", "John", "Karnica", "Lulu",
+	"Momo", "Nono", "Osama", "Pema",
+	"Quincy", "Riley", "Sam", "Tsering",
+	"Ursula", "Vincent", "Wiener", "Xavier",
+	"Yeva", "Zoran"
+};
+
 /* 23 items -- odd, prime */
 static int n[] = {
 	879045, 394, 99405644, 33434, 232323, 4334, 5454,
 	343, 45545, 454, 324, 22, 34344, 233, 45345, 343,
 	848405, 3434, 3434344, 3535, 93994, 2230404, 4334
 };
+static int n_sorted[] = {
+	22, 233, 324, 343, 343, 394, 454, 3434,
+	3535, 4334, 4334, 5454, 33434, 34344, 45345, 45545,
+	93994, 232323, 848405, 879045, 2230404, 3434344, 99405644
+};
+
+static void string_sort(const char **a, const char **a_sorted, int len)
+{
+	int i;
+	qsort(a, len, sizeof *a, scmp);
+	for (i=0; i<len; i++) {
+		if (strcmp(a[i], a_sorted[i]) != 0) {
+			error("string sort failed at index %d\n", i);
+			test_printf("\ti\tgot\twant\n");
+			for (i=0; i<len; i++)
+				test_printf("\t%d\t%s\t%s\n", i, a[i], a_sorted[i]);
+			break;
+		}
+	}
+}
+
+static void integer_sort(int *a, int *a_sorted, int len)
+{
+	int i;
+	qsort(a, len, sizeof *a, icmp);
+	for (i=0; i<len; i++) {
+		if (a[i] != a_sorted[i]) {
+			error("integer sort failed at index %d\n", i);
+			test_printf("\ti\tgot\twant\n");
+			for (i=0; i<len; i++)
+				test_printf("\t%d\t%d\t%d\n", i, a[i], a_sorted[i]);
+			break;
+		}
+	}
+}
+
+#define T(a, a_sorted) do { \
+	char p[] = a; \
+	qsort(p, sizeof p - 1, 1, ccmp); \
+	if (memcmp(p, a_sorted, sizeof p) != 0) { \
+		error("character sort failed\n"); \
+		test_printf("\tgot:  \"%s\"\n", p); \
+		test_printf("\twant: \"%s\"\n", a_sorted); \
+	} \
+} while(0)
+
+static void character_sort(void)
+{
+	T("", "");
+	T("1", "1");
+	T("11", "11");
+	T("12", "12");
+	T("21", "12");
+	T("111", "111");
+	T("211", "112");
+	T("121", "112");
+	T("112", "112");
+	T("221", "122");
+	T("212", "122");
+	T("122", "122");
+	T("123", "123");
+	T("132", "123");
+	T("213", "123");
+	T("231", "123");
+	T("321", "123");
+	T("312", "123");
+	T("1423", "1234");
+	T("51342", "12345");
+	T("261435", "123456");
+	T("4517263", "1234567");
+	T("37245618", "12345678");
+	T("812436597", "123456789");
+	T("987654321", "123456789");
+	T("321321321", "111222333");
+	T("49735862185236174", "11223344556677889");
+}
 
 int main(void)
 {
-	int i;
-
-	qsort(s, sizeof(s)/sizeof(char *), sizeof(char *), scmp);
-	for (i=0; i<sizeof(s)/sizeof(char *)-1; i++) {
-		if (strcmp(s[i], s[i+1]) > 0) {
-			error("string sort failed at index %d\n", i);
-			for (i=0; i<sizeof(s)/sizeof(char *); i++)
-				error("\t%d\t%s\n", i, s[i]);
-			break;
-		}
-	}
-
-	qsort(n, sizeof(n)/sizeof(int), sizeof(int), icmp);
-	for (i=0; i<sizeof(n)/sizeof(int)-1; i++) {
-		if (n[i] > n[i+1]) {
-			error("integer sort failed at index %d\n", i);
-			for (i=0; i<sizeof(n)/sizeof(int); i++)
-				error("\t%d\t%d\n", i, n[i]);
-			break;
-		}
-	}
+	string_sort(s, s_sorted, sizeof s/sizeof*s);
+	integer_sort(n, n_sorted, sizeof n/sizeof*n);
+	character_sort();
 	return test_status;
 }
