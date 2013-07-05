@@ -54,9 +54,9 @@ int main(void)
 	TEST(i, sscanf("20 xyz", "%d %d\n", &x, &y), 1, "only %d fields, expected %d");
 	TEST(i, x, 20, "%d != %d");
 
-	TEST(i, sscanf("xyz", "%d\n", &x, &y), 0, "got %d fields, expected no match (%d)");
+	TEST(i, sscanf("xyz", "%d %d\n", &x, &y), 0, "got %d fields, expected no match (%d)");
 
-	TEST(i, sscanf("", "%d\n", &x, &y), -1, "got %d fields, expected input failure (%d)");
+	TEST(i, sscanf("", "%d %d\n", &x, &y), -1, "got %d fields, expected input failure (%d)");
 
 	TEST(i, sscanf(" 12345 6", "%2d%d%d", &x, &y, &z), 3, "only %d fields, expected %d");
 	TEST(i, x, 12, "%d != %d");
