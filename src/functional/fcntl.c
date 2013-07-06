@@ -7,7 +7,7 @@
 #include "test.h"
 
 #define TEST(c, ...) ((c) ? 1 : (error(#c" failed: " __VA_ARGS__),0))
-#define TESTE(c) (errno=0, TEST(c, "errno = %s\n", strerror(errno))
+#define TESTE(c) (errno=0, TEST(c, "errno = %s\n", strerror(errno)))
 
 int main(void)
 {
