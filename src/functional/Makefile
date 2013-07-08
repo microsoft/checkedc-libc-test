@@ -35,7 +35,7 @@ $(DSOOBJ): CFLAGS+=-fPIC
 	$(CC) $(LDFLAGS) -o $@ $< $(LDLIBS) || echo BUILDERROR $@
 
 dlopen: LDLIBS+=-ldl -rdynamic
-pthread pthread-static: LDLIBS+=-lpthread
+pthread%: LDLIBS+=-lpthread
 sem sem-static: LDLIBS+=-lpthread -lrt
 strtod_simple strtod_simple-static: LDLIBS+=-lm
 tgmath tgmath-static: LDLIBS+=-lm
