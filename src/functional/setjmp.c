@@ -1,13 +1,9 @@
-#include <stdio.h>
-#include <unistd.h>
-#include <errno.h>
 #include <string.h>
 #include <signal.h>
 #include <setjmp.h>
 #include "test.h"
 
 #define TEST(c, ...) ((c) ? 1 : (error(#c" failed: " __VA_ARGS__),0))
-#define TESTE(c) (errno=0, TEST(c, "errno = %s\n", strerror(errno)))
 
 int main(void)
 {
