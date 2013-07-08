@@ -1,9 +1,10 @@
 CFLAGS+=-pipe -std=c99 -D_POSIX_C_SOURCE=200809L -Wall -Wno-unused-function -Wno-missing-braces
 LDFLAGS+=
 LDLIBS+=
+BUILD?=.
 
 SRC=$(sort $(wildcard *.c))
-OBJ=$(SRC:.c=.o)
+OBJ=$(SRC:%.c=$(BUILD)/%.o)
 DSOOBJ=$(filter %_dso.o,$(OBJ))
 BINOBJ=$(filter-out %_dso.o,$(OBJ))
 NO_DL_OBJ=$(filter-out %dlopen.o,$(BINOBJ))
@@ -23,9 +24,11 @@ run: all
 clean:
 	rm -f $(OBJ) $(ALL)
 
-$(OBJ): test.h
+$(BUILD):
+	mkdir -p $@
+$(OBJ): test.h | $(BUILD)
 $(DSOOBJ): CFLAGS+=-fPIC
-%.o: %.c
+$(BUILD)/%.o: %.c
 	$(CC) $(CFLAGS) -c -o $@ $< || echo BUILDERROR $@
 %.so: %.o
 	$(CC) -shared $(LDFLAGS) -o $@ $< $(LDLIBS) || echo BUILDERROR $@
@@ -34,18 +37,18 @@ $(DSOOBJ): CFLAGS+=-fPIC
 %: %.o
 	$(CC) $(LDFLAGS) -o $@ $< $(LDLIBS) || echo BUILDERROR $@
 
-dlopen: LDLIBS+=-ldl -rdynamic
-pthread%: LDLIBS+=-lpthread
-sem sem-static: LDLIBS+=-lpthread -lrt
-strtod_simple strtod_simple-static: LDLIBS+=-lm
-tgmath tgmath-static: LDLIBS+=-lm
+$(BUILD)/dlopen: LDLIBS+=-ldl -rdynamic
+$(BUILD)/pthread%: LDLIBS+=-lpthread
+$(BUILD)/sem $(BUILD)/sem-static: LDLIBS+=-lpthread -lrt
+$(BUILD)/strtod_simple $(BUILD)/strtod_simple-static: LDLIBS+=-lm
+$(BUILD)/tgmath tgmath-static: LDLIBS+=-lm
 # adding ./lib.so through LDLIBS instead of $^ in the implicit rule because make removes the leading ./ from dependencies
-tls_align: LDLIBS+=./tls_align_dso.so
-tls_align: tls_align_dso.so
+$(BUILD)/tls_align: LDLIBS+=$(BUILD)/tls_align_dso.so
+$(BUILD)/tls_align: $(BUILD)/tls_align_dso.so
 # make bug: tls_align target specific flags are also set for tls_align_dso.so when both target is built
-tls_align_dso.so: LDLIBS=
-tls_align-static: LDLIBS+=tls_align_dso.o
-tls_align-static: tls_align_dso.o
-tls_align_dlopen: LDLIBS+=-ldl
-tls_init tls_init-static: LDLIBS+=-lpthread
+$(BUILD)/tls_align_dso.so: LDLIBS=
+$(BUILD)/tls_align-static: LDLIBS+=$(BUILD)/tls_align_dso.o
+$(BUILD)/tls_align-static: $(BUILD)/tls_align_dso.o
+$(BUILD)/tls_align_dlopen: LDLIBS+=-ldl
+$(BUILD)/tls_init tls_init-static: LDLIBS+=-lpthread
 
