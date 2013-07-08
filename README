@@ -1,13 +1,26 @@
-simple libc tests
-based on the libc-testsuit of dalias
+libc tests based on libc-testsuit by Rich Felker
 see http://git.musl-libc.org/cgit
 
-build tests:
+configure tests:
 	cp dist/config.mak .
 	# edit config.mak
+build tests:
 	make
 run tests:
 	make run
+
+design goals:
+
+- tests should be easy to run even a single test in isolation
+(so test should be self contained if possible)
+- failure of one test should not interfere with others
+(build failure, crash or unexpected results are all failures)
+- test output should point to the cause of failure
+- test results should be robust
+- the test system should have minimal dependency
+(libc, posix sh, gnu make)
+- the test system should run on all archs and libcs
+- tests should leave the system in a clean state
 
 framework:
 
@@ -15,4 +28,29 @@ the convention is that each test is in a separate file
 at a path like src/directory/file.c with its own main
 
 the test should return 0 on success and non-0 on failure
+error messages relevant to the test system should be
+printed to standard out (fd 1)
+
+src/functional/test.h usage:
+
+use error in tests when possible instead of printf
+(error truncates the formatted string to 512 bytes and uses a
+single write call to output it to fd 1, terminating the error
+string with a \n is the responsibility of the caller)
+and return test_status from main (set by error, 0 by default)
+
+when many similar checks are done, helper macros can be used like
+#define T1(a,b) (check(a,b) || (error("check(%s,%s) failed\n", a, b),0))
+#define T2(f,w) (result=(f), result==(w) || (error("%s failed: got %s, want %s\n", #f, result, w),0))
+
+a simple example:
+
+#include "test.h"
+#define T(c,...) ((c) || (error(#c " failed: " __VA_ARGS__),0))
+int main(void)
+{
+	T('a'+1=='b', "'a'==%d 'b'==%d\n", 'a', 'b');
+	T(-5%3==-2, "bad mod semantics\n");
+	return test_status;
+}
 
