@@ -12,7 +12,7 @@
 #include "test.h"
 
 static const char path[] = ".";
-static const int id = 'x';
+static const int id = 's';
 
 #define T(f) do{ \
 	if ((f)+1 == 0) \

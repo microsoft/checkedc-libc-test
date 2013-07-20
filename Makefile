@@ -18,13 +18,15 @@ N:=$(1)
 -include $(1).mk
 $(1) $(1)-static: $$($(1).OBJS)
 $(1).so: $$($(1).LOBJS)
+# make sure dynamic and static binaries are not run parallel (matters for some tests eg ipc)
+$(1)-static.err: $(1).err
 endef
 
 $(foreach n,$(filter-out $(SPEC_PATTERNS),$(NAMES)),$(eval $(call template,$(n))))
 
 MBINS:=$(filter src/math/%,$(NAMES))
 BINS:=$(foreach n,$(NAMES),$($(n).BINS)) src/api/main $(MBINS)
-LIBS:=$(foreach n,$(NAMES),$($(n).LIBS)) src/common/libtest.a
+LIBS:=$(foreach n,$(NAMES),$($(n).LIBS))
 ERRS:=$(BINS:%=%.err)
 
 define target_template
@@ -39,9 +41,11 @@ endef
 
 $(foreach d,$(DIRS),$(eval $(call target_template,$(d))))
 
+src/common/all: src/common/libtest.a
+
 all:REPORT
 clean:
-	rm -f $(OBJS) $(BINS) $(LIBS) src/*/*.err
+	rm -f $(OBJS) $(BINS) $(LIBS) src/common/libtest.a src/*/*.err
 cleanall: clean
 	rm -f REPORT src/*/REPORT
 REPORT:
