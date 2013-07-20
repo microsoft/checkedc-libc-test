@@ -17,12 +17,18 @@
 static FILE *writetemp(const char *data)
 {
 	FILE *f = tmpfile();
+	size_t n = strlen(data);
 	if (!f) return 0;
-	if (!fwrite(data, strlen(data), 1, f)) {
+	if (write(fileno(f), data, n) != n) {
+		t_error("write: %s\n", strerror(errno));
 		fclose(f);
 		return 0;
 	}
-	rewind(f);
+	if (lseek(fileno(f), 0, SEEK_SET) != 0) {
+		t_error("lseek: %s\n", strerror(errno));
+		fclose(f);
+		return 0;
+	}
 	return f;
 }
 
