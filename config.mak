@@ -1,4 +1,4 @@
-CFLAGS += -pipe -std=c99 -D_POSIX_C_SOURCE=200809L -Wall -Wno-unused-function -Wno-missing-braces
+CFLAGS += -pipe -std=c99 -D_POSIX_C_SOURCE=200809L -Wall -Wno-unused-function -Wno-missing-braces -Wno-unused -Wno-overflow
 CFLAGS += -Wno-unknown-pragmas -fno-builtin -frounding-math
 CFLAGS += -g
 LDFLAGS += -g
