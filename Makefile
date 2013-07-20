@@ -52,7 +52,7 @@ src/common/libtest.a: $(filter src/common/%,$(OBJS))
 	$(AR) rc $@ $^
 	$(RANLIB) $@
 
-$(BINS): src/common/libtest.a
+$(BINS) $(LIBS): src/common/libtest.a
 $(OBJS): src/common/test.h
 
 src/common/mtest.o: src/common/mtest.h
