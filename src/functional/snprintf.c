@@ -12,11 +12,11 @@
 
 #define TEST(r, f, x, m) ( \
 	((r) = (f)) == (x) || \
-	(error("%s failed (" m ")\n", #f, r, x), 0) )
+	(t_error("%s failed (" m ")\n", #f, r, x), 0) )
 
 #define TEST_S(s, x, m) ( \
 	!strcmp((s),(x)) || \
-	(error("[%s] != [%s] (%s)\n", s, x, m), 0) )
+	(t_error("[%s] != [%s] (%s)\n", s, x, m), 0) )
 
 static const struct {
 	const char *fmt;
@@ -162,23 +162,23 @@ int main(void)
 	for (j=0; int_tests[j].fmt; j++) {
 		i = snprintf(b, sizeof b, int_tests[j].fmt, int_tests[j].i);
 		if (i != strlen(int_tests[j].expect)) {
-			error("snprintf(b, sizeof b, \"%s\", %d) returned %d wanted %d\n",
+			t_error("snprintf(b, sizeof b, \"%s\", %d) returned %d wanted %d\n",
 				int_tests[j].fmt, int_tests[j].i, i, strlen(int_tests[j].expect));
 		}
 		if (strcmp(b, int_tests[j].expect) != 0)
-			error("bad integer conversion: got \"%s\", want \"%s\"\n", b, int_tests[j].expect);
+			t_error("bad integer conversion: got \"%s\", want \"%s\"\n", b, int_tests[j].expect);
 	}
 
 	for (j=0; fp_tests[j].fmt; j++) {
 		i = snprintf(b, sizeof b, fp_tests[j].fmt, fp_tests[j].f);
 		if (i != strlen(fp_tests[j].expect)) {
-			error("snprintf(b, sizeof b, \"%s\", %f) returned %d wanted %d\n",
+			t_error("snprintf(b, sizeof b, \"%s\", %f) returned %d wanted %d\n",
 				fp_tests[j].fmt, fp_tests[j].f, i, strlen(fp_tests[j].expect));
 		}
 		if (strcmp(b, fp_tests[j].expect) != 0)
-			error("bad floating-point conversion: got \"%s\", want \"%s\"\n", b, fp_tests[j].expect);
+			t_error("bad floating-point conversion: got \"%s\", want \"%s\"\n", b, fp_tests[j].expect);
 	}
 
 	TEST(i, snprintf(0, 0, "%.4a", 1.0), 11, "%d != %d");
-	return test_status;
+	return t_status;
 }

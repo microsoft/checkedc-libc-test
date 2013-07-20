@@ -1,6 +1,6 @@
 #include <stdint.h>
 #include <stdio.h>
-#include "util.h"
+#include "mtest.h"
 
 static struct f_fi t[] = {
 #include "sanity/lgammaf.h"

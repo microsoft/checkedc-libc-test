@@ -7,11 +7,11 @@
 
 #define TEST(r, f, x, m) ( \
 	errno = 0, ((r) = (f)) == (x) || \
-	(error("%s failed (" m ")\n", #f, r, x, strerror(errno)), 0) )
+	(t_error("%s failed (" m ")\n", #f, r, x, strerror(errno)), 0) )
 
 #define TEST_S(s, x, m) ( \
 	!strcmp((s),(x)) || \
-	(error("[%s] != [%s] (%s)\n", s, x, m), 0) )
+	(t_error("[%s] != [%s] (%s)\n", s, x, m), 0) )
 
 int main(void)
 {
@@ -21,7 +21,7 @@ int main(void)
 
 	TEST(i, !(f = tmpfile()), 0, "failed to create temp file %d!=%d (%s)");
 
-	if (!f) return test_status;
+	if (!f) return t_status;
 
 	TEST(i, fprintf(f, "hello, world\n"), 13, "%d != %d (%m)");
 	TEST(i, fseek(f, 0, SEEK_SET), 0, "%d != %d (%m)");
@@ -49,5 +49,5 @@ int main(void)
 	TEST(i, fgetc(f), 'h', "'%c' != '%c'");
 
 	fclose(f);
-	return test_status;
+	return t_status;
 }

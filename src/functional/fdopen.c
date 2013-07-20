@@ -11,7 +11,7 @@
 #define TEST(c) do { \
 	errno = 0; \
 	if (!(c)) \
-		error("%s failed (errno = %d)\n", #c, errno); \
+		t_error("%s failed (errno = %d)\n", #c, errno); \
 } while(0)
 
 int main(void)
@@ -29,10 +29,10 @@ int main(void)
 		TEST(fseeko(f, 0, SEEK_SET)==0);
 		TEST(fgets(foo, sizeof foo, f));
 		if (strcmp(foo,"hello") != 0)
-			error("fgets read back: \"%s\"; wanted: \"hello\"\n", foo);
+			t_error("fgets read back: \"%s\"; wanted: \"hello\"\n", foo);
 		fclose(f);
 	}
 	if (fd > 2)
 		TEST(unlink(tmp) != -1);
-	return test_status;
+	return t_status;
 }

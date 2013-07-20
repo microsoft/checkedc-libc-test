@@ -6,4 +6,4 @@ test vectors are generated like
 
 echo 3.14 |./gen sin
 
-using crlibm, ucb and a few random sanity test inputs
+using crlibm, ucb and a various other test inputs

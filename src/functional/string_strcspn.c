@@ -7,7 +7,7 @@
 	char *q = c; \
 	size_t r = strcspn(p, q); \
 	if (r != n) \
-		error("strcspn(%s,%s) returned %lu, wanted %lu\n", #s, #c, (unsigned long)r, (unsigned long)(n)); \
+		t_error("strcspn(%s,%s) returned %lu, wanted %lu\n", #s, #c, (unsigned long)r, (unsigned long)(n)); \
 }
 
 int main(void)
@@ -30,5 +30,5 @@ int main(void)
 	T("\xff\x80 abc", a, 2)
 	T(s, "\xff", 254)
 
-	return test_status;
+	return t_status;
 }

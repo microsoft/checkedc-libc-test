@@ -1,6 +1,6 @@
 #include <stdint.h>
 #include <stdio.h>
-#include "util.h"
+#include "mtest.h"
 
 static struct ff_f t[] = {
 #include "sanity/copysignf.h"

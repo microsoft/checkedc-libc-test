@@ -5,11 +5,11 @@
 
 #define TEST(r, f, x, m) ( \
 	((r) = (f)) == (x) || \
-	(error("%s failed (" m ")\n", #f, r, x), 0) )
+	(t_error("%s failed (" m ")\n", #f, r, x), 0) )
 
 #define TEST_S(s, x, m) ( \
 	!strcmp((s),(x)) || \
-	(error("[%s] != [%s] (%s)\n", s, x, m), 0) )
+	(t_error("[%s] != [%s] (%s)\n", s, x, m), 0) )
 
 #define TEST_F(x) ( \
 	TEST(i, sscanf(# x, "%lf", &d), 1, "got %d fields, expected %d"), \
@@ -82,5 +82,5 @@ int main(void)
 
 	TEST(i, sscanf("10e", "%lf", &d), 0, "got %d fields, expected no match (%d)");
 	TEST(i, sscanf("", "%lf\n", &d), -1, "got %d fields, expected input failure (%d)");
-	return test_status;
+	return t_status;
 }

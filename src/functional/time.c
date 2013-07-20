@@ -2,6 +2,9 @@
 #include <stdlib.h>
 #include <stdio.h>
 #include <time.h>
+#include <string.h>
+#include <errno.h>
+#include <limits.h>
 #include "test.h"
 
 /* We use this instead of memcmp because some broken C libraries
@@ -42,35 +45,66 @@ char *tm_str(struct tm tm)
 #define TM_Y2038_1S TM(7,14,3,19,0,138,2,18,0)
 #define TM_Y2038    TM(8,14,3,19,0,138,2,18,0)
 
-#define TEST_TM(r,x,m) (!tm_cmp((r),(x)) || \
-	(error("%s failed:\n\tresult: %s\n\texpect: %s\n", \
-	       m, tm_str(r), tm_str(x)), 0) )
+static void sec2tm(time_t t, char *m)
+{
+	struct tm *tm;
+	time_t r;
 
-#define TEST(r, f, x, m) ( \
-	((r) = (f)) == (x) || \
-	(error("%s failed (" m ")\n", #f, r, x), 0) )
+	errno = 0;
+	tm = gmtime(&t);
+	if (errno != 0)
+		t_error("%s: gmtime((time_t)%lld) should not set errno, got %s\n",
+			m, (long long)t, strerror(errno));
+	errno = 0;
+	r = mktime(tm);
+	if (errno != 0)
+		t_error("%s: mktime(%s) should not set errno, got %s\n",
+			m, tm_str(*tm), strerror(errno));
+	if (t != r)
+		t_error("%s: mktime(gmtime(%lld)) roundtrip failed: got %lld (gmtime is %s)\n",
+			m, (long long)t, (long long)r, tm_str(*tm));
+}
+
+static void tm2sec(struct tm *tm, int big, char *m)
+{
+	struct tm *r;
+	time_t t;
+	int overflow = big && (time_t)LLONG_MAX!=LLONG_MAX;
+
+	errno = 0;
+	t = mktime(tm);
+	if (overflow && t != -1)
+		t_error("%s: mktime(%s) expected -1, got (time_t)%ld\n",
+			m, tm_str(*tm), (long)t);
+	if (overflow && errno != EOVERFLOW)
+		t_error("%s: mktime(%s) expected EOVERFLOW (%s), got (%s)\n",
+			m, tm_str(*tm), strerror(EOVERFLOW), strerror(errno));
+	if (!overflow && t == -1)
+		t_error("%s: mktime(%s) expected success, got (time_t)-1\n",
+			m, tm_str(*tm));
+	if (!overflow && errno)
+		t_error("%s: mktime(%s) expected no error, got (%s)\n",
+			m, tm_str(*tm), strerror(errno));
+	r = gmtime(&t);
+	if (!overflow && tm_cmp(*r, *tm))
+		t_error("%s: gmtime(mktime(%s)) roundtrip failed: got %s\n",
+			m, tm_str(*tm), tm_str(*r));
+}
 
 int main(void)
 {
-	struct tm tm, *tm_p;
 	time_t t;
 
 	putenv("TZ=GMT");
 	tzset();
+	tm2sec(&TM_EPOCH, 0, "gmtime(0)");
+	tm2sec(&TM_Y2038_1S, 0, "2038-1s");
+	tm2sec(&TM_Y2038, 1, "2038");
 
-	t=0; tm_p = gmtime(&t);
-	TEST_TM(*tm_p, TM_EPOCH, "gmtime(0)");
-
-	tm = TM_Y2038_1S;
-	t = mktime(&tm);
-	tm = *(gmtime(&t));
-	TEST_TM(*tm_p, TM_Y2038_1S, "mktime/gmtime(Y2038-1)");
-
-	tm = TM_Y2038;
-	t = mktime(&tm);
-	tm = *(gmtime(&t));
-	TEST_TM(*tm_p, TM_Y2038, "mktime/gmtime(Y2038)");
+	sec2tm(0, "EPOCH");
+	for (t = 1; t < 1000; t++)
+		sec2tm(t*100003, "EPOCH+eps");
 
 	/* FIXME: set a TZ var and check DST boundary conditions */
-	return test_status;
+	return t_status;
 }

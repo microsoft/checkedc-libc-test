@@ -128,11 +128,11 @@ int main(void)
 		r = fnmatch(tests[i].pattern, tests[i].string, tests[i].flags);
 		x = tests[i].expected;
 		if (r != x && (r != FNM_NOMATCH || x != -FNM_NOMATCH)) {
-			error("fnmatch(\"%s\", \"%s\", %s) failed, got %d want %d\n",
+			t_error("fnmatch(\"%s\", \"%s\", %s) failed, got %d want %d\n",
 				tests[i].pattern, tests[i].string,
 				flagstr(fnmatch_flags, tests[i].flags),
 				r, x);
 		}
 	}
-	return test_status;
+	return t_status;
 }

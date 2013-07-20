@@ -1,6 +1,6 @@
 #include <stdint.h>
 #include <stdio.h>
-#include "util.h"
+#include "mtest.h"
 
 static struct d_i t[] = {
 #include "sanity/llround.h"

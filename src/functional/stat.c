@@ -7,7 +7,7 @@
 #include <unistd.h>
 #include "test.h"
 
-#define TEST(c, ...) ((c) ? 1 : (error(#c" failed: " __VA_ARGS__),0))
+#define TEST(c, ...) ((c) ? 1 : (t_error(#c" failed: " __VA_ARGS__),0))
 
 int main(void)
 {
@@ -39,5 +39,5 @@ int main(void)
 		fclose(f);
 	}
 
-	return test_status;
+	return t_status;
 }

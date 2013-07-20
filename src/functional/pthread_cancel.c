@@ -3,9 +3,9 @@
 #include <string.h>
 #include "test.h"
 
-#define TESTC(c, m) ( (c) || (error("%s failed (" m ")\n", #c), 0) )
+#define TESTC(c, m) ( (c) || (t_error("%s failed (" m ")\n", #c), 0) )
 #define TESTR(r, f, m) ( \
-	((r) = (f)) == 0 || (error("%s failed: %s (" m ")\n", #f, strerror(r)), 0) )
+	((r) = (f)) == 0 || (t_error("%s failed: %s (" m ")\n", #f, strerror(r)), 0) )
 
 static void *start_async(void *arg)
 {
@@ -94,5 +94,5 @@ int main(void)
 	TESTC(foo[2] == 3, "cleanup handler failed to run");
 	TESTC(foo[3] == 4, "cleanup handler failed to run");
 
-	return test_status;
+	return t_status;
 }

@@ -8,13 +8,13 @@
 	char tmp[100]; \
 	char *got = basename(strcpy(tmp, path)); \
 	if (strcmp(want, got) != 0) \
-		error("basename(\"%s\") got \"%s\" want \"%s\"\n", path, got, want); \
+		t_error("basename(\"%s\") got \"%s\" want \"%s\"\n", path, got, want); \
 }
 
 int main()
 {
 	if (strcmp(basename(0), ".") != 0)
-		error("basename(0) returned \"%s\"; expected \".\"\n", basename(0));
+		t_error("basename(0) returned \"%s\"; expected \".\"\n", basename(0));
 	T("", ".");
 	T("/usr/lib", "lib");
 	T("/usr/", "usr");
@@ -24,5 +24,5 @@ int main()
 	T("//usr//lib//", "lib");
 	T(".", ".");
 	T("..", "..");
-	return test_status;
+	return t_status;
 }

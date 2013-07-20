@@ -1,7 +1,7 @@
 #include <stdint.h>
 #include <stdio.h>
 #include <stdarg.h>
-#include "util.h"
+#include "mtest.h"
 
 static int test_status;
 

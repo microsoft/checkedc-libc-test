@@ -14,11 +14,11 @@
 #define T(f, x, m) (void)( \
 	memset(&st, 0, sizeof st), \
 	(i = (f)) == (x) || \
-		error("%s failed (%s) got %d want %d\n", #f, m, i, x) )
+		t_error("%s failed (%s) got %d want %d\n", #f, m, i, x) )
 #define TCHAR(f, x, m) (void)( \
 	memset(&st, 0, sizeof st), \
 	(i = (f)) == (x) || \
-		error("%s failed (%s) got 0x%04x want 0x%04x\n", #f, m, i, x) )
+		t_error("%s failed (%s) got 0x%04x want 0x%04x\n", #f, m, i, x) )
 
 int main(void)
 {
@@ -41,7 +41,7 @@ int main(void)
 	T(mbsrtowcs(NULL, (cs="abcdef",&cs), 2, &st), 6, "wrong semantics for NULL wcs");
 
 	if (strcmp(nl_langinfo(CODESET), "UTF-8"))
-		return error("cannot set UTF-8 locale for test (codeset=%s)\n", nl_langinfo(CODESET));
+		return t_error("cannot set UTF-8 locale for test (codeset=%s)\n", nl_langinfo(CODESET));
 
 	T(mbrtowc(&wc, "\x80", 1, &st), -1, "failed to catch error");
 	T(mbrtowc(&wc, "\xc0", 1, &st), -1, "failed to catch illegal initial");
@@ -81,5 +81,5 @@ int main(void)
 	TCHAR(wcs[0], 0xa0, "wrong char");
 	TCHAR(wcs[1], 'a', "wrong char");
 	T(!cs, 1, "wrong final position");
-	return test_status;
+	return t_status;
 }

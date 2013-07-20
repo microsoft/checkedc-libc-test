@@ -11,11 +11,11 @@
 
 #define TEST(r, f, x, m) ( \
 	((r) = (f)) == (x) || \
-	(error("%s failed (" m ")\n", #f, r, x), 0) )
+	(t_error("%s failed (" m ")\n", #f, r, x), 0) )
 
 #define TEST_S(s, x, m) ( \
 	!strcmp((s),(x)) || \
-	(error("[%s] != [%s] (%s)\n", s, x, m), 0) )
+	(t_error("[%s] != [%s] (%s)\n", s, x, m), 0) )
 
 int main(void)
 {
@@ -112,5 +112,5 @@ int main(void)
 	TEST(i, strlcat(b, "123", 3), 6, "length %d != %d");
 	TEST_S(b, "abc", "strlcat result");
 #endif
-	return test_status;
+	return t_status;
 }

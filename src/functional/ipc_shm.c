@@ -16,12 +16,12 @@ static const int id = 'x';
 
 #define T(f) do{ \
 	if ((f)+1 == 0) \
-		error("%s failed: %s\n", #f, strerror(errno)); \
+		t_error("%s failed: %s\n", #f, strerror(errno)); \
 }while(0)
 
 #define EQ(a,b,fmt) do{ \
 	if ((a) != (b)) \
-		error("%s == %s failed: " fmt "\n", #a, #b, a, b); \
+		t_error("%s == %s failed: " fmt "\n", #a, #b, a, b); \
 }while(0)
 
 static void set()
@@ -40,13 +40,13 @@ static void set()
 	T(shmctl(shmid, IPC_RMID, 0));
 	T(shmid = shmget(k, 100, IPC_CREAT|IPC_EXCL|0666));
 
-	if (test_status)
-		exit(test_status);
+	if (t_status)
+		exit(t_status);
 
 	/* check IPC_EXCL */
 	errno = 0;
 	if (shmget(k, 100, IPC_CREAT|IPC_EXCL|0666) != -1 || errno != EEXIST)
-		error("shmget(IPC_CREAT|IPC_EXCL) should have failed with EEXIST, got %s\n", strerror(errno));
+		t_error("shmget(IPC_CREAT|IPC_EXCL) should have failed with EEXIST, got %s\n", strerror(errno));
 
 	/* check if shmget initilaized the msshmid_ds structure correctly */
 	T(shmctl(shmid, IPC_STAT, &shmid_ds));
@@ -62,16 +62,16 @@ static void set()
 	EQ((long)shmid_ds.shm_atime, 0, "got %ld, want %d");
 	EQ((long)shmid_ds.shm_dtime, 0, "got %ld, want %d");
 	if (shmid_ds.shm_ctime < t)
-		error("shmid_ds.shm_ctime >= t failed: got %ld, want %ld\n", (long)shmid_ds.shm_ctime, (long)t);
+		t_error("shmid_ds.shm_ctime >= t failed: got %ld, want %ld\n", (long)shmid_ds.shm_ctime, (long)t);
 
 	/* test attach */
 	if ((p=shmat(shmid, 0, 0)) == 0)
-		error("shmat failed: %s\n", strerror(errno));
+		t_error("shmat failed: %s\n", strerror(errno));
 	T(shmctl(shmid, IPC_STAT, &shmid_ds));
 	EQ((int)shmid_ds.shm_nattch, 1, "got %d, want %d");
 	EQ(shmid_ds.shm_lpid, getpid(), "got %d, want %d");
 	if (shmid_ds.shm_atime < t)
-		error("shm_atime is %ld want >= %ld\n", (long)shmid_ds.shm_atime, (long)t);
+		t_error("shm_atime is %ld want >= %ld\n", (long)shmid_ds.shm_atime, (long)t);
 	strcpy(p, "test data");
 	T(shmdt(p));
 }
@@ -87,10 +87,10 @@ static void get()
 
 	errno = 0;
 	if ((p=shmat(shmid, 0, SHM_RDONLY)) == 0)
-		error("shmat failed: %s\n", strerror(errno));
+		t_error("shmat failed: %s\n", strerror(errno));
 
 	if (strcmp(p, "test data") != 0)
-		error("reading shared mem failed: got \"%.100s\" want \"test data\"\n", p);
+		t_error("reading shared mem failed: got \"%.100s\" want \"test data\"\n", p);
 
 	/* cleanup */
 	T(shmdt(p));
@@ -105,13 +105,13 @@ int main(void)
 	set();
 	p = fork();
 	if (p == -1)
-		error("fork failed: %s\n", strerror(errno));
+		t_error("fork failed: %s\n", strerror(errno));
 	else if (p == 0)
 		get();
 	else {
 		T(waitpid(p, &status, 0));
 		if (!WIFEXITED(status) || WEXITSTATUS(status) != 0)
-			error("child exit status: %d\n", status);
+			t_error("child exit status: %d\n", status);
 	}
-	return test_status;
+	return t_status;
 }

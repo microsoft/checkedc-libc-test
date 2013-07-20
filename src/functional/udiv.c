@@ -160,9 +160,9 @@ int main(void)
 		div = x / y;
 		mod = x % y;
 		if (div != t[i].div)
-			error("udiv %llu/%llu want %llu got %llu\n", x, y, t[i].div, div);
+			t_error("udiv %llu/%llu want %llu got %llu\n", x, y, t[i].div, div);
 		if (mod != t[i].mod)
-			error("umod %llu%%%llu want %llu got %llu\n", x, y, t[i].mod, mod);
+			t_error("umod %llu%%%llu want %llu got %llu\n", x, y, t[i].mod, mod);
 	}
-	return test_status;
+	return t_status;
 }

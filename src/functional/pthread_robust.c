@@ -4,9 +4,9 @@
 #include "test.h"
 
 #define TEST(r, f, m) ( \
-	((r) = (f)) == 0 || (error("%s failed: %s (" m ")\n", #f, strerror(r)), 0) )
+	((r) = (f)) == 0 || (t_error("%s failed: %s (" m ")\n", #f, strerror(r)), 0) )
 #define TESTX(r, f, x, m) ( \
-	((r) = (f)) == (x) || (error("%s failed: got %d \"%s\" want %d \"%s\" (" m ")\n", #f, r, strerror(r), x, strerror(x)), 0) )
+	((r) = (f)) == (x) || (t_error("%s failed: got %d \"%s\" want %d \"%s\" (" m ")\n", #f, r, strerror(r), x, strerror(x)), 0) )
 
 static void *start_lock(void *arg)
 {
@@ -60,7 +60,7 @@ int main(void)
 	TEST(r, pthread_create(&td, 0, start_wait, (void *[]){ &barrier2, &mtx }), "");
 	r = pthread_barrier_wait(&barrier2);
 	if (r && r != PTHREAD_BARRIER_SERIAL_THREAD)
-		error("pthread_barrier_wait failed: got %d \"%s\", wanted either 0 or %d\n",
+		t_error("pthread_barrier_wait failed: got %d \"%s\", wanted either 0 or %d\n",
 			r, strerror(r), PTHREAD_BARRIER_SERIAL_THREAD);
 	TESTX(r, pthread_mutex_lock(&mtx), EOWNERDEAD, "");
 	TEST(r, pthread_join(td, &res), "");
@@ -68,5 +68,5 @@ int main(void)
 	TEST(r, pthread_mutex_unlock(&mtx), "");
 	TEST(r, pthread_mutex_destroy(&mtx), "");
 
-	return test_status;
+	return t_status;
 }

@@ -6,15 +6,15 @@
 #include "test.h"
 
 #define TEST(r, f, x, m) ( \
-	((r) = (f)) == (x) || (error("%s failed (" m ")\n", #f, r, x), 0) )
+	((r) = (f)) == (x) || (t_error("%s failed (" m ")\n", #f, r, x), 0) )
 
 #define TEST_E(f) ( \
 	(errno = 0), \
-	(f) || (error("%s failed (errno = %d)\n", #f, errno), 0) )
+	(f) || (t_error("%s failed (errno = %d)\n", #f, errno), 0) )
 
 #define TEST_S(s, x, m) ( \
 	!strcmp((s),(x)) || \
-		(error("[%s] != [%s] (%s)\n", s, x, m), 0) )
+		(t_error("[%s] != [%s] (%s)\n", s, x, m), 0) )
 
 static sig_atomic_t got_sig;
 
@@ -45,5 +45,5 @@ int main(void)
 		TEST(i, got_sig, 1, "child process did not send signal");
 	}
 	signal(SIGUSR1, SIG_DFL);
-	return test_status;
+	return t_status;
 }

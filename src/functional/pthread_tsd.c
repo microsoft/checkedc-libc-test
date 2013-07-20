@@ -2,9 +2,9 @@
 #include <string.h>
 #include "test.h"
 
-#define TESTC(c, m) ( (c) || (error("%s failed (" m ")\n", #c), 0) )
+#define TESTC(c, m) ( (c) || (t_error("%s failed (" m ")\n", #c), 0) )
 #define TESTR(r, f, m) ( \
-	((r) = (f)) == 0 || (error("%s failed: %s (" m ")\n", #f, strerror(r)), 0) )
+	((r) = (f)) == 0 || (t_error("%s failed: %s (" m ")\n", #f, strerror(r)), 0) )
 
 static pthread_key_t k1, k2;
 
@@ -45,5 +45,5 @@ int main(void)
 	TESTR(r, pthread_setspecific(k2, 0), "failed to clear tsd");
 	TESTR(r, pthread_key_delete(k1), "failed to destroy key");
 	TESTR(r, pthread_key_delete(k2), "failed to destroy key");
-	return test_status;
+	return t_status;
 }

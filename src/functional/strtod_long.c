@@ -13,7 +13,7 @@ int main(void)
 	buf[sizeof buf - 1] = 0;
 
 	if ((x=strtod(buf, 0)) != want)
-		error("strtod(.11[...]1) got %a want %a\n", x, want);
-	return test_status;
+		t_error("strtod(.11[...]1) got %a want %a\n", x, want);
+	return t_status;
 }
 

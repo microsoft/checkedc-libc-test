@@ -11,10 +11,10 @@ static void setrl(int r, long lim)
 	struct rlimit rl;
 
 	if (getrlimit(r, &rl))
-		error("getrlimit %d: %s\n", r, strerror(errno));
+		t_error("getrlimit %d: %s\n", r, strerror(errno));
 	rl.rlim_cur = lim;
 	if (setrlimit(r, &rl))
-		error("setrlimit %d: %s\n", r, strerror(errno));
+		t_error("setrlimit %d: %s\n", r, strerror(errno));
 }
 
 int main(void)
@@ -26,7 +26,7 @@ int main(void)
 	char c;
 
 	if (!s)
-		return error("out of memory");
+		return t_error("out of memory");
 	setrl(RLIMIT_STACK, 128*1024);
 
 	for (i = 0; i < n; i++) s[i] = '1';
@@ -41,11 +41,11 @@ int main(void)
 	i = sscanf(s, "%f %c", &f, &c);
 
 	if (i != 2)
-		error("sscanf returned %d, want 2\n", i);
+		t_error("sscanf returned %d, want 2\n", i);
 	if (f != INFINITY)
-		error("sscanf(longnum, \"%%f\") read %f, want inf\n", f);
+		t_error("sscanf(longnum, \"%%f\") read %f, want inf\n", f);
 	if (c != '1')
-		error("sscanf(\"1\", %%c) read '%c', want '1'\n", c);
+		t_error("sscanf(\"1\", %%c) read '%c', want '1'\n", c);
 	free(s);
-	return test_status;
+	return t_status;
 }

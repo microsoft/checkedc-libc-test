@@ -3,7 +3,7 @@
 #include <setjmp.h>
 #include "test.h"
 
-#define TEST(c, ...) ((c) ? 1 : (error(#c" failed: " __VA_ARGS__),0))
+#define TEST(c, ...) ((c) ? 1 : (t_error(#c" failed: " __VA_ARGS__),0))
 
 int main(void)
 {
@@ -46,5 +46,5 @@ int main(void)
 	sigprocmask(SIG_SETMASK, &set, &set);
 	TEST(sigismember(&set, SIGUSR1)==0, "siglongjmp failed to restore mask\n");
 
-	return test_status;
+	return t_status;
 }

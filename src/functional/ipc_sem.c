@@ -16,12 +16,12 @@ static const int id = 'x';
 
 #define T(f) do{ \
 	if ((f)+1 == 0) \
-		error("%s failed: %s\n", #f, strerror(errno)); \
+		t_error("%s failed: %s\n", #f, strerror(errno)); \
 }while(0)
 
 #define EQ(a,b,fmt) do{ \
 	if ((a) != (b)) \
-		error("%s == %s failed: " fmt "\n", #a, #b, a, b); \
+		t_error("%s == %s failed: " fmt "\n", #a, #b, a, b); \
 }while(0)
 
 static void inc()
@@ -45,13 +45,13 @@ static void inc()
 	T(semctl(semid, 0, IPC_RMID));
 	T(semid = semget(k, 1, IPC_CREAT|IPC_EXCL|0666));
 
-	if (test_status)
-		exit(test_status);
+	if (t_status)
+		exit(t_status);
 
 	/* check IPC_EXCL */
 	errno = 0;
 	if (semget(k, 1, IPC_CREAT|IPC_EXCL|0666) != -1 || errno != EEXIST)
-		error("semget(IPC_CREAT|IPC_EXCL) should have failed with EEXIST, got %s\n", strerror(errno));
+		t_error("semget(IPC_CREAT|IPC_EXCL) should have failed with EEXIST, got %s\n", strerror(errno));
 
 	/* check if msgget initilaized the msqid_ds structure correctly */
 	arg.buf = &semid_ds;
@@ -64,7 +64,7 @@ static void inc()
 	EQ(semid_ds.sem_nsems, 1, "got %d, want %d");
 	EQ((long)semid_ds.sem_otime, 0, "got %ld, want %d");
 	if (semid_ds.sem_ctime < t)
-		error("semid_ds.sem_ctime >= t failed: got %ld, want %ld\n", (long)semid_ds.sem_ctime, (long)t);
+		t_error("semid_ds.sem_ctime >= t failed: got %ld, want %ld\n", (long)semid_ds.sem_ctime, (long)t);
 
 	/* test sem_op > 0 */
 	sops.sem_num = 0;
@@ -110,14 +110,14 @@ int main(void)
 	inc();
 	p = fork();
 	if (p == -1)
-		error("fork failed: %s\n", strerror(errno));
+		t_error("fork failed: %s\n", strerror(errno));
 	else if (p == 0)
 		dec();
 	else {
 		T(waitpid(p, &status, 0));
 		if (!WIFEXITED(status) || WEXITSTATUS(status) != 0)
-			error("child exit status: %d\n", status);
+			t_error("child exit status: %d\n", status);
 	}
-	return test_status;
+	return t_status;
 }
 

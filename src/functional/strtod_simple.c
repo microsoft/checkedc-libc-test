@@ -7,11 +7,11 @@
  * f = function call to test (or any expression)
  * x = expected result
  * m = message to print on failure (with formats for r & x)
-**/
+ */
 
 #define TEST(r, f, x, m) ( \
 	((r) = (f)) == (x) || \
-	(error("%s failed (" m ")\n", #f, r, x, r-x), 0) )
+	(t_error("%s failed (" m ")\n", #f, r, x, r-x), 0) )
 
 int main(void)
 {
@@ -27,6 +27,6 @@ int main(void)
 
 	TEST(d, strtod("0x1p4", 0), 16.0, "hex float %a != %a");
 	TEST(d, strtod("0x1.1p4", 0), 17.0, "hex float %a != %a");
-	return test_status;
+	return t_status;
 }
 

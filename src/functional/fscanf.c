@@ -7,11 +7,11 @@
 
 #define TEST(r, f, x, m) ( \
 	errno=0, ((r) = (f)) == (x) || \
-	(error("%s failed (" m ")\n", #f, r, x, strerror(errno)), 0) )
+	(t_error("%s failed (" m ")\n", #f, r, x, strerror(errno)), 0) )
 
 #define TEST_S(s, x, m) ( \
 	!strcmp((s),(x)) || \
-	(error("[%s] != [%s] (%s)\n", s, x, m), 0) )
+	(t_error("[%s] != [%s] (%s)\n", s, x, m), 0) )
 
 static FILE *writetemp(const char *data)
 {
@@ -129,5 +129,5 @@ int main(void)
 		fclose(f);
 	}
 
-	return test_status;
+	return t_status;
 }

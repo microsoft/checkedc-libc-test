@@ -36,7 +36,7 @@ int main(void)
 	for (i = 0; i < length(t); i++) {
 		x = strtof(t[i].s, &p);
 		if (x != t[i].f)
-			error("strtof(\"%s\") want %a got %a\n", t[i].s, t[i].f, x);
+			t_error("strtof(\"%s\") want %a got %a\n", t[i].s, t[i].f, x);
 	}
-	return test_status;
+	return t_status;
 }

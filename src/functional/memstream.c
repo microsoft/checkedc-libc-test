@@ -7,18 +7,18 @@
 
 #define TEST(r, f, x, m) ( \
 ((r) = (f)) == (x) || \
-(error("%s failed (" m ")\n", #f, r, x), 0) )
+(t_error("%s failed (" m ")\n", #f, r, x), 0) )
 
 #define TEST_E(f) ( (errno = 0), (f) || \
-(error("%s failed (errno = %d)\n", #f, errno), 0) )
+(t_error("%s failed (errno = %d)\n", #f, errno), 0) )
 
 #define TEST_S(s, x, m) ( \
 !strcmp((s),(x)) || \
-(error("[%s] != [%s] (%s)\n", s, x, m), 0) )
+(t_error("[%s] != [%s] (%s)\n", s, x, m), 0) )
 
 #define TEST_M(s, x, n, m) ( \
 !memcmp((s),(x),(n)) || \
-(error("[%s] != [%s] (%s)\n", s, x, m), 0) )
+(t_error("[%s] != [%s] (%s)\n", s, x, m), 0) )
 
 int main(void)
 {
@@ -91,5 +91,5 @@ int main(void)
 	TEST(i, ftell(f), 8, "%d != %d");
 	TEST_S(buf, "hello104", "");
 	fclose(f);
-	return test_status;
+	return t_status;
 }

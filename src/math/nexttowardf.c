@@ -1,6 +1,6 @@
 #include <stdint.h>
 #include <stdio.h>
-#include "util.h"
+#include "mtest.h"
 
 // TODO: separate ldbl dir
 static struct ll_l t[] = {

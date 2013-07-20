@@ -13,10 +13,10 @@ int main()
 
 	for (i = 0; i < sizeof t/sizeof *t; i++) {
 		if (!t[i].name)
-			error("name is not set for t[%d]\n", i);
+			t_error("name is not set for t[%d]\n", i);
 		if (t[i].addr & (t[i].align-1))
-			error("bad alignment: %s, size: %u, align: %u, addr: 0x%lx\n",
+			t_error("bad alignment: %s, size: %u, align: %u, addr: 0x%lx\n",
 				t[i].name, t[i].size, t[i].align, t[i].addr);
 	}
-	return test_status;
+	return t_status;
 }

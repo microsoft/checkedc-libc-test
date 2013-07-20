@@ -3,7 +3,7 @@
 #include "test.h"
 
 #define TEST(r, f, m) ( \
-	((r) = (f)) == 0 || (error("%s failed: %s (" m ")\n", #f, strerror(r)), 0) )
+	((r) = (f)) == 0 || (t_error("%s failed: %s (" m ")\n", #f, strerror(r)), 0) )
 
 
 static void *start_signal(void *arg)
@@ -95,5 +95,5 @@ int main(void)
 	TEST(r, pthread_mutex_destroy(&mtx), "");
 	TEST(r, pthread_cond_destroy(&cond), "");
 
-	return test_status;
+	return t_status;
 }

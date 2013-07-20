@@ -8,16 +8,16 @@
 	char *p = s; \
 	char *q = memmem(p, strlen(p), sub, strlen(sub)); \
 	if (q) \
-		error("memmem(%s,%s) returned str+%d, wanted 0\n", #s, #sub, q-p); \
+		t_error("memmem(%s,%s) returned str+%d, wanted 0\n", #s, #sub, q-p); \
 }
 
 #define T(s, sub, n) { \
 	char *p = s; \
 	char *q = memmem(p, strlen(p), sub, strlen(sub)); \
 	if (q == 0) \
-		error("memmem(%s,%s) returned 0, wanted str+%d\n", #s, #sub, n); \
+		t_error("memmem(%s,%s) returned 0, wanted str+%d\n", #s, #sub, n); \
 	else if (q - p != n) \
-		error("memmem(%s,%s) returned str+%d, wanted str+%d\n", #s, #sub, q-p, n); \
+		t_error("memmem(%s,%s) returned str+%d, wanted str+%d\n", #s, #sub, q-p, n); \
 }
 
 int main(void)
@@ -54,5 +54,5 @@ int main(void)
 	T("nanabanabanana", "banana", 8)
 	T("_ _\xff_ _", "_\xff_", 2)
 
-	return test_status;
+	return t_status;
 }

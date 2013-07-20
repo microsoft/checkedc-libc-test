@@ -1,3 +1,4 @@
+#include <inttypes.h>
 #include <stdlib.h>
 #include <stdio.h>
 #include <string.h>
@@ -16,6 +17,12 @@ static int icmp(const void *a, const void *b)
 static int ccmp(const void *a, const void *b)
 {
 	return *(char*)a - *(char*)b;
+}
+
+static int cmp64(const void *a, const void *b)
+{
+	const uint64_t *ua = a, *ub = b;
+	return *ua < *ub ? -1 : *ua != *ub;
 }
 
 /* 26 items -- even */
@@ -50,31 +57,59 @@ static int n_sorted[] = {
 	93994, 232323, 848405, 879045, 2230404, 3434344, 99405644
 };
 
-static void string_sort(const char **a, const char **a_sorted, int len)
+static void str_test(const char **a, const char **a_sorted, int len)
 {
 	int i;
 	qsort(a, len, sizeof *a, scmp);
 	for (i=0; i<len; i++) {
 		if (strcmp(a[i], a_sorted[i]) != 0) {
-			error("string sort failed at index %d\n", i);
-			test_printf("\ti\tgot\twant\n");
+			t_error("string sort failed at index %d\n", i);
+			t_printf("\ti\tgot\twant\n");
 			for (i=0; i<len; i++)
-				test_printf("\t%d\t%s\t%s\n", i, a[i], a_sorted[i]);
+				t_printf("\t%d\t%s\t%s\n", i, a[i], a_sorted[i]);
 			break;
 		}
 	}
 }
 
-static void integer_sort(int *a, int *a_sorted, int len)
+static void int_test(int *a, int *a_sorted, int len)
 {
 	int i;
 	qsort(a, len, sizeof *a, icmp);
 	for (i=0; i<len; i++) {
 		if (a[i] != a_sorted[i]) {
-			error("integer sort failed at index %d\n", i);
-			test_printf("\ti\tgot\twant\n");
+			t_error("integer sort failed at index %d\n", i);
+			t_printf("\ti\tgot\twant\n");
 			for (i=0; i<len; i++)
-				test_printf("\t%d\t%d\t%d\n", i, a[i], a_sorted[i]);
+				t_printf("\t%d\t%d\t%d\n", i, a[i], a_sorted[i]);
+			break;
+		}
+	}
+}
+
+static void uint64_gen(uint64_t *p, uint64_t *p_sorted, int n)
+{
+	int i;
+	uint64_t r = 0;
+	t_randseed(n);
+	for (i = 0; i < n; i++) {
+		r += t_randn(20);
+		p[i] = r;
+	}
+	memcpy(p_sorted, p, n * sizeof *p);
+	t_shuffle(p, n);
+}
+
+static void uint64_test(uint64_t *a, uint64_t *a_sorted, int len)
+{
+	int i;
+	qsort(a, len, sizeof *a, cmp64);
+	for (i=0; i<len; i++) {
+		if (a[i] != a_sorted[i]) {
+			t_error("uint64 sort failed at index %d\n", i);
+			t_printf("\ti\tgot\twant\n");
+			for (i=0; i<len; i++)
+				t_printf("\t%d\t%" PRIu64 "\t%" PRIu64 "\n", i, a[i], a_sorted[i]);
 			break;
 		}
 	}
@@ -84,13 +119,13 @@ static void integer_sort(int *a, int *a_sorted, int len)
 	char p[] = a; \
 	qsort(p, sizeof p - 1, 1, ccmp); \
 	if (memcmp(p, a_sorted, sizeof p) != 0) { \
-		error("character sort failed\n"); \
-		test_printf("\tgot:  \"%s\"\n", p); \
-		test_printf("\twant: \"%s\"\n", a_sorted); \
+		t_error("character sort failed\n"); \
+		t_printf("\tgot:  \"%s\"\n", p); \
+		t_printf("\twant: \"%s\"\n", a_sorted); \
 	} \
 } while(0)
 
-static void character_sort(void)
+static void char_test(void)
 {
 	T("", "");
 	T("1", "1");
@@ -123,8 +158,15 @@ static void character_sort(void)
 
 int main(void)
 {
-	string_sort(s, s_sorted, sizeof s/sizeof*s);
-	integer_sort(n, n_sorted, sizeof n/sizeof*n);
-	character_sort();
-	return test_status;
+	int i;
+
+	str_test(s, s_sorted, sizeof s/sizeof*s);
+	int_test(n, n_sorted, sizeof n/sizeof*n);
+	char_test();
+	for (i = 1023; i<=1026; i++) {
+		uint64_t p[1026], p_sorted[1026];
+		uint64_gen(p, p_sorted, i);
+		uint64_test(p, p_sorted, i);
+	}
+	return t_status;
 }

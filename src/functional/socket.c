@@ -8,7 +8,7 @@
 #include <fcntl.h>
 #include "test.h"
 
-#define TEST(c, ...) ((c) ? 1 : (error(#c" failed: " __VA_ARGS__),0))
+#define TEST(c, ...) ((c) ? 1 : (t_error(#c" failed: " __VA_ARGS__),0))
 #define TESTE(c) (errno=0, TEST(c, "errno = %s\n", strerror(errno)))
 
 int main(void)
@@ -54,5 +54,5 @@ int main(void)
 	close(c);
 	close(s);
 
-	return test_status;
+	return t_status;
 }

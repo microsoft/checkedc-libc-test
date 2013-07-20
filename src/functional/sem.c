@@ -8,7 +8,7 @@
 #include "test.h"
 
 #define TEST(c, ...) \
-	( (c) || (error(#c " failed: " __VA_ARGS__),0) )
+	( (c) || (t_error(#c " failed: " __VA_ARGS__),0) )
 
 int main(void)
 {
@@ -50,5 +50,5 @@ int main(void)
 	TEST(sem_close(sem) == 0, "%s\n", strerror(errno));
 	TEST(sem_close(sem) == 0, "%s\n", strerror(errno));
 	TEST(sem_unlink(buf) == 0, "%s\n", strerror(errno));
-	return test_status;
+	return t_status;
 }

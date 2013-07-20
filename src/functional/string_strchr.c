@@ -5,16 +5,16 @@
 	char *p = s; \
 	char *q = strchr(p, c); \
 	if (q) \
-		error("strchr(%s,%s) returned str+%d, wanted 0\n", #s, #c, q-p); \
+		t_error("strchr(%s,%s) returned str+%d, wanted 0\n", #s, #c, q-p); \
 }
 
 #define T(s, c, n) { \
 	char *p = s; \
 	char *q = strchr(p, c); \
 	if (q == 0) \
-		error("strchr(%s,%s) returned 0, wanted str+%d\n", #s, #c, n); \
+		t_error("strchr(%s,%s) returned 0, wanted str+%d\n", #s, #c, n); \
 	else if (q - p != n) \
-		error("strchr(%s,%s) returned str+%d, wanted str+%d\n", #s, #c, q-p, n); \
+		t_error("strchr(%s,%s) returned str+%d, wanted str+%d\n", #s, #c, q-p, n); \
 }
 
 int main(void)
@@ -54,5 +54,5 @@ int main(void)
 	T(s, 255, 254)
 	T(s, 0, 255)
 
-	return test_status;
+	return t_status;
 }

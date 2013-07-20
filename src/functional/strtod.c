@@ -68,8 +68,8 @@ int main(void)
 	for (i = 0; i < length(t); i++) {
 		x = strtod(t[i].s, &p);
 		if (x != t[i].f)
-			error("strtod(\"%s\") want %a got %a\n", t[i].s, t[i].f, x);
+			t_error("strtod(\"%s\") want %a got %a\n", t[i].s, t[i].f, x);
 	}
-	return test_status;
+	return t_status;
 }
 

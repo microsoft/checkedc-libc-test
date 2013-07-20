@@ -12,11 +12,11 @@
 
 #define TEST(f, x) (void)( \
 	(r = (f)) == (x) || \
-	error("%s failed, got %d want %d\n", #f, r, x) )
+	t_error("%s failed, got %d want %d\n", #f, r, x) )
 
 #define TEST_E(f) (void)( \
 	(errno = 0), (f) || \
-	error("%s failed (errno = %d \"%s\")\n", #f, errno, strerror(errno)) )
+	t_error("%s failed (errno = %d \"%s\")\n", #f, errno, strerror(errno)) )
 
 int main(void)
 {
@@ -38,5 +38,5 @@ int main(void)
 	TEST(read(p[0], foo, sizeof foo), 6);
 	close(p[0]);
 	TEST(posix_spawn_file_actions_destroy(&fa), 0);
-	return test_status;
+	return t_status;
 }

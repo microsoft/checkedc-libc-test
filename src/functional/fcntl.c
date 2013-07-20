@@ -6,7 +6,7 @@
 #include <sys/wait.h>
 #include "test.h"
 
-#define TEST(c, ...) ((c) ? 1 : (error(#c" failed: " __VA_ARGS__),0))
+#define TEST(c, ...) ((c) ? 1 : (t_error(#c" failed: " __VA_ARGS__),0))
 #define TESTE(c) (errno=0, TEST(c, "errno = %s\n", strerror(errno)))
 
 int main(void)
@@ -17,7 +17,7 @@ int main(void)
 	pid_t pid;
 	int status;
 
-	if (!TESTE(f=tmpfile())) return test_status;
+	if (!TESTE(f=tmpfile())) return t_status;
 	fd = fileno(f);
 
 	fl.l_type = F_WRLCK;
@@ -45,5 +45,5 @@ int main(void)
 
 	fclose(f);
 
-	return test_status;
+	return t_status;
 }

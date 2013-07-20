@@ -1,6 +1,6 @@
 #include <stdint.h>
 #include <stdio.h>
-#include "util.h"
+#include "mtest.h"
 
 static struct l_li t[] = {
 #if LDBL_MANT_DIG == 53

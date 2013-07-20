@@ -12,11 +12,11 @@
 
 #define TEST(r, f, x, m) ( \
 	errno = 0, msg = #f, ((r) = (f)) == (x) || \
-	(error("%s failed (" m ")\n", #f, r, x), 0) )
+	(t_error("%s failed (" m ")\n", #f, r, x), 0) )
 
 #define TEST2(r, f, x, m) ( \
 	((r) = (f)) == (x) || \
-	(error("%s failed (" m ")\n", msg, r, x), 0) )
+	(t_error("%s failed (" m ")\n", msg, r, x), 0) )
 
 int main(void)
 {
@@ -76,5 +76,5 @@ int main(void)
 
 	TEST(l, strtol(s="  1", &c, 0), 1, "%ld != %ld");
 	TEST2(i, c-s, 3, "wrong final position %d != %d");
-	return test_status;
+	return t_status;
 }

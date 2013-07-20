@@ -88,7 +88,7 @@ int main(void)
 	for (i = 0; i < length(t); i++) {
 		x = strtold(t[i].s, &p);
 		if (x != t[i].f)
-			error("strtold(\"%s\") want %La got %La\n", t[i].s, t[i].f, x);
+			t_error("strtold(\"%s\") want %La got %La\n", t[i].s, t[i].f, x);
 	}
-	return test_status;
+	return t_status;
 }
