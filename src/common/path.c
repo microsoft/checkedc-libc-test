@@ -1,4 +1,5 @@
 #include <string.h>
+#include <stdio.h>
 #include "test.h"
 
 /* relative path to p */

@@ -6,17 +6,6 @@
 #include <sys/resource.h>
 #include "test.h"
 
-static void setrl(int r, long lim)
-{
-	struct rlimit rl;
-
-	if (getrlimit(r, &rl))
-		t_error("getrlimit %d: %s\n", r, strerror(errno));
-	rl.rlim_cur = lim;
-	if (setrlimit(r, &rl))
-		t_error("setrlimit %d: %s\n", r, strerror(errno));
-}
-
 int main(void)
 {
 	enum {n = 8*1024*1024};
@@ -27,7 +16,7 @@ int main(void)
 
 	if (!s)
 		return t_error("out of memory");
-	setrl(RLIMIT_STACK, 128*1024);
+	t_setrlim(RLIMIT_STACK, 100*1024);
 
 	for (i = 0; i < n; i++) s[i] = '1';
 	s[n-3] = ' ';

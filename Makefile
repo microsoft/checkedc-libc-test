@@ -1,6 +1,6 @@
 SRCS:=$(sort $(wildcard src/*/*.c))
 OBJS:=$(SRCS:%.c=%.o)
-DIRS:=$(sort $(wildcard src/*))
+DIRS:=$(filter-out src/common,$(sort $(wildcard src/*)))
 NAMES:=$(OBJS:.o=)
 SPEC_PATTERNS:=src/common/% src/api/% src/math/%
 CFLAGS:=-Isrc/common
@@ -29,6 +29,13 @@ BINS:=$(foreach n,$(NAMES),$($(n).BINS)) src/api/main $(MBINS)
 LIBS:=$(foreach n,$(NAMES),$($(n).LIBS))
 ERRS:=$(BINS:%=%.err)
 
+debug:
+	@echo MBINS $(MBINS)
+	@echo BINS $(BINS)
+	@echo LIBS $(LIBS)
+	@echo ERRS $(ERRS)
+	@echo DIRS $(DIRS)
+
 define target_template
 $(1)/all: $(1)/REPORT
 $(1)/clean:
@@ -41,11 +48,16 @@ endef
 
 $(foreach d,$(DIRS),$(eval $(call target_template,$(d))))
 
-src/common/all: src/common/libtest.a
+src/common/all: src/common/REPORT
+src/common/REPORT: src/common/run
+	cat src/common/*.err >$@
+REPORT: src/common/REPORT
+src/common/run: src/common/run.o src/common/libtest.a
+$(ERRS): src/common/run
 
 all:REPORT
 clean:
-	rm -f $(OBJS) $(BINS) $(LIBS) src/common/libtest.a src/*/*.err
+	rm -f $(OBJS) $(BINS) $(LIBS) src/common/libtest.a src/common/run src/*/*.err
 cleanall: clean
 	rm -f REPORT src/*/REPORT
 REPORT:
@@ -89,7 +101,7 @@ $(IOBJS):CFLAGS+=-DX_PS -DX_TPS -DX_SS
 	touch $@
 %.err: %
 # TODO: proper wrapping that records exit status
-	./$< 2>/dev/null >$@ || true
+	src/common/run ./$< 2>/dev/null >$@ || true
 
 .PHONY: all clean cleanall
 
