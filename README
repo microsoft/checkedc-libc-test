@@ -2,6 +2,7 @@ libc-test is developed as part of the musl project
 http://www.musl-libc.org/
 
 configuring:
+	cp config.mak.def config.mak
 	edit config.mak
 build and run tests:
 	make

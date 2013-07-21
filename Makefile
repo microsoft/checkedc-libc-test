@@ -6,10 +6,12 @@ SPEC_PATTERNS:=src/common/% src/api/% src/math/%
 CFLAGS:=-Isrc/common
 LDLIBS:=src/common/libtest.a
 
--include config.mak
-
 all:
 %.mk:
+
+config.mak:
+	cp config.mak.def $@
+-include config.mak
 
 define template
 $(1).BINS := $(1) $(1)-static
