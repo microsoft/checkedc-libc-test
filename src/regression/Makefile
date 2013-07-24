@@ -1,4 +1,4 @@
 all:
 %:
-	$(MAKE) -C ../.. src/regression/$@
+	$(MAKE) -C ../.. B=src src/regression/$@
 

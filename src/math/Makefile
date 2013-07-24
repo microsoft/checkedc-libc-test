@@ -1,4 +1,4 @@
 all:
 %:
-	$(MAKE) -C ../.. src/math/$@
+	$(MAKE) -C ../.. B=src src/math/$@
 

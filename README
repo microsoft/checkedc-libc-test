@@ -68,14 +68,17 @@ Rich Felker, regression tests should contain reference of the bug
 build system:
 
 the main non-file make targets are all, run, clean and cleanall.
-(cleanall removes the reports as well, run reruns the dynamically
+(cleanall removes the reports unlike clean, run reruns the dynamically
 linked executables)
 
-for each directory under src there are targets like src/directory/all,
-src/directory/run and src/directory/clean to make only the contents
+make variable can be overridden from config.mak or the make command line,
+the variable B sets the build directory which is src by default
+
+for each directory under src there are targets like $(B)/directory/all,
+$(B)/directory/run and $(B)/directory/clean to make only the contents
 of that directory, each directory has its own Makefile set up so it
-invokes the top level make with src/directory/foo for the foo target,
-so it is possible to work only under a specific test directory
+invokes the top level make with B=src src/directory/foo for the foo
+target, so it is possible to work only under a specific test directory
 
 the build and runtime errors of each target are accumulated into a
 target.err file and in the end they are concatenated into a REPORT
@@ -85,9 +88,9 @@ dynamic linked and a static linked executable test binary by default,
 this behaviour can be changed by a similarly named .mk file changing
 make variables and specifying additional rules:
 
-$(N) is the name of the binary target (the file name without the .c)
-$(N)-static is the name of the static binary target
-$(D) is the directory
+$(B)/$(N) is the name of the binary target (the file name without the .c)
+$(B)/$(N)-static is the name of the static binary target
+$(B)/$(D) is the build directory
 $(N).CFLAGS are added to the CFLAGS at compilation
 $(N).LDFLAGS are added to the LDFLAGS at linking
 $(N).LDLIBS are added to the LDLIBS at linking

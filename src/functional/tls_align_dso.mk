@@ -1,2 +1,2 @@
 $(N).BINS:=
-$(N).LIBS:=$(N).so
+$(N).LIBS:=$(B)/$(N).so

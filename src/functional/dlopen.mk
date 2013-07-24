@@ -1,3 +1,3 @@
-$(N).BINS:=$(N)
+$(N).BINS:=$(B)/$(N)
 $(N).LDFLAGS:=-rdynamic
-$(N).err: $(D)/dlopen_dso.so
+$(B)/$(N).err: $(B)/$(D)/dlopen_dso.so

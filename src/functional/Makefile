@@ -1,4 +1,4 @@
 all:
 %:
-	$(MAKE) -C ../.. src/functional/$@
+	$(MAKE) -C ../.. B=src src/functional/$@
 

@@ -1,9 +1,11 @@
+B:=src
 SRCS:=$(sort $(wildcard src/*/*.c))
-OBJS:=$(SRCS:%.c=%.o)
-DIRS:=$(sort $(wildcard src/*))
-NAMES:=$(OBJS:.o=)
+OBJS:=$(SRCS:src/%.c=$(B)/%.o)
+DIRS:=$(patsubst src/%/,%,$(sort $(wildcard src/*/)))
+BDIRS:=$(DIRS:%=$(B)/%)
+NAMES:=$(SRCS:src/%.c=%)
 CFLAGS:=-Isrc/common
-LDLIBS:=src/common/libtest.a
+LDLIBS:=$(B)/common/libtest.a
 
 all:
 %.mk:
@@ -15,28 +17,28 @@ config.mak:
 define default_template
 $(1).BINS_TEMPL:=bin bin-static
 $(1).NAMES:=$$(filter $(1)/%,$$(NAMES))
-$(1).OBJS:=$$($(1).NAMES:%=%.o)
+$(1).OBJS:=$$($(1).NAMES:%=$(B)/%.o)
 endef
 $(foreach d,$(DIRS),$(eval $(call default_template,$(d))))
-src/common.BINS_TEMPL:=
-src/api.BINS_TEMPL:=
-src/math.BINS_TEMPL:=bin
+common.BINS_TEMPL:=
+api.BINS_TEMPL:=
+math.BINS_TEMPL:=bin
 
 define template
 D:=$$(patsubst %/,%,$$(dir $(1)))
 N:=$(1)
-$(1).BINS := $$($$(D).BINS_TEMPL:bin%=$(1)%)
--include $(1).mk
-#$$(warning D $$(D) T $$($$(D).BINS_TEMPL) B $$($(1).BINS))
-$(1) $(1)-static: $$($(1).OBJS)
-$(1).so: $$($(1).LOBJS)
+$(1).BINS := $$($$(D).BINS_TEMPL:bin%=$(B)/$(1)%)
+-include src/$(1).mk
+#$$(warning D $$(D) N $$(N) B $$($(1).BINS))
+$(B)/$(1) $(B)/$(1)-static: $$($(1).OBJS)
+$(B)/$(1).so: $$($(1).LOBJS)
 # make sure dynamic and static binaries are not run parallel (matters for some tests eg ipc)
-$(1)-static.err: $(1).err
+$(B)/$(1)-static.err: $(B)/$(1).err
 endef
 $(foreach n,$(NAMES),$(eval $(call template,$(n))))
 
-BINS:=$(foreach n,$(NAMES),$($(n).BINS)) src/api/main
-LIBS:=$(foreach n,$(NAMES),$($(n).LIBS)) src/common/run
+BINS:=$(foreach n,$(NAMES),$($(n).BINS)) $(B)/api/main
+LIBS:=$(foreach n,$(NAMES),$($(n).LIBS)) $(B)/common/run
 ERRS:=$(BINS:%=%.err)
 
 debug:
@@ -47,60 +49,62 @@ debug:
 	@echo DIRS $(DIRS)
 
 define target_template
-$(1).ERRS:=$$(filter $(1)/%,$$(ERRS))
-$(1)/all: $(1)/REPORT
-# TODO: src/common/run collides with the run binary target
-$(1)/run: $(1)/cleanerr $(1)/REPORT
-$(1)/cleanerr:
-	rm -f $$(filter-out $(1)/%-static.err,$$($(1).ERRS))
-$(1)/clean:
-	rm -f $$(filter $(1)/%,$$(OBJS) $$(BINS) $$(LIBS)) $(1)/*.err
-$(1)/REPORT: $$($(1).ERRS)
-	cat $(1)/*.err >$$@
-run: $(1)/run
-REPORT: $(1)/REPORT
-.PHONY: $(1)/all $(1)/clean
+$(1).ERRS:=$$(filter $(B)/$(1)/%,$$(ERRS))
+$(B)/$(1)/all: $(B)/$(1)/REPORT
+# TODO: $(B)/common/run collides with the run binary target
+$(B)/$(1)/run: $(B)/$(1)/cleanerr $(B)/$(1)/REPORT
+$(B)/$(1)/cleanerr:
+	rm -f $$(filter-out $(B)/$(1)/%-static.err,$$($(1).ERRS))
+$(B)/$(1)/clean:
+	rm -f $$(filter $(B)/$(1)/%,$$(OBJS) $$(BINS) $$(LIBS)) $(B)/$(1)/*.err
+$(B)/$(1)/REPORT: $$($(1).ERRS)
+	cat $(B)/$(1)/*.err >$$@
+run: $(B)/$(1)/run
+$(B)/REPORT: $(B)/$(1)/REPORT
+.PHONY: $(B)/$(1)/all $(B)/$(1)/clean
 endef
 $(foreach d,$(DIRS),$(eval $(call target_template,$(d))))
 
-src/common/libtest.a: $(src/common.OBJS)
+$(B)/common/libtest.a: $(common.OBJS)
 	rm -f $@
 	$(AR) rc $@ $^
 	$(RANLIB) $@
 
-$(ERRS): src/common/run
-$(BINS) $(LIBS): src/common/libtest.a
-$(OBJS): src/common/test.h
+$(ERRS): $(B)/common/run | $(BDIRS)
+$(BINS) $(LIBS): $(B)/common/libtest.a
+$(OBJS): src/common/test.h | $(BDIRS)
+$(BDIRS):
+	mkdir -p $@
 
-src/common/mtest.o: src/common/mtest.h
-$(src/math.OBJS): src/common/mtest.h
+$(B)/common/mtest.o: src/common/mtest.h
+$(math.OBJS): src/common/mtest.h
 
-src/api/main: $(src/api.OBJS)
-src/api/main.OBJS:=$(src/api.OBJS)
-$(src/api.OBJS):CFLAGS+=-pedantic-errors -Werror -Wno-unused -D_XOPEN_SOURCE=700
-$(src/api.OBJS):CFLAGS+=-DX_PS -DX_TPS -DX_SS
+$(B)/api/main: $(api.OBJS)
+api/main.OBJS:=$(api.OBJS)
+$(api.OBJS):CFLAGS+=-pedantic-errors -Werror -Wno-unused -D_XOPEN_SOURCE=700
+$(api.OBJS):CFLAGS+=-DX_PS -DX_TPS -DX_SS
 
-all:REPORT
-run:REPORT
+all:$(B)/REPORT
+run:$(B)/REPORT
 clean:
-	rm -f $(OBJS) $(BINS) $(LIBS) src/common/libtest.a src/common/run src/*/*.err
+	rm -f $(OBJS) $(BINS) $(LIBS) $(B)/common/libtest.a $(B)/common/run $(B)/*/*.err
 cleanall: clean
-	rm -f REPORT src/*/REPORT
-REPORT:
+	rm -f $(B)/REPORT $(B)/*/REPORT
+$(B)/REPORT:
 	cat $^ |tee $@
 
-%.o: %.c
+$(B)/%.o: src/%.c
 	$(CC) $(CFLAGS) $($*.CFLAGS) -c -o $@ $< 2>$@.err || echo BUILDERROR $@
-%.s: %.c
+$(B)/%.s: src/%.c
 	$(CC) $(CFLAGS) $($*.CFLAGS) -S -o $@ $< || echo BUILDERROR $@
-%.lo: %.c
+$(B)/%.lo: src/%.c
 	$(CC) $(CFLAGS) $($*.CFLAGS) -fPIC -DSHARED -c -o $@ $< 2>$@.err || echo BUILDERROR $@
-%.so: %.lo
-	$(CC) -shared $(LDFLAGS) $($@.LDFLAGS) -o $@ $< $($*.LOBJS) $(LDLIBS) $($@.LDLIBS) 2>$@.err || echo BUILDERROR $@
-%-static: %.o
-	$(CC) -static $(LDFLAGS) $($@.LDFLAGS) -o $@ $< $($*.OBJS) $(LDLIBS) $($@.LDLIBS) 2>$@.err || echo BUILDERROR $@
-%: %.o
-	$(CC) $(LDFLAGS) $($@.LDFLAGS) -o $@ $< $($@.OBJS) $(LDLIBS) $($@.LDLIBS) 2>$@.err || echo BUILDERROR $@
+$(B)/%.so: $(B)/%.lo
+	$(CC) -shared $(LDFLAGS) $($*.so.LDFLAGS) -o $@ $< $($*.so.LOBJS) $(LDLIBS) $($*.so.LDLIBS) 2>$@.err || echo BUILDERROR $@
+$(B)/%-static: $(B)/%.o
+	$(CC) -static $(LDFLAGS) $($*-static.LDFLAGS) -o $@ $< $($*-static.OBJS) $(LDLIBS) $($*-static.LDLIBS) 2>$@.ld.err || echo BUILDERROR $@
+$(B)/%: $(B)/%.o
+	$(CC) $(LDFLAGS) $($*.LDFLAGS) -o $@ $< $($*.OBJS) $(LDLIBS) $($*.LDLIBS) 2>$@.ld.err || echo BUILDERROR $@
 
 %.o.err: %.o
 	touch $@
@@ -108,8 +112,10 @@ REPORT:
 	touch $@
 %.so.err: %.so
 	touch $@
+%.ld.err: %
+	touch $@
 %.err: %
-	src/common/run ./$< 2>/dev/null >$@ || true
+	$(B)/common/run ./$< 2>/dev/null >$@ || true
 
 .PHONY: all run clean cleanall
 

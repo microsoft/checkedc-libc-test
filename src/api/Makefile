@@ -1,4 +1,4 @@
 all:
 %:
-	$(MAKE) -C ../.. src/api/$@
+	$(MAKE) -C ../.. B=src src/api/$@
 
