@@ -1,5 +1,6 @@
 // commit: 26031da0f83a2a3ed52190077931ee6c18dfd689 2011-02-20
 // malloc(0) should return unique pointers
+// (often expected and gnulib replaces malloc if malloc(0) returns 0)
 #include <stdlib.h>
 #include "test.h"
 
