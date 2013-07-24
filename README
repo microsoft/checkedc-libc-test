@@ -48,6 +48,11 @@ may be used to simplify the code like
 #define T1(a,b) (check(a,b) || (t_error("check(%s,%s) failed\n", a, b),0))
 #define T2(f,w) (result=(f), result==(w) || (t_error("%s failed: got %s, want %s\n", #f, result, w),0))
 
+binaries should be possible to run from arbitrary directory.
+the build system runs the tests using the src/common/run tool which
+kills the test process after a timeout and reports the exit status
+in case of failure
+
 directories:
 
 src/api: interface tests, build time include header tests
@@ -62,8 +67,13 @@ Rich Felker, regression tests should contain reference of the bug
 
 build system:
 
-the targets src/directory/all and src/directory/clean build and clean
-only the specified directory, each directory has its own Makefile that
+the main non-file make targets are all, run, clean and cleanall.
+(cleanall removes the reports as well, run reruns the dynamically
+linked executables)
+
+for each directory under src there are targets like src/directory/all,
+src/directory/run and src/directory/clean to make only the contents
+of that directory, each directory has its own Makefile set up so it
 invokes the top level make with src/directory/foo for the foo target,
 so it is possible to work only under a specific test directory
 
