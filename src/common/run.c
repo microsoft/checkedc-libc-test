@@ -14,26 +14,14 @@ static void handler(int s)
 {
 }
 
-static void setrl(int r, long lim) {
-	struct rlimit rl;
-
-	if (getrlimit(r, &rl))
-		t_error("getrlimit %d: %s\n", r, strerror(errno));
-	rl.rlim_cur = lim;
-	if (lim < rl.rlim_max)
-		rl.rlim_max = lim;
-	if (setrlimit(r, &rl))
-		t_error("setrlimit %d: %s\n", r, strerror(errno));
-}
-
 static int start(char *argv[])
 {
 	int pid;
 
 	pid = fork();
 	if (pid == 0) {
-		setrl(RLIMIT_STACK, 100*1024);
-		setrl(RLIMIT_CPU, 2);
+		t_setrlim(RLIMIT_STACK, 100*1024);
+		t_setrlim(RLIMIT_CPU, 2);
 		execv(argv[0], argv);
 		t_error("%s exec failed: %s\n", argv[0], strerror(errno));
 		exit(1);
