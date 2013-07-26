@@ -11,6 +11,26 @@ RANLIB = $(CROSS_COMPILE)ranlib
 
 all:
 %.mk:
+# turn off evil implicit rules
+.SUFFIXES:
+%: %.o
+%: %.c
+%: %.cc
+%: %.C
+%: %.cpp
+%: %.p
+%: %.f
+%: %.F
+%: %.r
+%: %.s
+%: %.S
+%: %.mod
+%: %.sh
+%: %,v
+%: RCS/%,v
+%: RCS/%
+%: s.%
+%: SCCS/s.%
 
 config.mak:
 	cp config.mak.def $@
@@ -94,11 +114,11 @@ cleanall: clean
 $(B)/REPORT:
 	cat $^ |tee $@
 
-$(B)/%.o: src/%.c
+$(B)/%.o:: src/%.c
 	$(CC) $(CFLAGS) $($*.CFLAGS) -c -o $@ $< 2>$@.err || echo BUILDERROR $@
-$(B)/%.s: src/%.c
+$(B)/%.s:: src/%.c
 	$(CC) $(CFLAGS) $($*.CFLAGS) -S -o $@ $< || echo BUILDERROR $@
-$(B)/%.lo: src/%.c
+$(B)/%.lo:: src/%.c
 	$(CC) $(CFLAGS) $($*.CFLAGS) -fPIC -DSHARED -c -o $@ $< 2>$@.err || echo BUILDERROR $@
 $(B)/%.so: $(B)/%.lo
 	$(CC) -shared $(LDFLAGS) $($*.so.LDFLAGS) -o $@ $< $($*.so.LOBJS) $(LDLIBS) $($*.so.LDLIBS) 2>$@.err || echo BUILDERROR $@
