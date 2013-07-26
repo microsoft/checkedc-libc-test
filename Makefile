@@ -1,11 +1,13 @@
 B:=src
 SRCS:=$(sort $(wildcard src/*/*.c))
 OBJS:=$(SRCS:src/%.c=$(B)/%.o)
-DIRS:=$(patsubst src/%,%,$(filter-out src/REPORT,$(sort $(wildcard src/*))))
+DIRS:=$(patsubst src/%/,%,$(sort $(dir $(SRCS))))
 BDIRS:=$(DIRS:%=$(B)/%)
 NAMES:=$(SRCS:src/%.c=%)
 CFLAGS:=-Isrc/common
 LDLIBS:=$(B)/common/libtest.a
+AR = $(CROSS_COMPILE)ar
+RANLIB = $(CROSS_COMPILE)ranlib
 
 all:
 %.mk:

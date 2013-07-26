@@ -8,6 +8,3 @@ LDLIBS += -lpthread -lm -lrt
 CFLAGS += -D_FILE_OFFSET_BITS=64 -D_LARGEFILE_SOURCE
 LDLIBS += -lcrypt -ldl -lresolv -lutil
 
-AR      = $(CROSS_COMPILE)ar
-RANLIB  = $(CROSS_COMPILE)ranlib
-
