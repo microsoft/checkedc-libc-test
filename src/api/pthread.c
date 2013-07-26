@@ -31,14 +31,19 @@ C(PTHREAD_MUTEX_RECURSIVE)
 C(PTHREAD_MUTEX_ROBUST)
 C(PTHREAD_MUTEX_STALLED)
 C(PTHREAD_ONCE_INIT)
+#if defined(POSIX_THREAD_ROBUST_PRIO_INHERIT) || defined(POSIX_THREAD_PRIO_INHERIT)
 C(PTHREAD_PRIO_INHERIT)
+#endif
+#if defined(POSIX_THREAD_ROBUST_PRIO_INHERIT) || defined(POSIX_THREAD_PRIO_INHERIT) \
+ || defined(POSIX_THREAD_ROBUST_PRIO_PROTECT) || defined(POSIX_THREAD_PRIO_PROTECT)
 C(PTHREAD_PRIO_NONE)
-#ifdef X_RPP_TPP
+#endif
+#if defined(POSIX_THREAD_ROBUST_PRIO_PROTECT) || defined(POSIX_THREAD_PRIO_PROTECT)
 C(PTHREAD_PRIO_PROTECT)
 #endif
 C(PTHREAD_PROCESS_SHARED)
 C(PTHREAD_PROCESS_PRIVATE)
-#ifdef X_TPS
+#ifdef POSIX_THREAD_PRIORITY_SCHEDULING
 C(PTHREAD_EXPLICIT_SCHED)
 C(PTHREAD_INHERIT_SCHED)
 C(PTHREAD_SCOPE_PROCESS)
@@ -101,12 +106,15 @@ C(PTHREAD_SCOPE_SYSTEM)
 {int(*p)(pthread_mutex_t*) = pthread_mutex_trylock;}
 {int(*p)(pthread_mutex_t*) = pthread_mutex_unlock;}
 {int(*p)(pthread_mutexattr_t*) = pthread_mutexattr_destroy;}
+#if defined(POSIX_THREAD_ROBUST_PRIO_INHERIT) || defined(POSIX_THREAD_PRIO_INHERIT) \
+ || defined(POSIX_THREAD_ROBUST_PRIO_PROTECT) || defined(POSIX_THREAD_PRIO_PROTECT)
 {int(*p)(const pthread_mutexattr_t*restrict,int*restrict) = pthread_mutexattr_getprotocol;}
+{int(*p)(pthread_mutexattr_t*,int) = pthread_mutexattr_setprotocol;}
+#endif
 {int(*p)(const pthread_mutexattr_t*restrict,int*restrict) = pthread_mutexattr_getpshared;}
 {int(*p)(const pthread_mutexattr_t*restrict,int*restrict) = pthread_mutexattr_getrobust;}
 {int(*p)(const pthread_mutexattr_t*restrict,int*restrict) = pthread_mutexattr_gettype;}
 {int(*p)(pthread_mutexattr_t*) = pthread_mutexattr_init;}
-{int(*p)(pthread_mutexattr_t*,int) = pthread_mutexattr_setprotocol;}
 {int(*p)(pthread_mutexattr_t*,int) = pthread_mutexattr_setpshared;}
 {int(*p)(pthread_mutexattr_t*,int) = pthread_mutexattr_setrobust;}
 {int(*p)(pthread_mutexattr_t*,int) = pthread_mutexattr_settype;}
@@ -133,15 +141,13 @@ C(PTHREAD_SCOPE_SYSTEM)
 {int(*p)(pthread_spinlock_t*) = pthread_spin_trylock;}
 {int(*p)(pthread_spinlock_t*) = pthread_spin_unlock;}
 {void(*p)(void) = pthread_testcancel;}
-
-#ifdef X_RPP_TPP
+#if defined(POSIX_THREAD_ROBUST_PRIO_PROTECT) || defined(POSIX_THREAD_PRIO_PROTECT)
 {int(*p)(const pthread_mutex_t*restrict,int*restrict) = pthread_mutex_getprioceiling;}
 {int(*p)(pthread_mutex_t*restrict,int,int*restrict) = pthread_mutex_setprioceiling;}
 {int(*p)(const pthread_mutexattr_t*restrict,int*restrict) = pthread_mutexattr_getprioceiling;}
 {int(*p)(pthread_mutexattr_t*,int) = pthread_mutexattr_setprioceiling;}
 #endif
-
-#ifdef X_TPS
+#ifdef POSIX_THREAD_PRIORITY_SCHEDULING
 {int(*p)(const pthread_attr_t*restrict,int*restrict) = pthread_attr_getinheritsched;}
 {int(*p)(const pthread_attr_t*restrict,int*restrict) = pthread_attr_getschedpolicy;}
 {int(*p)(const pthread_attr_t*restrict,int*restrict) = pthread_attr_getscope;}

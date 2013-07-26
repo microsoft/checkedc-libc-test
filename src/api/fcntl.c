@@ -1,4 +1,5 @@
 #include <fcntl.h>
+#include "options.h"
 #define T(t) (t*)0;
 #define F(t,n) {t *y = &x.n;}
 #define C(n) switch(n){case n:;}
@@ -28,9 +29,11 @@ C(O_NOCTTY)
 C(O_TRUNC)
 C(O_TTY_INIT)
 C(O_APPEND)
-C(O_DSYNC)
 C(O_NONBLOCK)
+#ifdef POSIX_SYNCHRONIZED_IO
+C(O_DSYNC)
 C(O_RSYNC)
+#endif
 C(O_SYNC)
 C(O_ACCMODE)
 C(O_EXEC)

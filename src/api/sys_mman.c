@@ -1,4 +1,5 @@
 #include <sys/mman.h>
+#include "options.h"
 #define T(t) (t*)0;
 #define F(t,n) {t *y = &x.n;}
 #define C(n) switch(n){case n:;}
@@ -29,7 +30,7 @@ C(POSIX_MADV_RANDOM)
 C(POSIX_MADV_SEQUENTIAL)
 C(POSIX_MADV_WILLNEED)
 
-#ifdef X_TYM
+#ifdef POSIX_TYPED_MEMORY_OBJECTS
 C(POSIX_TYPED_MEM_ALLOCATE)
 C(POSIX_TYPED_MEM_ALLOCATE_CONTIG)
 C(POSIX_TYPED_MEM_MAP_ALLOCATABLE)
@@ -53,6 +54,8 @@ int(*p)(const char*,int,int) = posix_typed_mem_open;
 {int(*p)(void) = munlockall;}
 {int(*p)(void*,size_t) = munmap;}
 {int(*p)(void*,size_t,int) = posix_madvise;}
+#ifdef POSIX_SHARED_MEMORY_OBJECTS
 {int(*p)(const char*,int,mode_t) = shm_open;}
 {int(*p)(const char*) = shm_unlink;}
+#endif
 }

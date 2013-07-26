@@ -1,4 +1,5 @@
 #include <sys/stat.h>
+#include "options.h"
 #define T(t) (t*)0;
 #define F(t,n) {t *y = &x.n;}
 #define C(n) switch(n){case n:;}
@@ -73,7 +74,9 @@ struct stat x = {0};
 {int i = S_TYPEISMQ(&x);}
 {int i = S_TYPEISSEM(&x);}
 {int i = S_TYPEISSHM(&x);}
+#ifdef POSIX_TYPED_MEMORY_OBJECTS
 {int i = S_TYPEISTMO(&x);}
+#endif
 }
 C(UTIME_NOW)
 C(UTIME_OMIT)

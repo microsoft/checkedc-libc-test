@@ -107,12 +107,11 @@ $(B)/api/main: $(api.OBJS)
 api/main.OBJS:=$(api.OBJS)
 $(api.OBJS):$(B)/common/options.h
 $(api.OBJS):CFLAGS+=-pedantic-errors -Werror -Wno-unused -D_XOPEN_SOURCE=700
-$(api.OBJS):CFLAGS+=-DX_PS -DX_TPS -DX_SS
 
 all:$(B)/REPORT
 run:$(B)/REPORT
 clean:
-	rm -f $(OBJS) $(BINS) $(LIBS) $(B)/common/libtest.a $(B)/common/runtest $(B)/*/*.err
+	rm -f $(OBJS) $(BINS) $(LIBS) $(B)/common/libtest.a $(B)/common/runtest $(B)/common/options.h $(B)/*/*.err
 cleanall: clean
 	rm -f $(B)/REPORT $(B)/*/REPORT
 $(B)/REPORT:

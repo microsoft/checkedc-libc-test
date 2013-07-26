@@ -1,3 +1,5 @@
+#include "options.h"
+#ifdef POSIX_MESSAGE_PASSING
 #include <mqueue.h>
 #define T(t) (t*)0;
 #define F(t,n) {t *y = &x.n;}
@@ -31,3 +33,5 @@ static void g()
 {ssize_t(*p)(mqd_t,char*restrict,size_t,unsigned*restrict,const struct timespec*restrict) = mq_timedreceive;}
 {int(*p)(mqd_t,const char*,size_t,unsigned,const struct timespec*) = mq_timedsend;}
 }
+#endif
+

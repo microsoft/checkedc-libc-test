@@ -1,4 +1,5 @@
 #include <spawn.h>
+#include "options.h"
 #define T(t) (t*)0;
 #define C(n) switch(n){case n:;}
 static void f()
@@ -11,7 +12,7 @@ T(sigset_t)
 T(struct sched_param)
 C(POSIX_SPAWN_RESETIDS)
 C(POSIX_SPAWN_SETPGROUP)
-#ifdef X_PS
+#ifdef POSIX_PRIORITY_SCHEDULING
 C(POSIX_SPAWN_SETSCHEDPARAM)
 C(POSIX_SPAWN_SETSCHEDULER)
 #endif
@@ -39,7 +40,7 @@ static void g()
 {int(*p)(posix_spawnattr_t*restrict,const sigset_t*restrict) = posix_spawnattr_setsigdefault;}
 {int(*p)(posix_spawnattr_t*restrict,const sigset_t*restrict) = posix_spawnattr_setsigmask;}
 }
-#ifdef X_PS
+#ifdef POSIX_PRIORITY_SCHEDULING
 #include <sched.h>
 static void h()
 {
