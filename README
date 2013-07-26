@@ -49,7 +49,7 @@ may be used to simplify the code like
 #define T2(f,w) (result=(f), result==(w) || (t_error("%s failed: got %s, want %s\n", #f, result, w),0))
 
 binaries should be possible to run from arbitrary directory.
-the build system runs the tests using the src/common/run tool which
+the build system runs the tests using the src/common/runtest tool which
 kills the test process after a timeout and reports the exit status
 in case of failure
 

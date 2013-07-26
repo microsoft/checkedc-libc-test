@@ -42,7 +42,7 @@ int main(int argc, char *argv[])
 	int pid;
 
 	if (argc < 2) {
-		t_error("usage: ./run cmd [args..]\n");
+		t_error("usage: ./runtest cmd [args..]\n");
 		return -1;
 	}
 	argv++;
@@ -63,7 +63,7 @@ int main(int argc, char *argv[])
 	}
 	if (WIFEXITED(status)) {
 		if (WEXITSTATUS(status) == 0)
-			return 0;
+			return t_status;
 		t_printf("FAIL %s [status %d]\n", argv[0], WEXITSTATUS(status));
 	} else if (timeout) {
 		t_printf("FAIL %s [timed out]\n", argv[0]);

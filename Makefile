@@ -40,7 +40,7 @@ endef
 $(foreach n,$(NAMES),$(eval $(call template,$(n))))
 
 BINS:=$(foreach n,$(NAMES),$($(n).BINS)) $(B)/api/main
-LIBS:=$(foreach n,$(NAMES),$($(n).LIBS)) $(B)/common/run
+LIBS:=$(foreach n,$(NAMES),$($(n).LIBS)) $(B)/common/runtest
 ERRS:=$(BINS:%=%.err)
 
 debug:
@@ -53,7 +53,6 @@ debug:
 define target_template
 $(1).ERRS:=$$(filter $(B)/$(1)/%,$$(ERRS))
 $(B)/$(1)/all: $(B)/$(1)/REPORT
-# TODO: $(B)/common/run collides with the run binary target
 $(B)/$(1)/run: $(B)/$(1)/cleanerr $(B)/$(1)/REPORT
 $(B)/$(1)/cleanerr:
 	rm -f $$(filter-out $(B)/$(1)/%-static.err,$$($(1).ERRS))
@@ -72,7 +71,7 @@ $(B)/common/libtest.a: $(common.OBJS)
 	$(AR) rc $@ $^
 	$(RANLIB) $@
 
-$(ERRS): $(B)/common/run | $(BDIRS)
+$(ERRS): $(B)/common/runtest | $(BDIRS)
 $(BINS) $(LIBS): $(B)/common/libtest.a
 $(OBJS): src/common/test.h | $(BDIRS)
 $(BDIRS):
@@ -89,7 +88,7 @@ $(api.OBJS):CFLAGS+=-DX_PS -DX_TPS -DX_SS
 all:$(B)/REPORT
 run:$(B)/REPORT
 clean:
-	rm -f $(OBJS) $(BINS) $(LIBS) $(B)/common/libtest.a $(B)/common/run $(B)/*/*.err
+	rm -f $(OBJS) $(BINS) $(LIBS) $(B)/common/libtest.a $(B)/common/runtest $(B)/*/*.err
 cleanall: clean
 	rm -f $(B)/REPORT $(B)/*/REPORT
 $(B)/REPORT:
@@ -117,7 +116,7 @@ $(B)/%: $(B)/%.o
 %.ld.err: %
 	touch $@
 %.err: %
-	$(B)/common/run ./$< 2>/dev/null >$@ || true
+	$(B)/common/runtest ./$< >$@ || true
 
 .PHONY: all run clean cleanall
 
