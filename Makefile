@@ -4,7 +4,7 @@ OBJS:=$(SRCS:src/%.c=$(B)/%.o)
 DIRS:=$(patsubst src/%/,%,$(sort $(dir $(SRCS))))
 BDIRS:=$(DIRS:%=$(B)/%)
 NAMES:=$(SRCS:src/%.c=%)
-CFLAGS:=-Isrc/common
+CFLAGS:=-Isrc/common -I$(B)/common
 LDLIBS:=$(B)/common/libtest.a
 AR = $(CROSS_COMPILE)ar
 RANLIB = $(CROSS_COMPILE)ranlib
@@ -97,11 +97,15 @@ $(OBJS): src/common/test.h | $(BDIRS)
 $(BDIRS):
 	mkdir -p $@
 
+$(B)/common/options.h: src/common/options.h.in
+	$(CC) -E - <$< | sed -e '1,/optiongroups_unistd_end/d' -e '/^#/d' -e '/^[[:space:]]*$$/d' -e 's/^/#define /' >$@
+
 $(B)/common/mtest.o: src/common/mtest.h
 $(math.OBJS): src/common/mtest.h
 
 $(B)/api/main: $(api.OBJS)
 api/main.OBJS:=$(api.OBJS)
+$(api.OBJS):$(B)/common/options.h
 $(api.OBJS):CFLAGS+=-pedantic-errors -Werror -Wno-unused -D_XOPEN_SOURCE=700
 $(api.OBJS):CFLAGS+=-DX_PS -DX_TPS -DX_SS
 
