@@ -8,6 +8,7 @@ CFLAGS:=-Isrc/common -I$(B)/common
 LDLIBS:=$(B)/common/libtest.a
 AR = $(CROSS_COMPILE)ar
 RANLIB = $(CROSS_COMPILE)ranlib
+RUN_TEST = $(RUN_WRAP) $(B)/common/runtest
 
 all:
 %.mk:
@@ -139,7 +140,7 @@ $(B)/%: $(B)/%.o
 %.ld.err: %
 	touch $@
 %.err: %
-	$(B)/common/runtest ./$< >$@ || true
+	$(RUN_TEST) ./$< >$@ || true
 
 .PHONY: all run clean cleanall
 
