@@ -1,6 +1,7 @@
 B:=src
 SRCS:=$(sort $(wildcard src/*/*.c))
 OBJS:=$(SRCS:src/%.c=$(B)/%.o)
+LOBJS:=$(SRCS:src/%.c=$(B)/%.lo)
 DIRS:=$(patsubst src/%/,%,$(sort $(dir $(SRCS))))
 BDIRS:=$(DIRS:%=$(B)/%)
 NAMES:=$(SRCS:src/%.c=%)
@@ -8,7 +9,7 @@ CFLAGS:=-Isrc/common -I$(B)/common
 LDLIBS:=$(B)/common/libtest.a
 AR = $(CROSS_COMPILE)ar
 RANLIB = $(CROSS_COMPILE)ranlib
-RUN_TEST = $(RUN_WRAP) $(B)/common/runtest
+RUN_TEST = $(RUN_WRAP) $(B)/common/runtest -w '$(RUN_WRAP)'
 
 all:
 %.mk:
@@ -78,7 +79,7 @@ $(B)/$(1)/run: $(B)/$(1)/cleanerr $(B)/$(1)/REPORT
 $(B)/$(1)/cleanerr:
 	rm -f $$(filter-out $(B)/$(1)/%-static.err,$$($(1).ERRS))
 $(B)/$(1)/clean:
-	rm -f $$(filter $(B)/$(1)/%,$$(OBJS) $$(BINS) $$(LIBS)) $(B)/$(1)/*.err
+	rm -f $$(filter $(B)/$(1)/%,$$(OBJS) $$(LOBJS) $$(BINS) $$(LIBS)) $(B)/$(1)/*.err
 $(B)/$(1)/REPORT: $$($(1).ERRS)
 	cat $(B)/$(1)/*.err >$$@
 run: $(B)/$(1)/run
@@ -91,6 +92,8 @@ $(B)/common/libtest.a: $(common.OBJS)
 	rm -f $@
 	$(AR) rc $@ $^
 	$(RANLIB) $@
+
+$(B)/common/all: $(B)/common/runtest
 
 $(ERRS): $(B)/common/runtest | $(BDIRS)
 $(BINS) $(LIBS): $(B)/common/libtest.a
