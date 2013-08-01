@@ -78,7 +78,6 @@ int main(void)
 	TEST(s, strtok(NULL, " ;"), b+16, "%p != %p");
 	TEST_S(s, "foo", "strtok result");
 
-#ifdef HAVE_BSD_STRL
 	memset(b, 'x', sizeof b);
 	TEST(i, strlcpy(b, "abc", sizeof b - 1), 3, "length %d != %d");
 	TEST(i, b[3], 0, "strlcpy did not null-terminate short string (%d)");
@@ -111,6 +110,6 @@ int main(void)
 	memcpy(b, "abc\0\0\0x\0", 8);
 	TEST(i, strlcat(b, "123", 3), 6, "length %d != %d");
 	TEST_S(b, "abc", "strlcat result");
-#endif
+
 	return t_status;
 }
