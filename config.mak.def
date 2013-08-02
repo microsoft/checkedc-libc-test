@@ -5,6 +5,6 @@ LDFLAGS += -g
 LDLIBS += -lpthread -lm -lrt
 
 # glibc specific settings
-CFLAGS += -D_FILE_OFFSET_BITS=64 -D_LARGEFILE_SOURCE
+CFLAGS += -D_FILE_OFFSET_BITS=64
 LDLIBS += -lcrypt -ldl -lresolv -lutil
 
