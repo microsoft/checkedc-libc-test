@@ -119,8 +119,6 @@ int main() {
 	p = root;
 	if (!del((*p)->k))
 		t_error("tdelete root \"%s\" failed (returned 0)\n", (*p)->k);
-	if (root == p)
-		t_error("root remained the same after delete\n");
 
 	return t_status;
 }
