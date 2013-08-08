@@ -1,7 +1,6 @@
 // commit: 59666802fba592a59f2f4ea4dcb053287fd55826 2011-02-15
 // pthread_create should return EAGAIN on failure
 #include <pthread.h>
-#include <stdio.h>
 #include <errno.h>
 #include <string.h>
 #include "test.h"
