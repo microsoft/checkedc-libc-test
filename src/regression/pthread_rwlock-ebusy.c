@@ -11,7 +11,7 @@ static void *tryrdlock(void *arg)
 {
 	int r = pthread_rwlock_tryrdlock(arg);
 	if (r != EBUSY)
-		t_error("tryrdlock for wrlocked lock returned %s, want EBUSY\n", strerror(errno));
+		t_error("tryrdlock for wrlocked lock returned %s, want EBUSY\n", strerror(r));
 	return 0;
 }
 
@@ -19,7 +19,7 @@ static void *trywrlock(void *arg)
 {
 	int r = pthread_rwlock_trywrlock(arg);
 	if (r != EBUSY)
-		t_error("trywrlock for rdlocked lock returned %s, want EBUSY\n", strerror(errno));
+		t_error("trywrlock for rdlocked lock returned %s, want EBUSY\n", strerror(r));
 	return 0;
 }
 
