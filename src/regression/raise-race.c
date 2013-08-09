@@ -58,12 +58,21 @@ int main(void)
 	void *p;
 	int r, i, s;
 
-	signal(SIGRTMIN, handler0);
-	signal(SIGRTMIN+1, handler1);
+	if (signal(SIGRTMIN, handler0) == SIG_ERR)
+		t_error("registering signal handler failed: %s\n", strerror(errno));
+	if (signal(SIGRTMIN+1, handler1) == SIG_ERR)
+		t_error("registering signal handler failed: %s\n", strerror(errno));
 
-	pthread_create(&t, 0, start, 0);
-	for (i = 0; i < 100; i++)
-		pthread_kill(t, SIGRTMIN+1);
-	pthread_join(t,&p);
+	r = pthread_create(&t, 0, start, 0);
+	if (r)
+		t_error("pthread_create failed: %s\n", strerror(r));
+	for (i = 0; i < 100; i++) {
+		r = pthread_kill(t, SIGRTMIN+1);
+		if (r)
+			t_error("phread_kill failed: %s\n", strerror(r));
+	}
+	r = pthread_join(t,&p);
+	if (r)
+		t_error("pthread_join failed: %s\n", strerror(r));
 	return t_status;
 }
