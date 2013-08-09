@@ -1,5 +1,6 @@
 // commit: 370f78f2c80c64b7b0780a01e672494a26b5678e 2011-03-09
-// raise should be robust against forking from a signal handler
+// commit: 0bed7e0acfd34e3fb63ca0e4d99b7592571355a9 2011-03-09
+// raise should be robust against async fork in a signal handler
 #include <pthread.h>
 #include <signal.h>
 #include <errno.h>
