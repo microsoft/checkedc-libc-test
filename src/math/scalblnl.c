@@ -32,7 +32,7 @@ int main(void)
 		y = scalblnl(p->x, p->i);
 		e = fetestexcept(INEXACT|INVALID|DIVBYZERO|UNDERFLOW|OVERFLOW);
 
-		if (!checkexcept(e, p->e, p->r)) {
+		if (!checkexceptall(e, p->e, p->r)) {
 			printf("%s:%d: bad fp exception: %s scalblnl(%La, %lld)=%La, want %s",
 				p->file, p->line, rstr(p->r), p->x, p->i, p->y, estr(p->e));
 			printf(" got %s\n", estr(e));

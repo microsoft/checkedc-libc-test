@@ -24,3 +24,5 @@ T(RN,                            inf,                            inf,       0x1.
 T(RN,                            inf,                           -inf,        0x1.2d97c7f3321d235p+1L,   0x1.b1acd8p-2, INEXACT)
 T(RN,                           -inf,                            inf,      -0x1.921fb54442d1846ap-1L,  -0x1.d9ccecp-3, INEXACT)
 T(RN,                           -inf,                           -inf,       -0x1.2d97c7f3321d235p+1L,  -0x1.b1acd8p-2, INEXACT)
+T(RN,                    0x1p-16383L,                        0x1p+0L,                    0x1p-16383L,          0x0p+0, INEXACT|UNDERFLOW)
+T(RN,                        0x1p+0L,                    0x1p+16383L,                    0x1p-16383L,          0x0p+0, INEXACT|UNDERFLOW)

@@ -64,3 +64,4 @@ T(RN,                      0x1.cp+0L,                        0x1p-1L,           
 T(RN,                     -0x1.cp+0L,                        0x1p-1L,                        0x1p-2L,          0x0p+0, 0)
 T(RN,                      0x1.cp+0L,                       -0x1p-1L,                       -0x1p-2L,          0x0p+0, 0)
 T(RN,                     -0x1.cp+0L,                       -0x1p-1L,                        0x1p-2L,          0x0p+0, 0)
+T(RN,                    0x1p-16383L,                            inf,                    0x1p-16383L,          0x0p+0, 0)

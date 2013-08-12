@@ -33,7 +33,7 @@ int main(void)
 		y = nexttoward(p->x, p->x2);
 		e = fetestexcept(INEXACT|INVALID|DIVBYZERO|UNDERFLOW|OVERFLOW);
 
-		if (!checkexcept(e, p->e, p->r)) {
+		if (!checkexceptall(e, p->e, p->r)) {
 			printf("%s:%d: bad fp exception: %s nexttoward(%La,%La)=%La, want %s",
 				p->file, p->line, rstr(p->r), p->x, p->x2, p->y, estr(p->e));
 			printf(" got %s\n", estr(e));

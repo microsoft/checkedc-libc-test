@@ -102,8 +102,19 @@ float ulperrl(long double got, long double want, float dwant);
 static int checkexcept(int got, int want, int r)
 {
 	if (r == RN)
+#if defined CHECK_INEXACT
+		return got == want;
+#elif defined CHECK_INEXACT_OMISSION
 		return got == want || got == (want|INEXACT);
+#else
+		return (got|INEXACT) == (want|INEXACT);
+#endif
 	return (got|INEXACT|UNDERFLOW) == (want|INEXACT|UNDERFLOW);
+}
+
+static int checkexceptall(int got, int want, int r)
+{
+	return got == want;
 }
 
 static int checkulp(float d, int r)

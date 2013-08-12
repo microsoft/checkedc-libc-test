@@ -27,7 +27,7 @@ int main(void)
 		y = frexp(p->x, &yi);
 		e = fetestexcept(INEXACT|INVALID|DIVBYZERO|UNDERFLOW|OVERFLOW);
 
-		if (!checkexcept(e, p->e, p->r)) {
+		if (!checkexceptall(e, p->e, p->r)) {
 			printf("%s:%d: bad fp exception: %s frexp(%a)=%a,%lld, want %s",
 				p->file, p->line, rstr(p->r), p->x, p->y, p->i, estr(p->e));
 			printf(" got %s\n", estr(e));

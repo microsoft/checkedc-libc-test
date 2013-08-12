@@ -25,7 +25,12 @@ int main(void)
 		y = fma(p->x, p->x2, p->x3);
 		e = fetestexcept(INEXACT|INVALID|DIVBYZERO|UNDERFLOW|OVERFLOW);
 
-		if (!checkexcept(e, p->e, p->r)) {
+		/* do not check inexact by default */
+#if defined CHECK_INEXACT || defined CHECK_INEXACT_OMISSION
+		if (!checkexceptall(e, p->e, p->r)) {
+#else
+		if (!checkexceptall(e|INEXACT, p->e|INEXACT, p->r)) {
+#endif
 			printf("%s:%d: bad fp exception: %s fma(%a,%a,%a)=%a, want %s",
 				p->file, p->line, rstr(p->r), p->x, p->x2, p->x3, p->y, estr(p->e));
 			printf(" got %s\n", estr(e));

@@ -26,7 +26,7 @@ int main(void)
 		y = logbf(p->x);
 		e = fetestexcept(INEXACT|INVALID|DIVBYZERO|UNDERFLOW|OVERFLOW);
 
-		if (!checkexcept(e, p->e, p->r)) {
+		if (!checkexceptall(e, p->e, p->r)) {
 			printf("%s:%d: bad fp exception: %s logbf(%a)=%a, want %s",
 				p->file, p->line, rstr(p->r), p->x, p->y, estr(p->e));
 			printf(" got %s\n", estr(e));
