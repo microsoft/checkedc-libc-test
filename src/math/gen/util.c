@@ -73,7 +73,7 @@ char *dropcomm(char *buf)
 	char *p = buf;
 
 	for (; *p; p++)
-		if (*p == '/' && p[1] == '/') {
+		if ((*p == '/' && p[1] == '/') || *p == '#') {
 			*p = 0;
 			break;
 		}

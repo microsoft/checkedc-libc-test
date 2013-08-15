@@ -11,8 +11,10 @@ T(RN,    -0x1.ffffp-1,          -1, INEXACT)
 T(RN,        0x1p-100,           0, INEXACT)
 T(RN,       -0x1p-100,           0, INEXACT)
 // TODO: return value is unspecified
+#if INVALID
 T(RN,             nan,           0, INVALID)
 T(RN,             inf,           0, INVALID)
 T(RN,            -inf,           0, INVALID)
 T(RN,        0x1p+100,           0, INVALID)
 T(RN,       -0x1p+100,           0, INVALID)
+#endif
