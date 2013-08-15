@@ -62,7 +62,9 @@ static void set()
 	EQ((long)shmid_ds.shm_atime, 0, "got %ld, want %d");
 	EQ((long)shmid_ds.shm_dtime, 0, "got %ld, want %d");
 	if (shmid_ds.shm_ctime < t)
-		t_error("shmid_ds.shm_ctime >= t failed: got %ld, want %ld\n", (long)shmid_ds.shm_ctime, (long)t);
+		t_error("shmid_ds.shm_ctime >= t failed: got %ld, want >= %ld\n", (long)shmid_ds.shm_ctime, (long)t);
+	if (shmid_ds.shm_ctime > t+5)
+		t_error("shmid_ds.shm_ctime <= t+5 failed: got %ld, want <= %ld\n", (long)shmid_ds.shm_ctime, (long)t+5);
 
 	/* test attach */
 	if ((p=shmat(shmid, 0, 0)) == 0)
@@ -72,6 +74,8 @@ static void set()
 	EQ(shmid_ds.shm_lpid, getpid(), "got %d, want %d");
 	if (shmid_ds.shm_atime < t)
 		t_error("shm_atime is %ld want >= %ld\n", (long)shmid_ds.shm_atime, (long)t);
+	if (shmid_ds.shm_atime > t+5)
+		t_error("shm_atime is %ld want <= %ld\n", (long)shmid_ds.shm_atime, (long)t+5);
 	strcpy(p, "test data");
 	T(shmdt(p));
 }

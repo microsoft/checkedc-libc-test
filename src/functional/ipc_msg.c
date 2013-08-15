@@ -64,9 +64,11 @@ static void snd()
 	EQ((long)qid_ds.msg_stime, 0, "got %ld, want %d");
 	EQ((long)qid_ds.msg_rtime, 0, "got %ld, want %d");
 	if (qid_ds.msg_ctime < t)
-		t_error("qid_ds.msg_ctime >= t failed: got %ld, want %ld\n", (long)qid_ds.msg_ctime, (long)t);
+		t_error("qid_ds.msg_ctime >= t failed: got %ld, want >= %ld\n", (long)qid_ds.msg_ctime, (long)t);
+	if (qid_ds.msg_ctime > t+5)
+		t_error("qid_ds.msg_ctime <= t+5 failed: got %ld, want <= %ld\n", (long)qid_ds.msg_ctime, (long)t+5);
 	if (qid_ds.msg_qbytes <= 0)
-		t_error("qid_ds.msg_qbytes > 0 failed: got %d, want 0\n", qid_ds.msg_qbytes, t);
+		t_error("qid_ds.msg_qbytes > 0 failed: got %d, want > 0\n", qid_ds.msg_qbytes, t);
 
 	/* test send */
 	T(msgsnd(qid, &msg, sizeof msg.data, IPC_NOWAIT));
@@ -75,6 +77,8 @@ static void snd()
 	EQ(qid_ds.msg_lspid, getpid(), "got %d, want %d");
 	if (qid_ds.msg_stime < t)
 		t_error("msg_stime is %ld want >= %ld\n", (long)qid_ds.msg_stime, (long)t);
+	if (qid_ds.msg_stime > t+5)
+		t_error("msg_stime is %ld want <= %ld\n", (long)qid_ds.msg_stime, (long)t+5);
 }
 
 static void rcv()
