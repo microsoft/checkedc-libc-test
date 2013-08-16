@@ -43,6 +43,7 @@ static void test_except()
 {
 	#pragma STDC FENV_ACCESS ON
 	int i,r;
+	fenv_t env;
 
 	for (i=0; i < sizeof te/sizeof*te; i++) {
 		feclearexcept(FE_ALL_EXCEPT);
@@ -55,6 +56,23 @@ static void test_except()
 			error("feraiseexcept(%s) want %d got %d\n",
 				te[i].name, te[i].i, r);
 	}
+
+	r = fegetenv(&env);
+	if (r != 0)
+		error("fegetenv(&env) = %d\n", r);
+	i = fetestexcept(FE_ALL_EXCEPT);
+	r = fesetenv(FE_DFL_ENV);
+	if (r != 0)
+		error("fesetenv(FE_DFL_ENV) = %d\n", r);
+	r = fetestexcept(FE_ALL_EXCEPT);
+	if (r != 0)
+		error("fesetenv(FE_DFL_ENV) did not clear exceptions: 0x%x\n", r);
+	r = fesetenv(&env);
+	if (r != 0)
+		error("fesetenv(&env) = %d\n", r);
+	r = fetestexcept(FE_ALL_EXCEPT);
+	if (r != i)
+		error("fesetenv(&env) did not restore exceptions: 0x%x\n", r);
 }
 
 static struct {
@@ -77,6 +95,7 @@ static void test_round()
 {
 	#pragma STDC FENV_ACCESS ON
 	int i,r;
+	fenv_t env;
 
 	for (i=0; i < sizeof tr/sizeof*tr; i++) {
 		if (tr[i].i < 0)
@@ -90,11 +109,28 @@ static void test_round()
 	for (i=0; i < sizeof tr/sizeof*tr; i++) {
 		r = fesetround(tr[i].i);
 		if (r != 0)
-			error("fesetround %d\n", r);
+			error("fesetround(%s) = %d\n", tr[i].name, r);
 		r = fegetround();
 		if (r != tr[i].i)
-			error("fegetround %x wanted %x\n", r, tr[i].i);
+			error("fegetround() = 0x%x, wanted 0x%x (%s)\n", r, tr[i].i, tr[i].name);
 	}
+
+	r = fegetenv(&env);
+	if (r != 0)
+		error("fegetenv(&env) = %d\n", r);
+	i = fegetround();
+	r = fesetenv(FE_DFL_ENV);
+	if (r != 0)
+		error("fesetenv(FE_DFL_ENV) = %d\n", r);
+	r = fegetround();
+	if (r != FE_TONEAREST)
+		error("fesetenv(FE_DFL_ENV) did not set FE_TONEAREST (0x%x), got 0x%x\n", FE_TONEAREST, r);
+	r = fesetenv(&env);
+	if (r != 0)
+		error("fesetenv(&env) = %d\n", r);
+	r = fegetround();
+	if (r != i)
+		error("fesetenv(&env) did not restore 0x%x, got 0x%x\n", i, r);
 }
 
 /* ieee double precision add operation */
