@@ -211,27 +211,30 @@ static void test_bad(void)
 	fexcept_t f;
 	int r;
 
-	r = fetestexcept(1234567);
-	if (r == 0)
-		error("fetestexcept should return non-zero on non-supported exceptions\n");
-	r = feraiseexcept(1234567);
-	if (r == 0)
-		error("feraiseexcept should return non-zero on non-supported exceptions\n");
-	r = feclearexcept(1234567);
-	if (r == 0)
-		error("feclearexcept should return non-zero on non-supported exceptions\n");
+	r = feclearexcept(FE_ALL_EXCEPT);
+	if (r != 0)
+		error("feclearexcept(FE_ALL_EXCEPT) failed\n");
+	r = fetestexcept(-1);
+	if (r != 0)
+		error("fetestexcept(-1) should return 0 when all exceptions are cleared, got %d\n", r);
+	r = feraiseexcept(1234567|FE_ALL_EXCEPT);
+	if (r != 0)
+		error("feraiseexcept returned non-zero for non-supported exceptions: %d\n", r);
+	r = feclearexcept(1234567|FE_ALL_EXCEPT);
+	if (r != 0)
+		error("feclearexcept returned non-zero for non-supported exceptions: %d\n", r);
 	r = fesetround(1234567);
 	if (r == 0)
 		error("fesetround should fail on invalid rounding mode\n");
 	r = fegetexceptflag(&f, 1234567);
-	if (r == 0)
-		error("fegetexceptflag should return non-zero on non-supported exceptions\n");
+	if (r != 0)
+		error("fegetexceptflag returned non-zero for non-supported exceptions: %d\n", r);
 	r = fegetexceptflag(&f, 0);
 	if (r != 0)
 		error("fegetexceptflag(0) failed\n");
 	r = fesetexceptflag(&f, 1234567);
-	if (r == 0)
-		error("fesetexceptflag should return non-zero on non-supported exceptions\n");
+	if (r != 0)
+		error("fesetexceptflag returned non-zero fir non-supported exceptions: %d\n", r);
 }
 
 int main(void)
