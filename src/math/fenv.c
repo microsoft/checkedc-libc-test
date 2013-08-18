@@ -37,6 +37,7 @@ static struct {
 #ifdef FE_UNDERFLOW
 	F(FE_UNDERFLOW),
 #endif
+	{0, 0}
 };
 
 static void test_except()
@@ -45,7 +46,7 @@ static void test_except()
 	int i,r;
 	fenv_t env;
 
-	for (i=0; i < sizeof te/sizeof*te; i++) {
+	for (i=0; te[i].i; i++) {
 		feclearexcept(FE_ALL_EXCEPT);
 
 		r = feraiseexcept(te[i].i);
@@ -57,10 +58,15 @@ static void test_except()
 				te[i].name, te[i].i, r);
 	}
 
+	r = feraiseexcept(FE_ALL_EXCEPT);
+	if (r != 0)
+		error("feraisexcept(FE_ALL_EXCEPT) failed\n");
 	r = fegetenv(&env);
 	if (r != 0)
 		error("fegetenv(&env) = %d\n", r);
-	i = fetestexcept(FE_ALL_EXCEPT);
+	r = fetestexcept(FE_ALL_EXCEPT);
+	if (r != FE_ALL_EXCEPT)
+		error("fetestexcept failed: got 0x%x, want 0x%x (FE_ALL_ECXEPT)\n", r, FE_ALL_EXCEPT);
 	r = fesetenv(FE_DFL_ENV);
 	if (r != 0)
 		error("fesetenv(FE_DFL_ENV) = %d\n", r);
@@ -71,7 +77,7 @@ static void test_except()
 	if (r != 0)
 		error("fesetenv(&env) = %d\n", r);
 	r = fetestexcept(FE_ALL_EXCEPT);
-	if (r != i)
+	if (r != FE_ALL_EXCEPT)
 		error("fesetenv(&env) did not restore exceptions: 0x%x\n", r);
 }
 
@@ -200,10 +206,39 @@ static void test_round_add(void)
 	}
 }
 
+static void test_bad(void)
+{
+	fexcept_t f;
+	int r;
+
+	r = fetestexcept(1234567);
+	if (r == 0)
+		error("fetestexcept should return non-zero on non-supported exceptions\n");
+	r = feraiseexcept(1234567);
+	if (r == 0)
+		error("feraiseexcept should return non-zero on non-supported exceptions\n");
+	r = feclearexcept(1234567);
+	if (r == 0)
+		error("feclearexcept should return non-zero on non-supported exceptions\n");
+	r = fesetround(1234567);
+	if (r == 0)
+		error("fesetround should fail on invalid rounding mode\n");
+	r = fegetexceptflag(&f, 1234567);
+	if (r == 0)
+		error("fegetexceptflag should return non-zero on non-supported exceptions\n");
+	r = fegetexceptflag(&f, 0);
+	if (r != 0)
+		error("fegetexceptflag(0) failed\n");
+	r = fesetexceptflag(&f, 1234567);
+	if (r == 0)
+		error("fesetexceptflag should return non-zero on non-supported exceptions\n");
+}
+
 int main(void)
 {
 	test_except();
 	test_round();
 	test_round_add();
+	test_bad();
 	return test_status;
 }
