@@ -7,3 +7,8 @@ T(RN,                        0x1p+0L,                            inf,          0
 T(RN,                       -0x1p+0L,                           -inf,          0x0p+0, DIVBYZERO)
 T(RN,                   0x1.0001p+0L,                            nan,          0x0p+0, INVALID)
 T(RN,                  -0x1.0001p+0L,                            nan,          0x0p+0, INVALID)
+T(RN,                       0x1p-66L,                       0x1p-66L,          0x0p+0, INEXACT)
+T(RN,                    0x1p-16000L,                    0x1p-16000L,          0x0p+0, INEXACT)
+T(RN,                    0x1p-16384L,                    0x1p-16384L,          0x0p+0, INEXACT|UNDERFLOW)
+T(RN,                   -0x1p-16384L,                   -0x1p-16384L,          0x0p+0, INEXACT|UNDERFLOW)
+T(RN,                    0x1p+16383L,                            nan,          0x0p+0, INVALID)
