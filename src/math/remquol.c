@@ -33,7 +33,7 @@ int main(void)
 			err++;
 		}
 		d = ulperr(y, p->y, p->dy);
-		if (!checkulp(d, p->r) ||
+		if (!checkcr(y, p->y, p->r) ||
 		(!isnan(p->y) && (yi & 7) != (p->i & 7)) ||
 		(!isnan(p->y) && (yi < 0) != (p->i < 0))) {
 			printf("%s:%d: %s remquol(%La,%La) want %La,%lld got %La,%d ulperr %.3f = %a + %a\n",

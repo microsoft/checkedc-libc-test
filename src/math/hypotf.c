@@ -34,7 +34,7 @@ int main(void)
 			err++;
 		}
 		d = ulperrf(y, p->y, p->dy);
-		if (!checkulp(d, p->r)) {
+		if (!checkulp(d, p->r) || (p->r == RN && fabs(d) >= 1.0)) {
 			printf("%s:%d: %s hypotf(%a,%a) want %a got %a ulperr %.3f = %a + %a\n",
 				p->file, p->line, rstr(p->r), p->x, p->x2, p->y, y, d, d-p->dy, p->dy);
 			err++;
