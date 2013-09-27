@@ -2,6 +2,7 @@
 #include <sys/mman.h>
 #include <fcntl.h>
 #include <unistd.h>
+#include <limits.h>
 #include "test.h"
 #ifndef PAGE_SIZE
 	#define PAGE_SIZE sysconf(_SC_PAGE_SIZE)
