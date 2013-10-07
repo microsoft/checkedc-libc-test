@@ -39,7 +39,8 @@ int main(void)
 			err++;
 		}
 		d = ulperrl(y, p->y, p->dy);
-		if (!checkulp(d, p->r)) {
+		// TODO: 2 ulp errors allowed
+		if (p->r==RN && fabs(d)>2) {
 			printf("%s:%d: %s tgammal(%La) want %La got %La ulperr %.3f = %a + %a\n",
 				p->file, p->line, rstr(p->r), p->x, p->y, y, d, d-p->dy, p->dy);
 			err++;

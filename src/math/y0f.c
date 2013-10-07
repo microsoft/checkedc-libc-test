@@ -36,9 +36,12 @@ int main(void)
 		}
 		d = ulperrf(y, p->y, p->dy);
 		if ((!(p->x < 0) && !checkulp(d, p->r)) || (p->x < 0 && !isnan(y) && y != -inf)) {
-			printf("%s:%d: %s y0f(%a) want %a got %a ulperr %.3f = %a + %a\n",
-				p->file, p->line, rstr(p->r), p->x, p->y, y, d, d-p->dy, p->dy);
+//			printf("%s:%d: %s y0f(%a) want %a got %a ulperr %.3f = %a + %a\n",
+//				p->file, p->line, rstr(p->r), p->x, p->y, y, d, d-p->dy, p->dy);
 			err++;
+			// TODO: avoid spamming the output
+			printf(__FILE__ ": known to be broken near zeros\n");
+			break;
 		}
 	}
 	return !!err;
