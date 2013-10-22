@@ -94,10 +94,9 @@ int main(void)
 if (inet_pton(12345, "", 0) != -1 || errno != EAFNOSUPPORT)
 	t_error("inet_pton(12345,,) should fail with EAFNOSUPPORT, got %s\n", strerror(errno));
 errno=0;
-if (inet_ntop(AF_INET,"xxxx",0,0) != -1 || errno != ENOSPC)
+if (inet_ntop(AF_INET,"xxxx","",0) != 0 || errno != ENOSPC)
 	t_error("inet_ntop(,,0,0) should fail with ENOSPC, got %s\n", strerror(errno));
 errno=0;
-
 
 // dotted-decimal notation
 V4("0.0.0.0", 1, "00000000")
