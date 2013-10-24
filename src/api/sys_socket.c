@@ -28,6 +28,11 @@ F(socklen_t,msg_controllen)
 F(int,msg_flags)
 }
 {
+struct iovec x;
+F(void *,iov_base)
+F(size_t,iov_len)
+}
+{
 struct cmsghdr x;
 F(socklen_t,cmsg_len)
 F(int,cmsg_level)

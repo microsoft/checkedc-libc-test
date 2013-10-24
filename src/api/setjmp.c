@@ -10,4 +10,8 @@ T(sigjmp_buf)
 {void(*p)(sigjmp_buf,int) = siglongjmp;}
 {int(*p)(sigjmp_buf,int) = sigsetjmp;}
 #endif
+#if defined _XOPEN_SOURCE && defined OBSOLETE
+{void(*p)(jmp_buf,int) = _longjmp;}
+{int(*p)(jmp_buf) = _setjmp;}
+#endif
 }

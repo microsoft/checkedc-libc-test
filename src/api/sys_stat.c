@@ -15,8 +15,11 @@ T(uid_t)
 T(gid_t)
 T(off_t)
 T(time_t)
-T(struct timespec)
-
+{
+struct timespec x;
+F(time_t,tv_sec)
+F(long,tv_nsec)
+}
 {
 struct stat x;
 F(dev_t, st_dev)

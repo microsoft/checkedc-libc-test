@@ -7,8 +7,9 @@ static void f()
 T(size_t)
 T(ACTION)
 T(VISIT)
+T(ENTRY)
 {
-ENTRY x;
+struct entry x;
 F(char*,key)
 F(void*,data)
 }

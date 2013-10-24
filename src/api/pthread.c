@@ -133,6 +133,10 @@ C(PTHREAD_SCOPE_SYSTEM)
 {pthread_t(*p)(void) = pthread_self;}
 {int(*p)(int,int*) = pthread_setcancelstate;}
 {int(*p)(int,int*) = pthread_setcanceltype;}
+#if defined _XOPEN_SOURCE && defined OBSOLETE
+{int(*p)(void) = pthread_getconcurrency;}
+{int(*p)(int) = pthread_setconcurrency;}
+#endif
 {int(*p)(pthread_t,int) = pthread_setschedprio;}
 {int(*p)(pthread_key_t,const void*) = pthread_setspecific;}
 {int(*p)(pthread_spinlock_t*) = pthread_spin_destroy;}

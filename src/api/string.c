@@ -3,6 +3,7 @@
 static void f()
 {
 T(size_t)
+{void *x=NULL;}
 {void*(*p)(const void*,int,size_t) = memchr;}
 {int(*p)(const void*,const void*,size_t) = memcmp;}
 {void*(*p)(void*restrict,const void*restrict,size_t) = memcpy;}

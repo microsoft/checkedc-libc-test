@@ -46,7 +46,6 @@ C(TIMER_ABSTIME)
 {char*(*p)(const struct tm*) = asctime;}
 {clock_t(*p)(void) = clock;}
 {char*(*p)(const time_t*) = ctime;}
-{int i = daylight;}
 {double(*p)(time_t,time_t) = difftime;}
 {struct tm*(*p)(const time_t*) = gmtime;}
 {struct tm*(*p)(const time_t*) = localtime;}
@@ -65,6 +64,7 @@ C(TIMER_ABSTIME)
 {struct tm*(*p)(const time_t*restrict,struct tm*restrict) = localtime_r;}
 {int(*p)(const struct timespec*,struct timespec*) = nanosleep;}
 {size_t(*p)(char*restrict,size_t,const char*restrict,const struct tm*restrict,locale_t) = strftime_l;}
+{int(*p)(clockid_t,struct sigevent*restrict,timer_t*restrict) = timer_create;}
 {int(*p)(timer_t) = timer_delete;}
 {int(*p)(timer_t) = timer_getoverrun;}
 {int(*p)(timer_t,struct itimerspec*) = timer_gettime;}
@@ -77,12 +77,6 @@ C(TIMER_ABSTIME)
 {int i = getdate_err;}
 {char*(*p)(const char*restrict,const char*restrict,struct tm*restrict) = strptime;}
 {long i = timezone;}
+{int i = daylight;}
 #endif
 }
-#ifdef _POSIX_C_SOURCE
-#include <signal.h>
-static void g()
-{
-{int(*p)(clockid_t,struct sigevent*restrict,timer_t*restrict) = timer_create;}
-}
-#endif

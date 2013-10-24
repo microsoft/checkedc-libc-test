@@ -32,9 +32,7 @@ F(char,p_sep_by_space)
 F(char,p_sign_posn)
 F(char*,thousands_sep)
 }
-#ifndef NULL
-#error no NULL
-#endif
+{void *x=NULL;}
 C(LC_ALL)
 C(LC_COLLATE)
 C(LC_CTYPE)

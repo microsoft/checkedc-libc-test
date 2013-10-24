@@ -4,6 +4,7 @@
 #define C(n) switch(n){case n:;}
 static void f()
 {
+T(time_t)
 T(suseconds_t)
 T(fd_set)
 {

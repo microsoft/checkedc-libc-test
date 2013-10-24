@@ -5,6 +5,7 @@
 static void f()
 {
 T(rlim_t)
+T(id_t)
 T(struct timeval)
 C(PRIO_PROCESS)
 C(PRIO_PGRP)

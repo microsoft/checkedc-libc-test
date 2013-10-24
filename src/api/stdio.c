@@ -14,6 +14,9 @@ T(ssize_t)
 T(va_list)
 C(L_ctermid)
 #endif
+#ifdef OBSOLETE
+C(L_tmpnam)
+#endif
 C(_IOFBF)
 C(_IOLBF)
 C(_IONBF)

@@ -6,6 +6,7 @@
 static void f()
 {
 T(size_t)
+T(mode_t)
 T(DBM)
 {
 datum x;
