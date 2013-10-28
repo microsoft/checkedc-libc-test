@@ -102,6 +102,8 @@ static void test_round()
 	#pragma STDC FENV_ACCESS ON
 	int i,r;
 	fenv_t env;
+	volatile float two100 = 0x1p100;
+	volatile float x;
 
 	for (i=0; i < sizeof tr/sizeof*tr; i++) {
 		if (tr[i].i < 0)
@@ -121,6 +123,11 @@ static void test_round()
 			error("fegetround() = 0x%x, wanted 0x%x (%s)\n", r, tr[i].i, tr[i].name);
 	}
 
+#ifdef FE_UPWARD
+	r = fesetround(FE_UPWARD);
+	if (r != 0)
+		error("fesetround(FE_UPWARD) failed\n");
+#endif
 	r = fegetenv(&env);
 	if (r != 0)
 		error("fegetenv(&env) = %d\n", r);
@@ -131,12 +138,24 @@ static void test_round()
 	r = fegetround();
 	if (r != FE_TONEAREST)
 		error("fesetenv(FE_DFL_ENV) did not set FE_TONEAREST (0x%x), got 0x%x\n", FE_TONEAREST, r);
+	x = two100 + 1;
+	if (x != two100)
+		error("fesetenv(FE_DFL_ENV) did not set FE_TONEAREST, arithmetics rounds upward\n");
+	x = two100 - 1;
+	if (x != two100)
+		error("fesetenv(FE_DFL_ENV) did not set FE_TONEAREST, arithmetics rounds downward or tozero\n");
 	r = fesetenv(&env);
 	if (r != 0)
 		error("fesetenv(&env) = %d\n", r);
 	r = fegetround();
 	if (r != i)
 		error("fesetenv(&env) did not restore 0x%x, got 0x%x\n", i, r);
+#ifdef FE_UPWARD
+	x = two100 + 1;
+	if (x == two100)
+		error("fesetenv did not restore upward rounding\n");
+#endif
+
 }
 
 /* ieee double precision add operation */
