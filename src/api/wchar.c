@@ -19,7 +19,7 @@ C(WCHAR_MIN)
 C(WEOF)
 {void *x=NULL;}
 {wint_t(*p)(int) = btowc;}
-{wint_t(FILE*) = fgetwc;}
+{wint_t(*p)(FILE*) = fgetwc;}
 {wchar_t*(*p)(wchar_t*restrict,int,FILE*restrict) = fgetws;}
 {wint_t(*p)(wchar_t,FILE*) = fputwc;}
 {int(*p)(const wchar_t*restrict,FILE*restrict) = fputws;}
