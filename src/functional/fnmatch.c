@@ -23,15 +23,17 @@ static char *flagstr(const struct xlat *map, int flags)
 {
 	static char buf[1000];
 	char *sep;
+	int n;
 
 	if (!flags) {
 		sprintf(buf, "0");
 		return buf;
 	}
+	n = 0;
 	sep = "";
 	for (; map->str; map++) {
 		if (map->val && (flags & map->val) == map->val) {
-			sprintf(buf, "%s%s", sep, map->str);
+			n += sprintf(buf+n, "%s%s", sep, map->str);
 			sep = "|";
 			flags &= ~(map->val);
 		}
@@ -116,6 +118,15 @@ struct {
 	{ "a?b", "a.b", FNM_PATHNAME|FNM_PERIOD, 0 },
 	{ "a*b", "a.b", FNM_PATHNAME|FNM_PERIOD, 0 },
 	{ "a[.]b", "a.b", FNM_PATHNAME|FNM_PERIOD, 0 },
+
+	/* posix 2008 is unclear about these cases */
+	{ "\\", "\\", 0, 0 },
+	{ "\\", "", 0, FNM_NOMATCH },
+
+	/* musl bug fixed in da0fcdb8e913ca7cdf8931328f2b37e93309b2c5 */
+	{ "/", "\0", FNM_PATHNAME, FNM_NOMATCH },
+	/* musl bug fixed in 6ec82a3b58ee1b873ff0dfad8fa9d41c3d25dcc0 */
+	{ "\\/", "/", FNM_PATHNAME, 0 },
 };
 
 int main(void)
