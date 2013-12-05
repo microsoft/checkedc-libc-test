@@ -1,3 +1,4 @@
+#include <stdint.h>
 #include <stdlib.h>
 #include <string.h>
 #include <search.h>
@@ -11,6 +12,8 @@
 }while(0)
 
 #define get(k) hsearch((ENTRY){.key = k, .data = 0}, FIND)
+
+#define getdata(e) ((intptr_t)(e)->data)
 
 int main()
 {
@@ -35,14 +38,14 @@ int main()
 	if (get("c"))
 		t_error("hsearch FIND c should fail\n");
 	set("g", 10);
-	if (e && (int)(e->data) != 7)
-		t_error("hsearch ENTER g 10 returned data %d, wanted 7\n", (int)(e->data));
+	if (e && getdata(e) != 7)
+		t_error("hsearch ENTER g 10 returned data %d, wanted 7\n", getdata(e));
 	set("g", 10);
-	if (e && (int)(e->data) != 7)
-		t_error("hsearch ENTER g 10 returned data %d, wanted 7\n", (int)(e->data));
+	if (e && getdata(e) != 7)
+		t_error("hsearch ENTER g 10 returned data %d, wanted 7\n", getdata(e));
 	set("j", 10);
-	if (e && (int)(e->data) != 10)
-		t_error("hsearch ENTER j 10 returned data %d, wanted 10\n", (int)(e->data));
+	if (e && getdata(e) != 10)
+		t_error("hsearch ENTER j 10 returned data %d, wanted 10\n", getdata(e));
 	hdestroy();
 	return t_status;
 }
