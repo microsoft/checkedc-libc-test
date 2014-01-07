@@ -107,7 +107,7 @@ $(B)/common/options.h: src/common/options.h.in
 $(B)/common/mtest.o: src/common/mtest.h
 $(math.OBJS): src/common/mtest.h
 
-$(B)/api/main: $(api.OBJS)
+$(B)/api/main.exe: $(api.OBJS)
 api/main.OBJS:=$(api.OBJS)
 $(api.OBJS):$(B)/common/options.h
 $(api.OBJS):CFLAGS+=-pedantic-errors -Werror -Wno-unused -D_XOPEN_SOURCE=700
