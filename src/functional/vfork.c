@@ -36,22 +36,6 @@ static void test_exit(int code)
 	TEST(WEXITSTATUS(r) == code, "child exited with %d, expected %d\n", WEXITSTATUS(r), code);
 }
 
-static void test_kill(int sig)
-{
-	pid_t pid;
-	if((pid = vfork()) == 0) {
-		raise(sig);
-		t_error("raise failed: %s\n", strerror(errno));
-	}
-	if (pid == -1) {
-		t_error("vfork failed: %s\n", strerror(errno));
-		return;
-	}
-	int r = w(pid);
-	TEST(WIFSIGNALED(r), "child did not get killed\n");
-	TEST(WTERMSIG(r) == sig, "child is killed by %d, expected %d\n", WTERMSIG(r), sig);
-}
-
 static int sh(const char *cmd)
 {
 	pid_t pid;
@@ -84,9 +68,8 @@ static void test_shell_kill(const char *cmd, int sig)
 int main() {
 	test_exit(0);
 	test_exit(1);
-	test_kill(SIGKILL);
 	test_shell_exit("exit 0", 0);
 	test_shell_exit("exit 1", 1);
-	test_shell_kill("kill -s HUP $$", SIGHUP);
+	test_shell_kill("kill -9 $$", 9);
 	return t_status;
 }
