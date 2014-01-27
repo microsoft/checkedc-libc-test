@@ -12,7 +12,7 @@ int main()
 		unsigned long addr;
 	} *t;
 
-	h = dlopen("./tls_align_dso.so", RTLD_LAZY);
+	h = dlopen("src/functional/tls_align_dso.so", RTLD_LAZY);
 	if (!h)
 		t_error("dlopen failed\n");
 	t = dlsym(h, "t");
