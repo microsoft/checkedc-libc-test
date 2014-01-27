@@ -8,7 +8,7 @@ T=$(wildcard t*.c)
 CC=musl-gcc
 #CC=gcc
 
-all: gen check mgen tof toa toe tox next prev rnd
+all: gen check mgen tof toa toe tog tox next prev rnd
 
 %:%.o
 %:%.c
@@ -24,5 +24,5 @@ mgen: gen.c util.c mplibm.c
 	$(CC) -o $@ $(CFLAGS) -lm $^
 
 clean:
-	rm -f gen check mgen tof toa toe tox next prev rnd
+	rm -f gen check mgen tof toa toe tog tox next prev rnd
 
