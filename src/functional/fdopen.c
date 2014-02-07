@@ -1,6 +1,3 @@
-#ifndef _XOPEN_SOURCE
-#define _XOPEN_SOURCE 700
-#endif
 #include <errno.h>
 #include <stdio.h>
 #include <stdlib.h>
