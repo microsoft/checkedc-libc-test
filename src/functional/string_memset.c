@@ -63,6 +63,7 @@ int main(void)
 	test_value('c');
 	test_value(0);
 	test_value(-1);
+	test_value(-5);
 	test_value(0xab);
 	return t_status;
 }
