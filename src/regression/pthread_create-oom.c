@@ -15,11 +15,8 @@ int main(void)
 	pthread_t td;
 	int r, arg;
 
-	r = t_vmfill(0, 0, 0);
-	if (r <= 0) {
-		t_error("fatal: vmfill has failed\n");
-		return 1;
-	}
+	if (t_memfill() < 0)
+		t_error("memfill failed\n");
 	r = pthread_create(&td, 0, start, &arg);
 	if (r == 0)
 		t_error("pthread_create succeeded\n");

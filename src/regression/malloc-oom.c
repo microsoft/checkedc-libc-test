@@ -6,8 +6,8 @@
 
 int main(void)
 {
-	if (t_vmfill(0,0,0) < 0)
-		t_error("vmfill failed: %s\n", strerror(errno));
+	if (t_memfill() < 0)
+		t_error("memfill failed\n");
 
 	errno = 0;
 	if (malloc(50000))

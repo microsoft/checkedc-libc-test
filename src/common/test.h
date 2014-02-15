@@ -11,6 +11,7 @@ extern volatile int t_status;
 int t_printf(const char *s, ...);
 
 int t_vmfill(void **, size_t *, int);
+int t_memfill(void);
 
 void t_fdfill(void);
 
