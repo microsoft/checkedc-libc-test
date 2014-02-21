@@ -3,8 +3,15 @@
 #include "mtest.h"
 
 static struct ll_li t[] = {
+#if LDBL_MANT_DIG == 53
+#include "sanity/remquo.h"
+#include "special/remquo.h"
+
+#elif LDBL_MANT_DIG == 64
 #include "sanity/remquol.h"
 #include "special/remquol.h"
+
+#endif
 };
 
 int main(void)
