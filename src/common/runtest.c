@@ -76,6 +76,8 @@ int main(int argc, char *argv[])
 	if (sigtimedwait(&set, 0, &(struct timespec){timeoutsec,0}) == -1) {
 		if (errno == EAGAIN)
 			timeout = 1;
+		else
+			t_error("%s sigtimedwait failed: %s\n", argv[0], strerror(errno));
 		if (kill(pid, SIGKILL) == -1)
 			t_error("%s kill failed: %s\n", argv[0], strerror(errno));
 	}
