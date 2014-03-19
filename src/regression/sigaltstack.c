@@ -4,7 +4,6 @@
 // mips stack_t is inconsistent with other archs
 #define _XOPEN_SOURCE 700
 #include <signal.h>
-#include <setjmp.h>
 #include <stdlib.h>
 #include <string.h>
 #include <errno.h>
@@ -13,18 +12,11 @@
 #define T(f) ((f)==0 || (t_error(#f " failed: %s\n", strerror(errno)),0))
 
 static char stack[SIGSTKSZ];
-static sigjmp_buf sbuf;
-static volatile sig_atomic_t state;
 
 static void handler(int sig)
 {
 	uintptr_t i;
 	stack_t ss;
-
-	if (state!=1)
-		t_error("handler is not invoked in fillstack (after sigsetjmp returned 0), "
-			"state is %d, want 1\n", state);
-	state++;
 
 	i = (uintptr_t)&i;
 	if (i < (uintptr_t)stack || i >= (uintptr_t)stack+SIGSTKSZ)
@@ -33,18 +25,6 @@ static void handler(int sig)
 	T(sigaltstack(0, &ss));
 	if (ss.ss_flags != SS_ONSTACK)
 		t_error("ss_flags is not SS_ONSTACK in the signal handler\n");
-
-	siglongjmp(sbuf, 1);
-}
-
-static unsigned fillstack(unsigned x)
-{
-	x++;
-	if (x==0) {
-		t_error("wrap around\n");
-		return x;
-	}
-	return fillstack(fillstack(x)) + 1;
 }
 
 int main(void)
@@ -60,15 +40,8 @@ int main(void)
 
 	T(sigaltstack(&ss, 0));
 	T(sigfillset(&sa.sa_mask));
-	T(sigaction(SIGSEGV, &sa, 0));
-	if (sigsetjmp(sbuf,0) == 0) {
-		state++;
-		fillstack(0);
-		t_error("infinite recursion finished\n");
-	}
-	if (state != 2)
-		t_error("sigsetjmp returned non-zero before running handler, "
-			"state is %d, want 2\n", state);
+	T(sigaction(SIGUSR1, &sa, 0));
+	T(raise(SIGUSR1));
 
 	errno = 0;
 	ss.ss_size = MINSIGSTKSZ-1;
