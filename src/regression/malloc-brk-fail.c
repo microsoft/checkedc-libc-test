@@ -2,6 +2,7 @@
 #include <stdlib.h>
 #include <errno.h>
 #include <string.h>
+#include <sys/mman.h>
 #include <sys/resource.h>
 #include "test.h"
 
