@@ -1,4 +1,7 @@
 // memmem should not access oob data
+#ifndef _GNU_SOURCE
+#define _GNU_SOURCE
+#endif
 #include <string.h>
 #include "test.h"
 
