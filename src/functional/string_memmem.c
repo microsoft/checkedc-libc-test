@@ -4,11 +4,12 @@
 #include <string.h>
 #include "test.h"
 
-#define N(s, sub) { \
-	char *p = s; \
-	char *q = memmem(p, strlen(p), sub, strlen(sub)); \
+#define N(s, tail, sub) { \
+	char *p = s tail; \
+	char *q = memmem(p, strlen(s), sub, strlen(sub)); \
 	if (q) \
-		t_error("memmem(%s,%s) returned str+%d, wanted 0\n", #s, #sub, q-p); \
+		t_error("memmem("#s" "#tail", %d, "#sub", %d) returned str+%d, wanted 0\n",\
+			strlen(s), strlen(sub), q-p); \
 }
 
 #define T(s, sub, n) { \
@@ -22,17 +23,19 @@
 
 int main(void)
 {
-	N("", "a")
-	N("a", "aa")
-	N("a", "b")
-	N("aa", "ab")
-	N("aa", "aaa")
-	N("abba", "aba")
-	N("abc abc", "abcd")
-	N("0-1-2-3-4-5-6-7-8-9", "-3-4-56-7-8-")
-	N("0-1-2-3-4-5-6-7-8-9", "-3-4-5+6-7-8-")
-	N("_ _ _\xff_ _ _", "_\x7f_")
-	N("_ _ _\x7f_ _ _", "_\xff_")
+	N("","a", "a")
+	N("a","a", "aa")
+	N("a","b", "b")
+	N("aa","b", "ab")
+	N("aa","a", "aaa")
+	N("aba","b", "bab")
+	N("abba","b", "bab")
+	N("abba","ba", "aba")
+	N("abc abc","d", "abcd")
+	N("0-1-2-3-4-5-6-7-8-9","", "-3-4-56-7-8-")
+	N("0-1-2-3-4-5-6-7-8-9","", "-3-4-5+6-7-8-")
+	N("_ _ _\xff_ _ _","\x7f_", "_\x7f_")
+	N("_ _ _\x7f_ _ _","\xff_", "_\xff_")
 
 	T("", "", 0)
 	T("abcd", "", 0)

@@ -1,20 +1,38 @@
 #include <string.h>
 #include "test.h"
 
+static char buf[512];
+
+static void *aligned(void *p)
+{
+	return (void*)(((uintptr_t)p + 63) & -64U);
+}
+
+static void *aligncpy(void *p, size_t len, size_t a)
+{
+	return memcpy(aligned(buf)+a, p, len);
+}
+
 #define N(s, c) { \
-	char *p = s; \
-	char *q = strchr(p, c); \
-	if (q) \
-		t_error("strchr(%s,%s) returned str+%d, wanted 0\n", #s, #c, q-p); \
+	int align; \
+	for (align=0; align<8; align++) { \
+		char *p = aligncpy(s, sizeof s, align); \
+		char *q = strchr(p, c); \
+		if (q) \
+			t_error("strchr(%s,%s) with align=%d returned str+%d, wanted 0\n", #s, #c, align, q-p); \
+	} \
 }
 
 #define T(s, c, n) { \
-	char *p = s; \
-	char *q = strchr(p, c); \
-	if (q == 0) \
-		t_error("strchr(%s,%s) returned 0, wanted str+%d\n", #s, #c, n); \
-	else if (q - p != n) \
-		t_error("strchr(%s,%s) returned str+%d, wanted str+%d\n", #s, #c, q-p, n); \
+	int align; \
+	for (align=0; align<8; align++) { \
+		char *p = aligncpy(s, sizeof s, align); \
+		char *q = strchr(p, c); \
+		if (q == 0) \
+			t_error("strchr(%s,%s) with align=%d returned 0, wanted str+%d\n", #s, #c, align, n); \
+		else if (q - p != n) \
+			t_error("strchr(%s,%s) with align=%d returned str+%d, wanted str+%d\n", #s, #c, align, q-p, n); \
+	} \
 }
 
 int main(void)
@@ -28,9 +46,11 @@ int main(void)
 	for (i = 0; i < 256; i++)
 		*((unsigned char*)s+i) = i+1;
 
-	N("", 'a')
-	N("a", 'b')
-	N("abc abc", 'x')
+	N("\0aaa", 'a')
+	N("a\0bb", 'b')
+	N("ab\0c", 'c')
+	N("abc\0d", 'd')
+	N("abc abc\0x", 'x')
 	N(a, 128)
 	N(a, 255)
 
@@ -38,12 +58,12 @@ int main(void)
 	T("a", 'a', 0)
 	T("a", 'a'+256, 0)
 	T("a", 0, 1)
-	T("ab", 'b', 1)
-	T("aab", 'b', 2)
-	T("aaab", 'b', 3)
-	T("aaaab", 'b', 4)
-	T("aaaaab", 'b', 5)
-	T("aaaaaab", 'b', 6)
+	T("abb", 'b', 1)
+	T("aabb", 'b', 2)
+	T("aaabb", 'b', 3)
+	T("aaaabb", 'b', 4)
+	T("aaaaabb", 'b', 5)
+	T("aaaaaabb", 'b', 6)
 	T("abc abc", 'c', 2)
 	T(s, 1, 0)
 	T(s, 2, 1)
