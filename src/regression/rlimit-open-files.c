@@ -19,7 +19,7 @@ int main(void)
 		t_error("setrlimit(%d, %ld) failed: %s\n", r, lim, strerror(errno));
 	if (getrlimit(r, &rl))
 		t_error("getrlimit(%d) failed: %s\n", r, strerror(errno));
-	if (lim != rl.rlim_max || lim != rl.rlim_cur)
+	if (rl.rlim_max != lim || rl.rlim_cur != lim)
 		t_error("getrlimit %d says cur=%ld,max=%ld after setting the limit to %ld\n", r, rl.rlim_cur, rl.rlim_max, lim);
 
 	while((fd=dup(1)) != -1)
