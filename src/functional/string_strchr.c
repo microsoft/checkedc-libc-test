@@ -10,7 +10,7 @@ static void *aligned(void *p)
 
 static void *aligncpy(void *p, size_t len, size_t a)
 {
-	return memcpy(aligned(buf)+a, p, len);
+	return memcpy((char*)aligned(buf)+a, p, len);
 }
 
 #define N(s, c) { \
