@@ -1,3 +1,6 @@
+#ifndef _XOPEN_SOURCE
+#define _XOPEN_SOURCE 700
+#endif
 #include <stdlib.h>
 #include <search.h>
 #include "test.h"
