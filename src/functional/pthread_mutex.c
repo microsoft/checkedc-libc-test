@@ -18,6 +18,10 @@ static void *relock(void *arg)
 	E(sem_post(a[1]));
 	*(int*)a[2] = pthread_mutex_lock(a[0]);
 	E(sem_post(a[1]));
+
+	T(pthread_mutex_unlock(a[0]));
+	if (*(int*)a[2] == 0)
+		T(pthread_mutex_unlock(a[0]));
 	return 0;
 }
 
@@ -36,6 +40,7 @@ static int test_relock(int mtype)
 	T(pthread_mutexattr_init(&ma));
 	T(pthread_mutexattr_settype(&ma, mtype));
 	T(pthread_mutex_init(a[0], &ma));
+	T(pthread_mutexattr_destroy(&ma));
 	E(sem_init(a[1], 0, 0));
 	T(pthread_create(&t, 0, relock, a));
 	E(sem_wait(a[1]));
@@ -49,11 +54,11 @@ static int test_relock(int mtype)
 	if (r == -1) {
 		if (errno != ETIMEDOUT)
 			t_error("sem_timedwait failed with unexpected error: %s\n", strerror(errno));
+		/* leave the deadlocked relock thread running */
 		return -1;
 	}
 	T(pthread_join(t, &p));
 	T(pthread_mutex_destroy(a[0]));
-	T(pthread_mutexattr_destroy(&ma));
 	E(sem_destroy(a[1]));
 	return i;
 }
@@ -79,10 +84,10 @@ static int test_unlock(int mtype)
 	T(pthread_mutexattr_init(&ma));
 	T(pthread_mutexattr_settype(&ma, mtype));
 	T(pthread_mutex_init(a[0], &ma));
+	T(pthread_mutexattr_destroy(&ma));
 	T(pthread_create(&t, 0, unlock, a));
 	T(pthread_join(t, &p));
 	T(pthread_mutex_destroy(a[0]));
-	T(pthread_mutexattr_destroy(&ma));
 	return i;
 }
 
@@ -99,11 +104,12 @@ static int test_unlock_other(int mtype)
 	T(pthread_mutexattr_init(&ma));
 	T(pthread_mutexattr_settype(&ma, mtype));
 	T(pthread_mutex_init(a[0], &ma));
+	T(pthread_mutexattr_destroy(&ma));
 	T(pthread_mutex_lock(a[0]));
 	T(pthread_create(&t, 0, unlock, a));
 	T(pthread_join(t, &p));
+	T(pthread_mutex_unlock(a[0]));
 	T(pthread_mutex_destroy(a[0]));
-	T(pthread_mutexattr_destroy(&ma));
 	return i;
 }
 
@@ -122,6 +128,7 @@ static void test_mutexattr()
 	T(pthread_mutexattr_gettype(&a, &i));
 	if (i != PTHREAD_MUTEX_ERRORCHECK)
 		t_error("setting error check mutex type failed failed: got %d, wanted %d\n", i, PTHREAD_MUTEX_ERRORCHECK);
+	T(pthread_mutexattr_destroy(&a));
 }
 
 int main(void)
