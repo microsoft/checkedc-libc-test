@@ -73,7 +73,7 @@ static unsigned volatile phase;
 static void settimeout(struct timespec *ts)
 {
   if (clock_gettime(CLOCK_REALTIME, ts))
-    t_error("clock_gettime failed: %s\n", errorstring(errno));
+    t_error("clock_gettime failed: %s\n", strerror(errno));
   ts->tv_nsec += 500*1000*1000;
 }
 
