@@ -75,6 +75,10 @@ static void settimeout(struct timespec *ts)
   if (clock_gettime(CLOCK_REALTIME, ts))
     t_error("clock_gettime failed: %s\n", strerror(errno));
   ts->tv_nsec += 500*1000*1000;
+  if (ts->tv_nsec >= 1000*1000*1000) {
+    ts->tv_nsec -= 1000*1000*1000;
+    ts->tv_sec++;
+  }
 }
 
 static thread_ret client(void *arg) {
