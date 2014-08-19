@@ -16,8 +16,11 @@ int main(void)
 	}
 
 	n = regexec(&r, "k", 0, 0, REG_NOSUB);
-	if (n != REG_NOMATCH)
-		t_error("regexec returned %d, [^aa-z] must not match on \"k\"\n", n);
+	if (n != REG_NOMATCH) {
+		regerror(n, &r, buf, sizeof buf);
+		t_error("regexec(/[^aa-z]/ ~ \"k\") returned %d (%s), wanted REG_NOMATCH\n",
+			n, buf);
+	}
 
 	regfree(&r);
 
