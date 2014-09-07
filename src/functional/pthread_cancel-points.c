@@ -25,7 +25,6 @@ static void prepare_sem(void *arg)
 
 static void cleanup_sem(void *arg)
 {
-	TESTR(sem_post(&sem_test), "posting semaphore");
 	TESTR(sem_destroy(&sem_test), "destroying semaphore");
 }
 
@@ -59,11 +58,12 @@ static void prepare_thread(void *arg)
 static void cleanup_thread(void *arg)
 {
 	void *res;
+	if (td_test) {
+		TESTR(sem_post(&sem_test), "posting semaphore");
+		TESTR(pthread_join(td_test, &res), "joining auxiliary thread");
+		TESTC(res == 0, "auxiliary thread exit status");
+	}
 	cleanup_sem(arg);
-	if (!td_test)
-		return;
-	TESTR(pthread_join(td_test, &res), "joining auxiliary thread");
-	TESTC(res == 0, "auxiliary thread exit status");
 }
 
 static void execute_thread_join(void *arg)
@@ -85,7 +85,8 @@ static void execute_shm_open(void *arg)
 static void cleanup_shm(void *arg)
 {
 	int *fd = arg;
-	TESTE(close(*fd), "shm fd");
+	if (*fd != -1)
+		TESTE(close(*fd), "shm fd");
 	TESTE(shm_unlink("/testshm"), "");
 }
 
