@@ -28,15 +28,15 @@ int main(void)
 		e = fetestexcept(INEXACT|INVALID|DIVBYZERO|UNDERFLOW|OVERFLOW);
 
 		if (!checkexcept(e, p->e, p->r)) {
-			printf("%s:%d: bad fp exception: %s jn(%a, %lld)=%a, want %s",
-				p->file, p->line, rstr(p->r), p->x, p->i, p->y, estr(p->e));
+			printf("%s:%d: bad fp exception: %s jn(%lld, %a)=%a, want %s",
+				p->file, p->line, rstr(p->r), p->i, p->x, p->y, estr(p->e));
 			printf(" got %s\n", estr(e));
 			err++;
 		}
 		d = ulperr(y, p->y, p->dy);
 		if (!checkulp(d, p->r)) {
-			printf("%s:%d: %s jn(%a, %lld) want %a got %a, ulperr %.3f = %a + %a\n",
-				p->file, p->line, rstr(p->r), p->x, p->i, p->y, y, d, d-p->dy, p->dy);
+			printf("%s:%d: %s jn(%lld, %a) want %a got %a, ulperr %.3f = %a + %a\n",
+				p->file, p->line, rstr(p->r), p->i, p->x, p->y, y, d, d-p->dy, p->dy);
 			err++;
 		}
 	}
