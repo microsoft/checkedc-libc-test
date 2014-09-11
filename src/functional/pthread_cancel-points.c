@@ -4,6 +4,7 @@
 #include <semaphore.h>
 #include <string.h>
 #include <sys/mman.h>
+#include <fcntl.h>
 #include "test.h"
 
 #define TESTC(c, m) ( (c) || (t_error(#c " failed (%s, " m ")\n", cdescr), 0) )
@@ -85,9 +86,10 @@ static void execute_shm_open(void *arg)
 static void cleanup_shm(void *arg)
 {
 	int *fd = arg;
-	if (*fd != -1)
+	if (*fd > 0) {
 		TESTE(close(*fd), "shm fd");
-	TESTE(shm_unlink("/testshm"), "");
+		TESTE(shm_unlink("/testshm"), "");
+	}
 }
 
 static struct {
