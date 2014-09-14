@@ -23,6 +23,8 @@ int main(void)
 	int i;
 	long l;
 	unsigned long ul;
+	long long ll;
+	unsigned long long ull;
 	char *msg="";
 	char *s, *c;
 
@@ -52,8 +54,65 @@ int main(void)
 		TEST(ul, strtoul(s="-2147483649", &c, 0), -2147483649UL, "rejected negative %lu != %lu");
 		TEST2(i, c-s, 11, "wrong final position %d != %d");
 		TEST2(i, errno, 0, "spurious errno %d != %d");
+		TEST(ul, strtoul(s="-4294967296", &c, 0), 4294967295UL, "uncaught negative overflow %lu != %lu");
+		TEST2(i, c-s, 11, "wrong final position %d != %d");
+		TEST2(i, errno, ERANGE, "spurious errno %d != %d");
+	} else if (sizeof(long) == 8) {
+		TEST(l, strtol(s="9223372036854775808", &c, 0), 9223372036854775807L, "uncaught overflow %ld != %ld");
+		TEST2(i, c-s, 19, "wrong final position %d != %d");
+		TEST2(i, errno, ERANGE, "missing errno %d != %d");
+		TEST(l, strtol(s="-9223372036854775809", &c, 0), -9223372036854775807L-1, "uncaught overflow %ld != %ld");
+		TEST2(i, c-s, 20, "wrong final position %d != %d");
+		TEST2(i, errno, ERANGE, "missing errno %d != %d");
+		TEST(ul, strtoul(s="18446744073709551616", &c, 0), 18446744073709551615UL, "uncaught overflow %lu != %lu");
+		TEST2(i, c-s, 20, "wrong final position %d != %d");
+		TEST2(i, errno, ERANGE, "missing errno %d != %d");
+		TEST(ul, strtoul(s="-1", &c, 0), -1UL, "rejected negative %lu != %lu");
+		TEST2(i, c-s, 2, "wrong final position %d != %d");
+		TEST2(i, errno, 0, "spurious errno %d != %d");
+		TEST(ul, strtoul(s="-2", &c, 0), -2UL, "rejected negative %lu != %lu");
+		TEST2(i, c-s, 2, "wrong final position %d != %d");
+		TEST2(i, errno, 0, "spurious errno %d != %d");
+		TEST(ul, strtoul(s="-9223372036854775808", &c, 0), -9223372036854775808UL, "rejected negative %lu != %lu");
+		TEST2(i, c-s, 20, "wrong final position %d != %d");
+		TEST2(i, errno, 0, "spurious errno %d != %d");
+		TEST(ul, strtoul(s="-9223372036854775809", &c, 0), -9223372036854775809UL, "rejected negative %lu != %lu");
+		TEST2(i, c-s, 20, "wrong final position %d != %d");
+		TEST2(i, errno, 0, "spurious errno %d != %d");
+		TEST(ul, strtoul(s="-18446744073709551616", &c, 0), 18446744073709551615UL, "uncaught negative overflow %lu != %lu");
+		TEST2(i, c-s, 21, "wrong final position %d != %d");
+		TEST2(i, errno, ERANGE, "spurious errno %d != %d");
 	} else {
-		TEST(i, 0, 1, "64bit tests not implemented");
+		t_error("sizeof(long) == %d, not implemented\n", (int)sizeof(long));
+	}
+
+	if (sizeof(long long) == 8) {
+		TEST(ll, strtoll(s="9223372036854775808", &c, 0), 9223372036854775807LL, "uncaught overflow %lld != %lld");
+		TEST2(i, c-s, 19, "wrong final position %d != %d");
+		TEST2(i, errno, ERANGE, "missing errno %d != %d");
+		TEST(ll, strtoll(s="-9223372036854775809", &c, 0), -9223372036854775807LL-1, "uncaught overflow %lld != %lld");
+		TEST2(i, c-s, 20, "wrong final position %d != %d");
+		TEST2(i, errno, ERANGE, "missing errno %d != %d");
+		TEST(ull, strtoull(s="18446744073709551616", &c, 0), 18446744073709551615ULL, "uncaught overflow %llu != %llu");
+		TEST2(i, c-s, 20, "wrong final position %d != %d");
+		TEST2(i, errno, ERANGE, "missing errno %d != %d");
+		TEST(ull, strtoull(s="-1", &c, 0), -1ULL, "rejected negative %llu != %llu");
+		TEST2(i, c-s, 2, "wrong final position %d != %d");
+		TEST2(i, errno, 0, "spurious errno %d != %d");
+		TEST(ull, strtoull(s="-2", &c, 0), -2ULL, "rejected negative %llu != %llu");
+		TEST2(i, c-s, 2, "wrong final position %d != %d");
+		TEST2(i, errno, 0, "spurious errno %d != %d");
+		TEST(ull, strtoull(s="-9223372036854775808", &c, 0), -9223372036854775808ULL, "rejected negative %llu != %llu");
+		TEST2(i, c-s, 20, "wrong final position %d != %d");
+		TEST2(i, errno, 0, "spurious errno %d != %d");
+		TEST(ull, strtoull(s="-9223372036854775809", &c, 0), -9223372036854775809ULL, "rejected negative %llu != %llu");
+		TEST2(i, c-s, 20, "wrong final position %d != %d");
+		TEST2(i, errno, 0, "spurious errno %d != %d");
+		TEST(ull, strtoull(s="-18446744073709551616", &c, 0), 18446744073709551615ULL, "uncaught negative overflow %llu != %llu");
+		TEST2(i, c-s, 21, "wrong final position %d != %d");
+		TEST2(i, errno, ERANGE, "spurious errno %d != %d");
+	} else {
+		t_error("sizeof(long long) == %d, not implemented\n", (int)sizeof(long long));
 	}
 
 	TEST(l, strtol("z", 0, 36), 35, "%ld != %ld");
