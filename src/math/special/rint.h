@@ -43,3 +43,5 @@ T(RU,             0x1.ffffp-1,                  0x1p+0,          0x0p+0, INEXACT
 T(RU,            -0x1.ffffp-1,                 -0x0p+0,          0x0p+0, INEXACT)
 T(RU,                0x1p-100,                  0x1p+0,          0x0p+0, INEXACT)
 T(RU,               -0x1p-100,                 -0x0p+0,          0x0p+0, INEXACT)
+T(RN,    0x1.0800000000001p+4,                0x1.1p+4,          0x0p+0, INEXACT)
+T(RN,    0x1.17fffffffffffp+4,                0x1.1p+4,          0x0p+0, INEXACT)
