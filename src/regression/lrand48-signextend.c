@@ -1,4 +1,5 @@
 // lrand48 should give deterministic results
+#define _XOPEN_SOURCE 700
 #include <stdlib.h>
 #include "test.h"
 
