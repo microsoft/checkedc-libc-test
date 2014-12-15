@@ -1,3 +1,4 @@
+#define _GNU_SOURCE 1
 #include <stdio.h>
 #include <stdlib.h>
 #include <fnmatch.h>
@@ -16,6 +17,9 @@ struct xlat {
 	FLAG(FNM_NOESCAPE),
 	FLAG(FNM_PATHNAME),
 	FLAG(FNM_PERIOD),
+#ifdef FNM_CASEFOLD
+	FLAG(FNM_CASEFOLD),
+#endif
 	{0, NULL},
 };
 
@@ -127,6 +131,16 @@ struct {
 	{ "/", "\0", FNM_PATHNAME, FNM_NOMATCH },
 	/* musl bug fixed in 6ec82a3b58ee1b873ff0dfad8fa9d41c3d25dcc0 */
 	{ "\\/", "/", FNM_PATHNAME, 0 },
+
+#ifdef FNM_CASEFOLD
+	{ "a", "A", FNM_CASEFOLD, 0 },
+	{ "aaAA", "AaAa", FNM_CASEFOLD, 0 },
+	{ "[a]", "A", FNM_CASEFOLD, 0 },
+	{ "[!a]", "A", FNM_CASEFOLD, FNM_NOMATCH },
+	{ "[!A-C]", "b", FNM_CASEFOLD, FNM_NOMATCH },
+	{ "[!a-c]", "B", FNM_CASEFOLD, FNM_NOMATCH },
+	{ "[!a-c]", "d", FNM_CASEFOLD, 0 },
+#endif
 };
 
 int main(void)
