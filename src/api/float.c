@@ -1,9 +1,10 @@
 #include <float.h>
+#define I(n) {int i = n;}
 #define C(n) switch(n){case n:;}
 #define D(n) {long double d = n;}
 static void f()
 {
-C(FLT_ROUNDS)
+I(FLT_ROUNDS)
 C(FLT_EVAL_METHOD)
 C(FLT_RADIX)
 C(FLT_MANT_DIG)
