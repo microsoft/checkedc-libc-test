@@ -36,11 +36,11 @@ static const struct {
 	{ "%0-5d", 12, "12   " },
 	{ "%-05d", 12, "12   " },
 
-	/* ...explicit precision of 0 shall be no characters. */
+	/* ...explicit precision of 0 shall be no characters except for alt-octal. */
 	{ "%.0d", 0, "" },
 	{ "%.0o", 0, "" },
 	{ "%#.0d", 0, "" },
-	{ "%#.0o", 0, "" },
+	{ "%#.0o", 0, "0" },
 	{ "%#.0x", 0, "" },
 
 	/* ...but it still has to honor width and flags. */
