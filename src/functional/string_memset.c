@@ -3,7 +3,9 @@
 #include <stdint.h>
 #include "test.h"
 
-static char buf[512];
+#define N 400
+static char buf[N];
+static char buf2[N];
 
 static void *(*volatile pmemset)(void *, int, size_t);
 
@@ -12,25 +14,24 @@ static void *aligned(void *p)
 	return (void*)(((uintptr_t)p + 63) & -64U);
 }
 
-#define N 80
 static void test_align(int align, int len)
 {
-	char *s = aligned(buf);
-	char *want = aligned(buf + 256);
+	char *s = aligned(buf+64);
+	char *want = aligned(buf2+64);
 	char *p;
 	int i;
 
-	if (align + len > N)
+	if (s - buf + align + len > N)
 		abort();
 	for (i = 0; i < N; i++)
-		s[i] = want[i] = ' ';
+		buf[i] = buf2[i] = ' ';
 	for (i = 0; i < len; i++)
 		want[align+i] = '#';
 	p = pmemset(s+align, '#', len);
 	if (p != s+align)
 		t_error("memset(%p,...) returned %p\n", s+align, p);
 	for (i = 0; i < N; i++)
-		if (s[i] != want[i]) {
+		if (buf[i] != buf2[i]) {
 			t_error("memset(align %d, '#', %d) failed\n", align, len);
 			t_printf("got : %.*s\n", align+len+1, s);
 			t_printf("want: %.*s\n", align+len+1, want);
@@ -57,7 +58,7 @@ int main(void)
 	pmemset = memset;
 
 	for (i = 0; i < 16; i++)
-		for (j = 0; j < 64; j++)
+		for (j = 0; j < 200; j++)
 			test_align(i,j);
 
 	test_value('c');
