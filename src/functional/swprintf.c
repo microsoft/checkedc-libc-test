@@ -37,11 +37,11 @@ static const struct {
 	{ L"%0-5d", 12, L"12   " },
 	{ L"%-05d", 12, L"12   " },
 
-	/* ...explicit precision of 0 shall be no characters. */
+	/* ...explicit precision of 0 shall be no characters except for alt-octal. */
 	{ L"%.0d", 0, L"" },
 	{ L"%.0o", 0, L"" },
 	{ L"%#.0d", 0, L"" },
-	{ L"%#.0o", 0, L"" },
+	{ L"%#.0o", 0, L"0" },
 	{ L"%#.0x", 0, L"" },
 
 	/* hex: test alt form and case */
