@@ -9,32 +9,32 @@ static char buf2[N];
 
 static void *(*volatile pmemset)(void *, int, size_t);
 
-static void *aligned(void *p)
+static char *aligned(void *p)
 {
-	return (void*)(((uintptr_t)p + 63) & -64U);
+	return (char*)(((uintptr_t)p + 63) & -64U);
 }
 
 static void test_align(int align, int len)
 {
-	char *s = aligned(buf+64);
-	char *want = aligned(buf2+64);
+	char *s = aligned(buf+64) + align;
+	char *want = aligned(buf2+64) + align;
 	char *p;
 	int i;
 
-	if (s - buf + align + len > N)
+	if (s - buf + len >= N)
 		abort();
 	for (i = 0; i < N; i++)
 		buf[i] = buf2[i] = ' ';
 	for (i = 0; i < len; i++)
-		want[align+i] = '#';
-	p = pmemset(s+align, '#', len);
-	if (p != s+align)
-		t_error("memset(%p,...) returned %p\n", s+align, p);
+		want[i] = '#';
+	p = pmemset(s, '#', len);
+	if (p != s)
+		t_error("memset(%p,...) returned %p\n", s, p);
 	for (i = 0; i < N; i++)
 		if (buf[i] != buf2[i]) {
-			t_error("memset(align %d, '#', %d) failed\n", align, len);
-			t_printf("got : %.*s\n", align+len+1, s);
-			t_printf("want: %.*s\n", align+len+1, want);
+			t_error("memset(align %d, '#', %d) failed at pos %d\n", align, len, i);
+			t_printf("got : '%.*s'\n", N, s);
+			t_printf("want: '%.*s'\n", N, want);
 			break;
 		}
 }
