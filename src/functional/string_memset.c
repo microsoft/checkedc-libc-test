@@ -33,8 +33,8 @@ static void test_align(int align, int len)
 	for (i = 0; i < N; i++)
 		if (buf[i] != buf2[i]) {
 			t_error("memset(align %d, '#', %d) failed at pos %d\n", align, len, i);
-			t_printf("got : '%.*s'\n", N, s);
-			t_printf("want: '%.*s'\n", N, want);
+			t_printf("got : '%.*s'\n", N, buf);
+			t_printf("want: '%.*s'\n", N, buf2);
 			break;
 		}
 }
