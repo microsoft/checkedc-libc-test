@@ -21,7 +21,7 @@ static void test_align(int align, int len)
 	char *p;
 	int i;
 
-	if (s - buf + len >= N)
+	if (len + 64 > buf + N - s || len + 64 > buf2 + N - want)
 		abort();
 	for (i = 0; i < N; i++)
 		buf[i] = buf2[i] = ' ';
@@ -30,11 +30,11 @@ static void test_align(int align, int len)
 	p = pmemset(s, '#', len);
 	if (p != s)
 		t_error("memset(%p,...) returned %p\n", s, p);
-	for (i = 0; i < N; i++)
-		if (buf[i] != buf2[i]) {
+	for (i = -64; i < len+64; i++)
+		if (s[i] != want[i]) {
 			t_error("memset(align %d, '#', %d) failed at pos %d\n", align, len, i);
-			t_printf("got : '%.*s'\n", N, buf);
-			t_printf("want: '%.*s'\n", N, buf2);
+			t_printf("got : '%.*s'\n", len+128, s-64);
+			t_printf("want: '%.*s'\n", len+128, want-64);
 			break;
 		}
 }
