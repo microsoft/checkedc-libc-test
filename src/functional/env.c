@@ -55,8 +55,5 @@ int main()
 	errno = 0;
 	if ((r=setenv("","",0)) != -1 || errno != EINVAL)
 		t_error("setenv(\"\",\"\",0): %d, errno: %d (%s), wanted -1, %d (EINVAL)\n", r, errno, strerror(errno), EINVAL);
-	errno = 0;
-	if ((r=setenv(0,"",0)) != -1 || errno != EINVAL)
-		t_error("setenv(0,\"\",0): %d, errno: %d (%s), wanted -1, %d (EINVAL)\n", r, errno, strerror(errno), EINVAL);
 	return t_status;
 }
