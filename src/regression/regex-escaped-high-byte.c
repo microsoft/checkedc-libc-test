@@ -9,6 +9,7 @@ int main(void)
 	regex_t r;
 	int n;
 
+	// illegal sequence (not U+00FC)
 	n = regcomp(&r, "\\\xfc", 0);
 	if (n != REG_BADPAT) {
 		regerror(n, &r, buf, sizeof buf);
