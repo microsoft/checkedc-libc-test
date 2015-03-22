@@ -1,4 +1,5 @@
-// \0 is not a valid backref
+// \0 is not a valid backref, it is undefined by the standard
+// we treat such cases as literal char
 #include <regex.h>
 #include "test.h"
 
@@ -10,10 +11,15 @@ int main(void)
 	int n;
 
 	n = regcomp(&r, pat, 0);
-	// standard allows REG_BADPAT for all pattern errors
-	if (n != REG_ESUBREG && n != REG_BADPAT) {
+	if (n) {
 		regerror(n, &r, buf, sizeof buf);
-		t_error("regcomp(%s) returned %d (%s) wanted REG_ESUBREG\n", pat, n, buf);
+		t_error("regcomp(%s) returned %d (%s) wanted 0\n", pat, n, buf);
+	}
+	n = regexec(&r, "a0", 0, 0, 0);
+	if (n) {
+		regerror(n, &r, buf, sizeof buf);
+		t_error("regexec(/%s/ ~ \"a0\") returned %d (%s), wanted 0\n",
+			pat, n, buf);
 	}
 
 	return t_status;
