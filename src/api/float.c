@@ -1,10 +1,10 @@
 #include <float.h>
-#define I(n) {int i = n;}
+#define I(t,e) {t x[sizeof(t)==sizeof(e)] = {e};}
 #define C(n) switch(n){case n:;}
 #define D(n) {long double d = n;}
 static void f()
 {
-I(FLT_ROUNDS)
+I(int,FLT_ROUNDS)
 C(FLT_EVAL_METHOD)
 C(FLT_RADIX)
 C(FLT_MANT_DIG)

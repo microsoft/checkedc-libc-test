@@ -1,26 +1,26 @@
 #include <math.h>
 #define T(t) (t*)0;
 #define C(n) switch(n){case n:;}
-#define I(n) {int i = n;}
+#define I(t,e) {t x[sizeof(t)==sizeof(e)] = {e};}
 #define D(n) {double d = n;}
 static void f()
 {
 T(float_t)
 T(double_t)
-I(fpclassify(.0))
-I(isfinite(.0))
-I(isgreater(.0,.0))
-I(isgreaterequal(.0,.0))
-I(isinf(.0))
-I(isless(.0,.0))
-I(islessequal(.0,.0))
-I(islessgreater(.0,.0))
-I(isnan(.0))
-I(isnormal(.0))
-I(isunordered(.0,.0))
-I(signbit(.0))
+I(int,fpclassify(.0))
+I(int,isfinite(.0))
+I(int,isgreater(.0,.0))
+I(int,isgreaterequal(.0,.0))
+I(int,isinf(.0))
+I(int,isless(.0,.0))
+I(int,islessequal(.0,.0))
+I(int,islessgreater(.0,.0))
+I(int,isnan(.0))
+I(int,isnormal(.0))
+I(int,isunordered(.0,.0))
+I(int,signbit(.0))
 #ifdef _XOPEN_SOURCE
-I(signgam)
+I(int,signgam)
 D(M_E)
 D(M_LOG2E)
 D(M_LOG10E)

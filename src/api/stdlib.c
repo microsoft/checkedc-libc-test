@@ -2,12 +2,13 @@
 #define T(t) (t*)0;
 #define F(t,n) {t *y = &x.n;}
 #define C(n) switch(n){case n:;}
+#define I(t,e) {t x[sizeof(t)==sizeof(e)] = {e};}
 static void f()
 {
 C(EXIT_FAILURE)
 C(EXIT_SUCCESS)
 C(RAND_MAX)
-C(MB_CUR_MAX)
+I(size_t,MB_CUR_MAX)
 {void *x=NULL;}
 T(div_t)
 T(ldiv_t)

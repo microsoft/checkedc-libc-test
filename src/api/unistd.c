@@ -255,7 +255,6 @@ T(intptr_t)
 {int(*p)(const char*,uid_t,gid_t) = chown;}
 {int(*p)(int) = close;}
 {size_t(*p)(int,char*,size_t) = confstr;}
-{char*(*p)(char*) = ctermid;}
 {int(*p)(int) = dup;}
 {int(*p)(int,int) = dup2;}
 {extern char **environ; char **x = environ;};

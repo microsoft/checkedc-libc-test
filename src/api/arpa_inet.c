@@ -1,6 +1,7 @@
 #include <arpa/inet.h>
 #define T(t) (t*)0;
 #define C(n) switch(n){case n:;}
+#define I(t,e) {t x[sizeof(t)==sizeof(e)] = {e};}
 static void f()
 {
 T(in_port_t)
@@ -13,22 +14,22 @@ C(INET_ADDRSTRLEN)
 C(INET6_ADDRSTRLEN)
 
 #ifdef htonl
-C(htonl(0))
+I(uint32_t, htonl(0LL))
 #else
 {uint32_t(*p)(uint32_t) = htonl;}
 #endif
 #ifdef htons
-C(htons(0))
+I(uint32_t, htons(0LL))
 #else
 {uint16_t(*p)(uint16_t) = htons;}
 #endif
 #ifdef ntohl
-C(ntohl(0))
+I(uint32_t, ntohl(0LL))
 #else
 {uint32_t(*p)(uint32_t) = ntohl;}
 #endif
 #ifdef ntohs
-C(ntohs(0))
+I(uint16_t, ntohs(0LL))
 #else
 {uint16_t(*p)(uint16_t) = ntohs;}
 #endif
