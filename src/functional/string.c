@@ -1,4 +1,5 @@
-#define _BSD_SOURCE
+#define _DEFAULT_SOURCE 1
+#define _BSD_SOURCE 1
 #include <stdio.h>
 #include <string.h>
 #include "test.h"

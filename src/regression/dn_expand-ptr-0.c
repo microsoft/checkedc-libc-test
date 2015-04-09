@@ -1,5 +1,6 @@
 // dn_expand should handle offset pointer to 0 byte
-#define _BSD_SOURCE
+#define _DEFAULT_SOURCE 1
+#define _BSD_SOURCE 1
 #include <resolv.h>
 #include <string.h>
 #include "test.h"

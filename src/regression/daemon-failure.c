@@ -4,6 +4,7 @@
 // daemon should not fork in case of failure of chdir or open, but
 // since setsid and fork may still fail after fork this behaviour
 // is not very useful
+#define _DEFAULT_SOURCE 1
 #define _BSD_SOURCE 1
 #include <string.h>
 #include <errno.h>

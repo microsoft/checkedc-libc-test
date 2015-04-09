@@ -1,5 +1,6 @@
 // dn_expand should accept empty name (single \0)
-#define _BSD_SOURCE
+#define _DEFAULT_SOURCE 1
+#define _BSD_SOURCE 1
 #include <resolv.h>
 #include "test.h"
 

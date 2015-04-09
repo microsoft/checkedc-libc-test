@@ -1,6 +1,7 @@
 // commit: 2e6239dd064d201c6e1b0f589bae9ff27949d2eb 2011-02-19
 // commit: 382584724308442f03f3d29f7fc6de9e9d140982 2011-06-12
 // mkstemp should return -1 on bad template
+#define _DEFAULT_SOURCE 1
 #define _BSD_SOURCE 1
 #include <stdlib.h>
 #include <string.h>
