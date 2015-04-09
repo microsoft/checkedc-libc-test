@@ -4,6 +4,7 @@
 // mips stack_t is inconsistent with other archs
 #define _XOPEN_SOURCE 700
 #include <signal.h>
+#include <stdint.h>
 #include <stdlib.h>
 #include <string.h>
 #include <errno.h>
