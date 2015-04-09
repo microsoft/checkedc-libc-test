@@ -5,6 +5,7 @@
 static char *p;
 
 #define T(h,s,k) p = crypt(k,s); \
+ if (!p) p ="*"; \
  if (strcmp(p,h)!=0) t_error("crypt(%s, \"%s\") failed: got \"%s\" want \"%s\"\n", #k, s, p, h);
 
 int main()
