@@ -5,6 +5,7 @@
 #include <string.h>
 #include <sys/mman.h>
 #include <fcntl.h>
+#include <unistd.h>
 #include "test.h"
 
 #define TESTC(c, m) ( (c) || (t_error(#c " failed (%s, " m ")\n", cdescr), 0) )
