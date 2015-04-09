@@ -50,9 +50,9 @@ int main(void)
 	TESTR(r, pthread_create(&td, 0, start_sem_wait, 0), "failed to create thread");
 	TESTR(r, pthread_cancel(td), "canceling");
 	sem_post(&sem1);
-	TESTR(r, pthread_join(td, &res), "joining canceled thread");
-	TESTC(res == PTHREAD_CANCELED, "canceled thread exit status");
-	TESTC(seqno == 1, "seqno");
+	TESTR(r, pthread_join(td, &res), "joining canceled thread after uncontended sem_wait");
+	TESTC(res == PTHREAD_CANCELED, "canceled thread exit status after uncontended sem_wait");
+	TESTC(seqno == 1, "uncontended sem_wait");
 
 	/* Cancellation on blocking sem_wait */
 	seqno = 0;
@@ -60,29 +60,29 @@ int main(void)
 	TESTR(r, pthread_create(&td, 0, start_sem_wait, 0), "failed to create thread");
 	TESTR(r, pthread_cancel(td), "canceling");
 	sem_post(&sem1);
-	TESTR(r, pthread_join(td, &res), "joining canceled thread");
-	TESTC(res == PTHREAD_CANCELED, "canceled thread exit status");
-	TESTC(seqno == 1, "seqno");
+	TESTR(r, pthread_join(td, &res), "joining canceled thread after blocking sem_wait");
+	TESTC(res == PTHREAD_CANCELED, "canceled thread exit status after blocking sem_wait");
+	TESTC(seqno == 1, "blocking sem_wait");
 
 	/* Cancellation on uncontended sem_timedwait */
 	seqno = 0;
 	sem_post(&sem2);
-	TESTR(r, pthread_create(&td, 0, start_sem_wait, 0), "failed to create thread");
+	TESTR(r, pthread_create(&td, 0, start_sem_timedwait, 0), "failed to create thread");
 	TESTR(r, pthread_cancel(td), "canceling");
 	sem_post(&sem1);
-	TESTR(r, pthread_join(td, &res), "joining canceled thread");
-	TESTC(res == PTHREAD_CANCELED, "canceled thread exit status");
-	TESTC(seqno == 1, "seqno");
+	TESTR(r, pthread_join(td, &res), "joining canceled thread after uncontended sem_timedwait");
+	TESTC(res == PTHREAD_CANCELED, "canceled thread exit status after uncontended sem_timedwait");
+	TESTC(seqno == 1, "uncontended sem_timedwait");
 
 	/* Cancellation on blocking sem_timedwait */
 	seqno = 0;
 	sem_trywait(&sem2);
-	TESTR(r, pthread_create(&td, 0, start_sem_wait, 0), "failed to create thread");
+	TESTR(r, pthread_create(&td, 0, start_sem_timedwait, 0), "failed to create thread");
 	TESTR(r, pthread_cancel(td), "canceling");
 	sem_post(&sem1);
-	TESTR(r, pthread_join(td, &res), "joining canceled thread");
-	TESTC(res == PTHREAD_CANCELED, "canceled thread exit status");
-	TESTC(seqno == 1, "seqno");
+	TESTR(r, pthread_join(td, &res), "joining canceled thread after blocking sem_timedwait");
+	TESTC(res == PTHREAD_CANCELED, "canceled thread exit status after blocking sem_timedwait");
+	TESTC(seqno == 1, "blocking sem_timedwait");
 
 	return t_status;
 }
