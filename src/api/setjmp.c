@@ -13,7 +13,7 @@ T(jmp_buf)
 T(sigjmp_buf)
 {void(*p)(sigjmp_buf,int) = siglongjmp;}
 #ifdef sigsetjmp
-{int x = sigsetjmp((sigjmp_buf){0});}
+{int x = sigsetjmp((sigjmp_buf){0}, 0);}
 #else
 {int(*p)(sigjmp_buf,int) = sigsetjmp;}
 #endif

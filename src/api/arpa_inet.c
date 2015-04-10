@@ -19,7 +19,7 @@ I(uint32_t, htonl(0LL))
 {uint32_t(*p)(uint32_t) = htonl;}
 #endif
 #ifdef htons
-I(uint32_t, htons(0LL))
+I(uint16_t, htons(0LL))
 #else
 {uint16_t(*p)(uint16_t) = htons;}
 #endif
