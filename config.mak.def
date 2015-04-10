@@ -7,5 +7,5 @@ LDLIBS += -lpthread -lm -lrt
 
 # glibc specific settings
 CFLAGS += -D_FILE_OFFSET_BITS=64
-LDLIBS += -lcrypt -ldl -lresolv -lutil
+LDLIBS += -lcrypt -ldl -lresolv -lutil -lpthread
 
