@@ -32,8 +32,8 @@ int main(void)
 			printf(" got %s\n", estr(e));
 			err++;
 		}
-		dsin = ulperr(ysin, p->y, p->dy);
-		dcos = ulperr(ycos, p->y2, p->dy2);
+		dsin = ulperrf(ysin, p->y, p->dy);
+		dcos = ulperrf(ycos, p->y2, p->dy2);
 		if (!checkulp(dsin, p->r) || !checkulp(dcos, p->r)) {
 			printf("%s:%d: %s sincosf(%a) want %a,%a got %a,%a, ulperr %.3f = %a + %a, %.3f = %a + %a\n",
 				p->file, p->line, rstr(p->r), p->x, p->y, p->y2, ysin, ycos,
