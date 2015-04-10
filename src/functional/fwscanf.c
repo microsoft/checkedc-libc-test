@@ -60,7 +60,7 @@ int main(void)
 		TEST(i, y, 12, "%d != %d");
 		TEST(i, ftell(f), 12, "%d != %d");
 		TEST(i, feof(f), 0, "%d != %d");
-		TEST(i, fgetc(f), 'x', "%d != %d");
+		TEST(i, fgetwc(f), 'x', "%d != %d");
 		fclose(f);
 	}
 
@@ -74,10 +74,10 @@ int main(void)
 		TEST(i, y, -1, "%d != %d");
 		TEST(i, ftell(f), 4, "%d != %d");
 		TEST(i, feof(f), 0, "%d != %d");
-		TEST(i, fgetc(f), ' ', "%d != %d");
+		TEST(i, fgetwc(f), ' ', "%d != %d");
 		rewind(f);
-		TEST(i, fgetc(f), '0', "%d != %d");
-		TEST(i, fgetc(f), 'x', "%d != %d");
+		TEST(i, fgetwc(f), '0', "%d != %d");
+		TEST(i, fgetwc(f), 'x', "%d != %d");
 		TEST(i, fwscanf(f, L"%lf%n%c %d", &u, &x, a, &y), 3, "%d != %d");
 		TEST(u, u, 1.0, "%g != %g");
 		TEST(i, x, 1, "%d != %d");
