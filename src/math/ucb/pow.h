@@ -143,10 +143,10 @@ T(RN,                 -0x0p+0,                     inf,                  0x0p+0,
 // +-(|x| < 1) **  -inf is +inf
 T(RN,    0x1.fffffffffffffp-1,                    -inf,                     inf,          0x0p+0, 0)
 T(RN,               0x1p-1074,                    -inf,                     inf,          0x0p+0, 0)
-T(RN,                  0x0p+0,                    -inf,                     inf,          0x0p+0, DIVBYZERO)
+T(RN,                  0x0p+0,                    -inf,                     inf,          0x0p+0, 0)
 T(RN,   -0x1.fffffffffffffp-1,                    -inf,                     inf,          0x0p+0, 0)
 T(RN,              -0x1p-1074,                    -inf,                     inf,          0x0p+0, 0)
-T(RN,                 -0x0p+0,                    -inf,                     inf,          0x0p+0, DIVBYZERO)
+T(RN,                 -0x0p+0,                    -inf,                     inf,          0x0p+0, 0)
 // +1 ** (anthing) is +1
 T(RN,                  0x1p+0,                     nan,                  0x1p+0,          0x0p+0, 0)
 T(RN,                  0x1p+0,                     inf,                  0x1p+0,          0x0p+0, 0)
