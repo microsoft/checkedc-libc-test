@@ -4,9 +4,11 @@
 #include "test.h"
 
 #define TEST(r, f, m) ( \
-	((r) = (f)) == 0 || (t_error("%s failed: %s (" m ")\n", #f, strerror(r)), 0) )
+	((r) = (f)) == 0 || (t_error("%s failed: (pshared==%d) %s (" m ")\n", #f, pshared, strerror(r)), 0) )
 #define TESTX(r, f, x, m) ( \
-	((r) = (f)) == (x) || (t_error("%s failed: got %d \"%s\" want %d \"%s\" (" m ")\n", #f, r, strerror(r), x, strerror(x)), 0) )
+	((r) = (f)) == (x) || (t_error("%s failed: (pshared==%d) got %d \"%s\" want %d \"%s\" (" m ")\n", #f, pshared, r, strerror(r), x, strerror(x)), 0) )
+
+static int pshared;
 
 static void *start_lock(void *arg)
 {
@@ -23,7 +25,7 @@ static void *start_wait(void *arg)
 	return 0;
 }
 
-int main(void)
+void f(void)
 {
 	pthread_t td;
 	int r;
@@ -37,6 +39,8 @@ int main(void)
 	/* Robust mutexes */
 	TEST(r, pthread_mutexattr_init(&mtx_a), "initializing mutex attr");
 	TEST(r, pthread_mutexattr_setrobust(&mtx_a, PTHREAD_MUTEX_ROBUST), "setting robust attribute");
+	if (pshared)
+		TEST(r, pthread_mutexattr_setpshared(&mtx_a, PTHREAD_PROCESS_SHARED), "setting pshared attribute");
 	TEST(r, pthread_mutex_init(&mtx, &mtx_a), "initializing robust mutex");
 	TEST(r, pthread_mutex_lock(&mtx), "locking robust mutex");
 	TEST(r, pthread_mutex_unlock(&mtx), "unlocking robust mutex");
@@ -62,11 +66,18 @@ int main(void)
 	if (r && r != PTHREAD_BARRIER_SERIAL_THREAD)
 		t_error("pthread_barrier_wait failed: got %d \"%s\", wanted either 0 or %d\n",
 			r, strerror(r), PTHREAD_BARRIER_SERIAL_THREAD);
+	TEST(r, pthread_barrier_destroy(&barrier2), "");
 	TESTX(r, pthread_mutex_lock(&mtx), EOWNERDEAD, "");
 	TEST(r, pthread_join(td, &res), "");
 	TEST(r, pthread_mutex_consistent(&mtx), "");
 	TEST(r, pthread_mutex_unlock(&mtx), "");
 	TEST(r, pthread_mutex_destroy(&mtx), "");
+}
 
+int main(void)
+{
+	f();
+	pshared=1;
+	f();
 	return t_status;
 }
