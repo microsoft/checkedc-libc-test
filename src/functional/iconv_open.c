@@ -12,12 +12,13 @@ int main(void)
 	size_t inlen = strlen(inbuf);
 	size_t outlen;
 	size_t r;
+	char *bad = "bad-codeset";
 
-	cd = iconv_open("", "");
+	cd = iconv_open(bad, bad);
 	if (cd != (iconv_t)-1)
-		t_error("iconv_open(\"\",\"\") didn't fail\n");
+		t_error("iconv_open(\"%s\",\"%s\") didn't fail\n", bad, bad);
 	if (errno != EINVAL)
-		t_error("iconv_open(\"\",\"\") did not fail with EINVAL, got %s\n", strerror(errno));
+		t_error("iconv_open(\"%s\",\"%s\") did not fail with EINVAL, got %s\n", bad, bad, strerror(errno));
 
 	errno = 0;
 	cd = iconv_open("UTF-8", "UTF-8");
