@@ -11,6 +11,7 @@ struct e {
 	int v;
 };
 
+static int count;
 static void *root;
 static struct e tab[100];
 static struct e *cur = tab;
@@ -23,7 +24,7 @@ static int cmp(const void *a, const void *b)
 static int wantc = 'a';
 static void act(const void *node, VISIT v, int d)
 {
-	struct e *e = *(struct e **)node;
+	struct e *e = *(void**)node;
 
 	if (v == preorder)
 		if (e->k[0] < wantc)
@@ -46,7 +47,7 @@ static char *searchkey;
 static void getparent(const void *node, VISIT v, int d)
 {
 	static const void *p;
-	struct e *e = *(struct e **)node;
+	struct e *e = *(void**)node;
 
 	if (v == preorder || v == leaf)
 		if (strcmp(searchkey, e->k) == 0)
@@ -55,32 +56,41 @@ static void getparent(const void *node, VISIT v, int d)
 		p = node;
 }
 
-struct e *set(char *k, int v)
+struct e *get(char *k)
 {
-	struct e **p;
-	cur->k = k;
-	cur->v = v;
-	p = tsearch(cur++, &root, cmp);
-	if (!p || strcmp((*p)->k, k) != 0)
-		t_error("tsearch %s %d failed\n", k, v);
-	if (!p)
-		return 0;
+	void **p = tfind(&(struct e){.k = k}, &root, cmp);
+	if (!p) return 0;
 	return *p;
 }
 
-struct e **get(char *k)
+struct e *set(char *k, int v)
 {
-	return tfind(&(struct e){.k = k}, &root, cmp);
+	void **p;
+	cur->k = k;
+	cur->v = v;
+	if (!get(k))
+		count++;
+	p = tsearch(cur++, &root, cmp);
+	if (!p || strcmp(((struct e*)*p)->k, k) != 0)
+		t_error("tsearch %s %d failed\n", k, v);
+	if (!p) {
+		count--;
+		return 0;
+	}
+	return *p;
 }
 
-struct e **del(char *k)
+void *del(char *k)
 {
-	return tdelete(&(struct e){.k = k}, &root, cmp);
+	void *p = tdelete(&(struct e){.k = k}, &root, cmp);
+	if (p)
+		count--;
+	return p;
 }
 
 int main() {
 	struct e *e;
-	struct e **p;
+	void *p;
 
 	set("f", 6);
 	set("b", 2);
@@ -91,8 +101,8 @@ int main() {
 	set("a", 1);
 	set("d", 4);
 
-	p = get("a");
-	if (!p || (*p)->v != 1)
+	e = get("a");
+	if (!e || e->v != 1)
 		t_error("tfind a failed\n");
 	if (get("z"))
 		t_error("tfind z should fail\n");
@@ -119,9 +129,17 @@ int main() {
 	if (p != parent)
 		t_error("tdelete h failed to return parent (got %p wanted %p)\n", p, parent);
 
-	p = root;
-	if (!del((*p)->k))
-		t_error("tdelete root \"%s\" failed (returned 0)\n", (*p)->k);
+	e = *(void**)root;
+	if (!del(e->k))
+		t_error("tdelete root \"%s\" failed (returned 0)\n", e->k);
+
+	for (; count; count--) {
+		e = *(void**)root;
+		if (!tdelete(e, &root, cmp))
+			t_error("tdelete k=%s failed during destruction\n", e->k);
+	}
+	if (root)
+		t_error("tree destruction failed: root is nonzero %p\n", root);
 
 	return t_status;
 }
