@@ -5,7 +5,7 @@ static char buf[512];
 
 static void *aligned(void *p)
 {
-	return (void*)(((uintptr_t)p + 63) & -64U);
+	return (void*)(((uintptr_t)p + 63) & -64);
 }
 
 static void *aligncpy(void *p, size_t len, size_t a)

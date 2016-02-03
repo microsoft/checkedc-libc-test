@@ -8,7 +8,7 @@ static char buf[512];
 static void *(*volatile pmemcpy)(void *restrict, const void *restrict, size_t);
 
 static void *aligned(void *p) {
-	return (void*)(((uintptr_t)p + 63) & -64U);
+	return (void*)(((uintptr_t)p + 63) & -64);
 }
 
 #define N 80

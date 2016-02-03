@@ -11,7 +11,7 @@ static void *(*volatile pmemset)(void *, int, size_t);
 
 static char *aligned(void *p)
 {
-	return (char*)(((uintptr_t)p + 63) & -64U);
+	return (char*)(((uintptr_t)p + 63) & -64);
 }
 
 static void test_align(int align, int len)
