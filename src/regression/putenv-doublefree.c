@@ -1,6 +1,6 @@
 // commit 9543656cc32fda48fc463f332ee20e91eed2b768 2016-03-06
 // __putenv could be confused into freeing storage that does not belong to the implementation
-#define _GNU_SOURCE
+#define _XOPEN_SOURCE 700
 #include <stdlib.h>
 #include <string.h>
 
