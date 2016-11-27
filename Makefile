@@ -148,7 +148,7 @@ $(B)/%.exe: $(B)/%.o
 %.ld.err: %.exe
 	touch $@
 %.err: %.exe
-	$(RUN_TEST) ./$< >$@ || true
+	$(RUN_TEST) $< >$@ || true
 
 .PHONY: all run clean cleanall
 
