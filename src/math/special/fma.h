@@ -838,3 +838,12 @@ T(RU,     0x1.000000001p-1000,       0x1.000000001p-30,              -0x1p-1066,
 T(RU,    -0x1.000000001p-1000,       0x1.000000001p-30,              -0x1p-1066,    -0x1.000000003p-1030,         0x1p-28, INEXACT|UNDERFLOW)
 T(RZ,     0x1.000000001p-1000,       0x1.000000001p-30,              -0x1p-1066,     0x1.000000001p-1030,        -0x1p-28, INEXACT|UNDERFLOW)
 T(RZ,    -0x1.000000001p-1000,       0x1.000000001p-30,              -0x1p-1066,    -0x1.000000003p-1030,         0x1p-28, INEXACT|UNDERFLOW)
+T(RN,              -0x1p-1000,          0x1.000001p-74,               0x1p-1022, 0x1.ffffffffffffep-1023,         0x1p-24, INEXACT|UNDERFLOW)
+T(RU,              -0x1p-1000,          0x1.000001p-74,               0x1p-1022, 0x1.ffffffffffffep-1023,         0x1p-24, INEXACT|UNDERFLOW)
+T(RD,              -0x1p-1000,          0x1.000001p-74,               0x1p-1022, 0x1.ffffffffffffcp-1023,  -0x1.fffffep-1, INEXACT|UNDERFLOW)
+T(RZ,              -0x1p-1000,          0x1.000001p-74,               0x1p-1022, 0x1.ffffffffffffcp-1023,  -0x1.fffffep-1, INEXACT|UNDERFLOW)
+// depends on underflow before or after rounding
+//T(RN,              -0x1p-1000,                0x1p-200,               0x1p-1022,               0x1p-1022,         0x1p-26, INEXACT)
+//T(RU,              -0x1p-1000,                0x1p-200,               0x1p-1022,               0x1p-1022,         0x1p-26, INEXACT)
+T(RD,              -0x1p-1000,                0x1p-200,               0x1p-1022, 0x1.ffffffffffffep-1023,         -0x1p+0, INEXACT|UNDERFLOW)
+T(RZ,              -0x1p-1000,                0x1p-200,               0x1p-1022, 0x1.ffffffffffffep-1023,         -0x1p+0, INEXACT|UNDERFLOW)
