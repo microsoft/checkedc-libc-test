@@ -15,3 +15,5 @@ T(RN,                           -inf,  2147483647,                           -in
 T(RN,                    0x1p+16383L,      -32828,                    0x1p-16445L,          0x0p+0, 0)
 T(RN,                    0x1p-16445L,       32828,                    0x1p+16383L,          0x0p+0, 0)
 T(RN,            0x1.00000000001p+0L,      -16445,                    0x1p-16445L,          0x0p+0, INEXACT|UNDERFLOW)
+T(RN,       0x1.7ffffffffffffffep-1L,      -16444,                    0x1p-16445L,          0x0p+0, INEXACT|UNDERFLOW)
+T(RN,       0x1.0000000000000016p-1L,      -16384,    0x1.000000000000001p-16385L,          0x0p+0, INEXACT|UNDERFLOW)
