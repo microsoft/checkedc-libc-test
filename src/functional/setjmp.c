@@ -46,5 +46,20 @@ int main(void)
 	sigprocmask(SIG_SETMASK, &set, &set);
 	TEST(sigismember(&set, SIGUSR1)==0, "siglongjmp failed to restore mask\n");
 
+	sigemptyset(&set);
+	sigaddset(&set, SIGUSR1);
+	sigprocmask(SIG_UNBLOCK, &set, &set);
+	oldset = set;
+
+	if (!sigsetjmp(sjb, 0)) {
+		sigemptyset(&set);
+		sigaddset(&set, SIGUSR1);
+		sigprocmask(SIG_BLOCK, &set, 0);
+		siglongjmp(sjb, 1);
+	}
+	set = oldset;
+	sigprocmask(SIG_SETMASK, &set, &set);
+	TEST(sigismember(&set, SIGUSR1)==1, "siglongjmp incorrectly restored mask\n");
+
 	return t_status;
 }
