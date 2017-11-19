@@ -26,3 +26,4 @@ char *t_pathrel(char *buf, size_t n, char *argv0, char *p);
 
 int t_setrlim(int r, long lim);
 
+int t_setutf8(void);
