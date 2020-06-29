@@ -2,8 +2,9 @@
 This is a version of [libc-test](https://wiki.musl-libc.org/libc-test.html)
 meant to test the [musl](https://github.com/microsoft/checkedc-musl) C library
 which has been converted to [Checked C](https://github.com/Microsoft/checkedc).
-The sources here have been mirrored from [this](git://repo.or.cz/libc-test)
-repo. This version of `libc-test` is meant to compile with the
+The sources here have been mirrored from
+[this](https://repo.or.cz/w/libc-test.git) repo. This version of `libc-test` is
+meant to compile with the
 [checkedc-clang](https://github.com/microsoft/checkedc-clang) compiler. It is
 also meant to link against a pre-built
 [compiler-rt](https://compiler-rt.llvm.org) downloaded from
@@ -42,7 +43,7 @@ cd checkedc-libc-test
 make clean && make -j32 2>&1 | tee log
 ```
 
-# Results of libc-test
+## Results of libc-test
 
 After building and running `libc-test` check if any errors have occurred. There
 should be 0 errors found in the log file.
