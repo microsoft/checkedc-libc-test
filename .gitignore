@@ -3,5 +3,4 @@
 *.so
 *.a
 *.exe
-config.mak
 REPORT
