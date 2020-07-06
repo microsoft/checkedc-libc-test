@@ -6,7 +6,9 @@
 
 #define N(s, tail, sub) { \
 	char *p = s tail; \
-	char *q = memmem(p, strlen(s), sub, strlen(sub)); \
+	size_t slen = strlen(s);\
+	size_t sublen = strlen(sub);\
+	char *q = memmem(p, slen, sub, sublen); \
 	if (q) \
 		t_error("memmem("#s" "#tail", %d, "#sub", %d) returned str+%d, wanted 0\n",\
 			strlen(s), strlen(sub), q-p); \
@@ -14,7 +16,9 @@
 
 #define T(s, sub, n) { \
 	char *p = s; \
-	char *q = memmem(p, strlen(p), sub, strlen(sub)); \
+	size_t plen = strlen(p);\
+	size_t sublen = strlen(sub);\
+	char *q = memmem(p, plen, sub, sublen); \
 	if (q == 0) \
 		t_error("memmem(%s,%s) returned 0, wanted str+%d\n", #s, #sub, n); \
 	else if (q - p != n) \
