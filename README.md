@@ -1,6 +1,6 @@
 # About
 This is a version of [libc-test](https://wiki.musl-libc.org/libc-test.html)
-meant to test the [musl](https://github.com/microsoft/checkedc-musl) C library
+meant to test [musl](https://github.com/microsoft/checkedc-musl) C library
 which has been converted to [Checked C](https://github.com/Microsoft/checkedc).
 The sources here have been mirrored from
 [this](https://repo.or.cz/w/libc-test.git) repo. This version of `libc-test` is
@@ -12,6 +12,11 @@ also meant to link against a pre-built
 
 # Usage
 
+Before building `checkedc-libc-test` make sure you have built
+[checkedc-musl](https://github.com/microsoft/checkedc-musl). Also make sure
+that you have set the MUSL_TOP environment variable as documented
+[here](https://github.com/microsoft/checkedc-musl).
+
 ## Set up compiler-rt
 
 `libc-test` needs `compiler-rt` for the runtime libraries. We download the 10.0
@@ -20,17 +25,6 @@ version of the pre-built `compiler-rt` for Ubuntu from llvm.org.
 export RT_PATH=</some/dir>
 wget https://github.com/llvm/llvm-project/releases/download/llvmorg-10.0.0/clang+llvm-10.0.0-x86_64-linux-gnu-ubuntu-18.04.tar.xz 
 tar -xvf clang+llvm-10.0.0-x86_64-linux-gnu-ubuntu-18.04.tar.xz -C $RT_PATH --strip 1
-```
-
-## Build musl with Checked C clang
-
-```
-export PATH=</path/to/checkedc-clang/bin>
-cd </some/dir>
-git clone https://github.com/microsoft/checkedc-musl.git src
-mkdir build && cd build
-CC=clang CFLAGS=-fPIC LDFLAGS=-fPIC ../src/configure --prefix=$PWD --disable-shared 
-make clean && make -j32 && make install
 ```
 
 ## Build libc-test
