@@ -1,6 +1,6 @@
 # About
 This is a version of [libc-test](https://wiki.musl-libc.org/libc-test.html)
-meant to test [musl](https://github.com/microsoft/checkedc-musl) C library
+meant to test the [musl](https://github.com/microsoft/checkedc-musl) C library
 which has been converted to [Checked C](https://github.com/Microsoft/checkedc).
 The sources here have been mirrored from
 [this](https://repo.or.cz/w/libc-test.git) repo. This version of `libc-test` is
