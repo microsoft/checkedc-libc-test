@@ -14,7 +14,7 @@ also meant to link against a pre-built
 
 Before building `checkedc-libc-test` make sure you have built
 [checkedc-musl](https://github.com/microsoft/checkedc-musl). Also make sure
-that you have set the MUSL_TOP environment variable as documented
+that you have set the `MUSL_PATH` environment variable as documented
 [here](https://github.com/microsoft/checkedc-musl).
 
 ## Set up compiler-rt
